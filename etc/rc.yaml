@@ -1,0 +1,113 @@
+# XXX Put actual secrets into rcsecrets.yaml
+
+# ###########################################
+#   General Settings
+# ###########################################
+
+project: PySite
+
+# ---[ Authentication ]-------
+ 
+auth.tkt_policy.secret : SECRET
+### # Allows/disables registration of new user accounts, be it
+### # via OpenId or via our UI
+### auth.allow_registration: False
+# Initial password for user 'root'
+auth.user_root.pwd : SECRET
+# Auth provider
+# 'sqlalchemy'
+auth.provider : sqlalchemy
+
+### # ---[ I18N ]-------
+### 
+### i18n.avail_languages:
+### - de
+### - en
+### - nl
+
+# ---[ PySite ]-------
+
+# The hosted sites are stored here (must be absolute path).
+# Inside this directory, each site has its own subdir named as its domain.
+# The site has several subdirs:
+# - `content': stores content (Jinja templates, HTML snippets etc.)
+# - `assets': stores static files like CSS, JS, images
+# - `cache': stores compiled templates
+#
+# E.g. domain `www.example.org' is stored like this:
+#     SITES_DIR
+#     |
+#     +-- www.example.org
+#         |
+#         +-- rc.yaml            --> Config of this site
+#         |
+#         +-- content
+#         |   |
+#         |   +-- base.jinja2    --> Some base template
+#         |   +-- index.jinja2   --> Template of page index
+#         |   +-- index.html     --> Content of page index
+#         |   +-- index.yaml     --> Config of page index
+#         |
+#         +-- assets
+#         |   |
+#         |   +-- styles.css
+#         |
+#         +-- cache
+sites_dir: /home/www-sites/pysite/sites
+
+
+# ===========================================
+#   Database
+# ===========================================
+
+# {here} is expanded to absolute path which starts with `/'
+# To be absolute, URL must start with 4 `/', hence we type 3 `/' literally here
+db.pysite.sa.url : "sqlite:///{here}/var/db/pysite.sqlite3"
+
+
+# ###########################################
+#   Framework
+# ###########################################
+
+# ---[ Pyramid ]-------
+
+pyramid.reload_templates: true
+pyramid.debug_templates: true
+pyramid.debug_authorization: false
+pyramid.debug_notfound: false
+pyramid.debug_routematch: false
+pyramid.default_locale_name: en
+# XXX  Define includes in the paster INI files.
+#      We then can better differentiate between e.g. devel and production
+### # If given in paster INI, these values are separated by \n
+### # Here we give them as list...  DOES THIS MATTER?
+### pyramid.includes:
+### - pyramid_debugtoolbar
+### - pyramid_tm
+### #pyramid.includes: |
+### #  pyramid_debugtoolbar
+### #  pyramid_tm
+
+# ---[ Mako ]-------
+
+# We can use path names or asset specs.
+# If we use asset specs throughout, we do not need to define dirs here.
+### mako.directories :
+### - pysite:templates
+
+# If module_directory is empty, compiled templates are stored in memory.
+mako.module_directory : "{here}/var/cache/mako"
+
+# ---[ Beaker ]-------
+
+session.type : file
+session.data_dir : "{here}/var/sessions/data"
+session.lock_dir : "{here}/var/sessions/lock"
+session.key : SECRET
+session.secret : SECRET
+session.cookie_on_exception : true
+# True: cookie expires when browser is closed, else timestamp or seconds
+session.cookie_expires: true
+# Timeout in seconds
+session.timeout: 1800
+

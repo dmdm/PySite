@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Creates directories for project and sets permissions
+
+PROJECT="PySite"
+EGG="PySite-0.0-py3.2.egg"
+USER="dm"
+GROUP="dm"
+GROUP_APPLICATION="www-data"
+
+function die()
+{
+	echo "*** ERROR: $1. Exit code: $2"
+	exit $2
+}
+
+function mk_dir()
+{
+	dir=$1
+	usr=$2
+	grp=$3
+	perm_dir=$4
+	perm_file=$5
+
+	echo "- Directory '$dir'"
+	if [ -e "$dir" ]
+		then
+		echo "  Exists"
+	else
+		echo "  Creating"
+		mkdir -p "$dir" || die "Failed to create dir '$dir': $?" $?
+	fi
+
+	echo "  Setting ownership to $usr.$grp"
+	chown -R $usr.$grp "$dir" || die "Failed to set ownership: $?" $?
+
+	echo "  Setting directory permissions to $perm_dir"
+	chmod -R "$perm_dir" "$dir"
+	echo "  Setting file permissions to $perm_file"
+	find $dir -type f -exec chmod "$perm_file" {} \;
+}
+
+
+# Make sure, we are in the right directory
+d=$(basename $(pwd))
+if [ "$d" != "$PROJECT" -a "$d" != "$EGG" ]
+	then
+	die "You are not in project dir '$PROJECT': '$d'" 50
+fi
+
+mk_dir "bin"            $USER $GROUP             775 744
+mk_dir "var"            $USER $GROUP_APPLICATION 755 644
+mk_dir "var/cache"      $USER $GROUP_APPLICATION 775 664
+mk_dir "var/cache/mako" $USER $GROUP_APPLICATION 775 664
+mk_dir "var/log"        $USER $GROUP_APPLICATION 775 664
+mk_dir "var/sessions"   $USER $GROUP_APPLICATION 775 664
+mk_dir "var/sstore"     $USER $GROUP_APPLICATION 775 664
+mk_dir "var/run"        $USER $GROUP_APPLICATION 775 664
+mk_dir "var/db"         $USER $GROUP_APPLICATION 775 664
+

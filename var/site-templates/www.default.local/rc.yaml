@@ -1,0 +1,4 @@
+# Access these settings within templates like this:
+#     {{ site.foo }}
+
+# XXX Not used yet

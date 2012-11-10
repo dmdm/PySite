@@ -1,0 +1,7 @@
+# Access these settings within templates like this:
+#     {{ page.title }}
+
+title: Welcome to PySite
+description: 
+  PySite is a simple, yet multi-tentant capable server for websites, based on
+  the Pyramid Framework.
