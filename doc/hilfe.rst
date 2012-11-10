@@ -70,12 +70,12 @@ wird die Datei durch das Template-System Jinja2_ verarbeitet. Wie das funktionie
 ist in der Jinja2 Dokumentation_ beschrieben. Schaue dir auch meine Beispieldateien
 an.
 
-In die yaml-Datei trägst du die Meta-Informationen ein, z.B. so:
+In die yaml-Datei trägst du die Meta-Informationen ein, z.B. so::
 
 	title: "Über mich"
 	keywords: hase, igel, seepferd
 
-In der Jinja-Datei kannst du auf ein solches Feld wieder zugreifen:
+In der Jinja-Datei kannst du auf ein solches Feld wieder zugreifen::
 
 	<html>
 	<head>
@@ -90,13 +90,13 @@ Master-Layout ausstatten kannst. Lies auch die Vererbungsdoku_ dazu.
 Eine Seite verlinken
 --------------------
 
-Wenn du einen Link auf eine andere Seite deiner eigen Site setzen möchtest, geht das so:
+Wenn du einen Link auf eine andere Seite deiner eigen Site setzen möchtest, geht das so::
 
 	<a href="{{ url('andere-seite') }}">andere Seite</a>
 
 Du schreibst nur den Namen ohne ".jinja2" bzw. ".yaml".
 
-Einen externen Link setzt du HTML-üblich:
+Einen externen Link setzt du HTML-üblich::
 	
 	<a href="http://www.wdrmaus.de/">Die Maus</a>
 
@@ -104,11 +104,11 @@ Einen externen Link setzt du HTML-üblich:
 Ein Bild oder anderes Asset verlinken
 -------------------------------------
 
-Bild:
+Bild::
 
 	<img src="{{ asset_url("img/grass-mud-horse2.jpg") }}">
 
-Stylesheet:
+Stylesheet::
 
 	<link rel="stylesheet" href="{{ asset_url('css/main.css') }}">
 
