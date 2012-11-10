@@ -67,7 +67,7 @@ und ``ueber-mich.yaml`` für die Meta-Informationen.
 
 In die jinja2-Datei schreibst du beliebiges HTML. Wie der Name schon andeutet,
 wird die Datei durch das Template-System Jinja2_ verarbeitet. Wie das funktioniert
-ist in der `Jinja2-Dokumentation`_ beschrieben. Schaue dir auch meine Beispieldateien
+ist in der Jinja2 Dokumentation_ beschrieben. Schaue dir auch meine Beispieldateien
 an.
 
 In die yaml-Datei trägst du die Meta-Informationen ein, z.B. so:
@@ -122,5 +122,5 @@ Bist du mit der Arbeit fertig, meldest du dich mit dem Befehl "@@logout" wieder 
 
 
 .. _Jinja2: http://jinja.pocoo.org/docs/
-.. _Jinja2_Dokumentation: http://jinja.pocoo.org/docs/templates/
+.. _Dokumentation: http://jinja.pocoo.org/docs/templates/
 .. _Vererbungsdoku: http://jinja.pocoo.org/docs/templates/#template-inheritance
