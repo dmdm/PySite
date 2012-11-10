@@ -188,26 +188,34 @@ My `blog`_ covers other topics about programming, and stuff.
 Roadmap
 =======
 
-Step 1 (done)
+Step 1 (DONE)
 -------------
 
 Build the foundation so that PySite is able to serve several sites.
 The sites can be managed via filesystem.
 
-Step 2 (todo)
+Step 2 (DONE)
 -------------
 
 Implement User and group management, auth and authz. Integrate elFinder
 so that the site's contents and files can be managed via webbrowser.
 
-Append ``/@@edit`` to a page's URL to enter edit mode of this page.
-
-Append ``/@@manage`` to a site's URL to enter file manager.
+Append ``/@@filemgr`` to a site's URL to enter file manager.
 
 Append ``/@@login`` or ``/@@logout`` to any URL to log(?:in|out).
 
+E.g.::
+
+	http://www.my-site.org/@@filemgr
+
+	or
+
+	http://www.master-site.org/sites/www.my-site.org/@@filemgr
+
 Step 3 (todo)
 -------------
+
+Append ``/@@edit`` to a page's URL to enter edit mode of this page.
 
 Build UI to allow editing of contents in a more friendly wysiwyg manner.
 
