@@ -90,7 +90,7 @@ Master-Layout ausstatten kannst. Lies auch die Vererbungsdoku_ dazu.
 Eine Seite verlinken
 --------------------
 
-Wenn du einen Link auf eine andere Seite deiner eigen Site setzen möchtest, geht das so::
+Wenn du einen Link auf eine andere Seite deiner eigenen Site setzen möchtest, geht das so::
 
 	<a href="{{ url('andere-seite') }}">andere Seite</a>
 
