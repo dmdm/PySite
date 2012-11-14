@@ -19,11 +19,32 @@
         <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jquery/ui/themes/humanity/jquery-ui.css')}">
         <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jquery/ui/timepicker/timepicker.css')}">
 		</%block>
+		<script>
+		<%block name="require_config">
+			var require = {
+				  baseUrl: '${request.static_url('pysite:static/app')}'
+				  // Dependencies are loaded before any "require()"d libraries.
+				  // It seems we must use absolute URLs here.
+				, deps: [
+					'${request.static_url('pysite:static/app/libs/modernizr.js')}'
+				]
+				, paths: {
+					  'jquery': 'libs/jquery/jquery'
+					, 'ui':     'libs/jquery/ui'
+					// Define a path for requirejs, as it makes loading its plugins more comfortable
+					, 'requirejs': 'libs/requirejs'
+				}
+				, shim: {
+					  //jQuery UI depends on jQuery
+					  'ui/jquery-ui':             ['jquery']
+					  // Timepicker depends on jQuery UI
+					, 'ui/timepicker/timepicker': ['ui/jquery-ui']
+				}
+			};
+		</%block>
+		</script>
 		<%block name="scripts">
-	    <script src="${request.static_url('pysite:static/app/libs/modernizr.js')}"></script>
-	    <script src="${request.static_url('pysite:static/app/libs/jquery/jquery.js')}"></script>
-	    <script src="${request.static_url('pysite:static/app/libs/jquery/ui/jquery-ui.js')}"></script>
-	    <script src="${request.static_url('pysite:static/app/libs/jquery/ui/timepicker/timepicker.js')}"></script>
+			<script src="${request.static_url('pysite:static/app/libs/requirejs/require.js')}"></script>
 		</%block>
     </head>
     <body>

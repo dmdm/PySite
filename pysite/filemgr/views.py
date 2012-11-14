@@ -79,7 +79,6 @@ def xhr_filemgr(context, request):
             ),
         ]
     }
-    print(context.__acl__)
     cache = pym_elfinder.cache.Cache(request.session)
     finder = pym_elfinder.Finder(opts, cache=cache, session=request.session)
     # TODO Respond with exceptions only for admin users!
