@@ -36,7 +36,9 @@ class Node(dict):
         return str(type(self)).replace('>', ": '{}'>".format(s))
 
 class Root(Node):
-    pass
+    @property
+    def title(self):
+        return "Root"
 
 class Sys(Node):
     __name__ = '__sys__'
@@ -53,5 +55,9 @@ class Sys(Node):
         # TODO Make this dynamic
         import pysite.plugins.calendar.models
         self['calendar'] = pysite.plugins.calendar.models.Node(self)
+    
+    @property
+    def title(self):
+        return "System"
 
 

@@ -2,3 +2,5 @@
 #     {{ site.foo }}
 
 # XXX Not used yet
+
+title: Default Site

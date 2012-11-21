@@ -62,6 +62,11 @@ class Sites(object):
             o = o.__parent__
         return str(type(self)).replace('>', ": '{}'>".format(s))
 
+    @property
+    def title(self):
+        return "Sites"
+
+
 
 class Site(object):
     __parent__ = None
@@ -137,6 +142,17 @@ class Site(object):
             o = o.__parent__
         return str(type(self)).replace('>', ": '{}'>".format(s))
 
+    @property
+    def title(self):
+        t = self.rc.get('title', None)
+        if t:
+            return t
+        t = self.master_rc.get('title', None)
+        if t:
+            return t
+        return self.__name__
+
+
 
 class Page(object):
     __parent__ = None
@@ -179,3 +195,9 @@ class Page(object):
             o = o.__parent__
         return str(type(self)).replace('>', ": '{}'>".format(s))
 
+    @property
+    def title(self):
+        t = self.rc.get('title', None)
+        if t:
+            return t
+        return self.__name__

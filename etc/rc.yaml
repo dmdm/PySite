@@ -54,7 +54,8 @@ auth.provider : sqlalchemy
 #         |
 #         +-- cache
 sites_dir: /home/www-sites/pysite/sites
-
+# Default maximum size of a single site [bytes]
+quota.max_size: 50000000
 
 # ===========================================
 #   Database

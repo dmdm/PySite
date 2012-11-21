@@ -21,7 +21,9 @@ L = logging.getLogger('PySite')
     permission='manage_files'
 )
 def filemgr(context, request):
-    return dict()
+    logo_url = request.static_url('pysite:static/img/filemgr.png')
+    logo_alt = 'FileManager'
+    return dict(logo_url=logo_url, logo_alt=logo_alt)
 
 
 @view_config(
@@ -62,7 +64,8 @@ def xhr_filemgr(context, request):
                 #tmbBgColor = 'transparent',
                 accessControl = 'access',
                 acceptedName    = '/^[^\.].*$/',
-                max_size = context.master_rc['max_size'],
+                max_size = context.master_rc.get('max_size',
+                    request.registry.settings['quota.max_size']),
                 # tmbSize = 128,
                 attributes = [
                     dict(

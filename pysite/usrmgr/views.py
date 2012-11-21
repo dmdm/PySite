@@ -8,9 +8,6 @@ from pyramid.security import (
     , NO_PERMISSION_REQUIRED
 )
 
-import pysite.sitemgr.models
-import pysite.resmgr.models
-
 
 @view_config(
     name='login',
@@ -37,9 +34,11 @@ def login(context, request):
         pwd = request.POST['pwd']
         if request.user.login(login=login, pwd=pwd):
             headers = remember(request, request.user.principal)
+            request.session.flash(dict(kind="info",text='User {0} logged in'.format(request.user.display_name)))
             return HTTPFound(location=came_from, headers=headers)
         else:
             msg = "Wrong credentials!"
+            request.session.flash(dict(kind="error", text=msg))
 
     return dict(login=login, pwd=pwd, came_from=came_from, msg=msg, url=login_url)
 

@@ -1,0 +1,156 @@
+.ui-pnotify {
+	font-size: 9pt;
+}
+.ui-pnotify-title { margin-top: 0px; }
+textarea.elfinder-file-edit {
+	font-family: monospace;
+	white-space: pre;
+	resize: none;
+}
+
+
+/**
+ * Page Layout
+ */
+html, body {
+	height:100%;
+}
+#pageContainer {
+	margin: 0px 0px 0px 0px;
+	min-height: 100%;
+	position: relative;
+}
+#content {
+	padding: 0px 12px 4em 12px; /* Same value for left/right as padding of mainMenu to align edges 
+	                               bottom is footer height */
+	background: transparent;
+	overflow: auto;
+}
+#pageHeaderWrapper {
+	color: #1e1b1d;
+	color: #fff;
+	width: 100%;
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	margin-bottom: 12px;
+}
+#pageHeaderWrapper h1 { color: #ff4444; margin: 0px; padding: 0px; padding-left: 4px; }
+#pageHeaderWrapper header a
+, #pageHeaderWrapper header a:visited
+, #pageHeaderWrapper header a:active
+, #pageHeaderWrapper header a:hover {
+	color: #aaa;
+	text-decoration: none;
+}
+#pageHeaderWrapper header a:hover {
+	text-decoration: underline;
+}
+#userDisplayName {
+	padding-right: 1em;
+}
+#userDisplayName
+, #userLogInOut {
+	float: right;
+}
+#pageHeaderWrapper header table {
+	background: #333;
+	width: 100%;
+}
+#pageHeaderWrapper header table td {
+	padding: 0px;
+	margin: 0px;
+}
+#logo {
+	width: 68px;
+	height: 86px;
+	background-color: white;
+	vertical-align: top;
+}
+#logo .img {
+	width: 68px;
+	height: 86px;
+	padding: 15px;
+	background-color: #333;
+	-moz-border-radius-bottomleft: 6px;
+	-webkit-border-bottom-left-radius: 6px;
+	border-bottom-left-radius: 6px;
+	-moz-border-radius-bottomright: 6px;
+	-webkit-border-bottom-right-radius: 6px;
+	border-bottom-right-radius: 6px;
+	border: solid 1px #333;
+}
+#breadcrumbs {
+	-moz-border-radius-topleft: 6px;
+	-webkit-border-top-left-radius: 6px;
+	border-top-left-radius: 6px;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-right-radius: 6px;
+	border-top-right-radius: 6px;
+	background-color: white;
+	vertical-align: top;
+}
+#breadcrumbs-inner {
+	-moz-border-radius: 6px;
+	-webkit-border-radius: 6px;
+	border-radius: 6px;
+	background-color: #eee;
+	color: #333;
+	padding: 2px 0px 2px 4px;
+	font-size: 82%;
+	height: 16px;
+}
+#breadcrumbs a
+, #breadcrumbs a:visited  {
+	text-decoration: none;
+	color: #333 !important;
+}
+#breadcrumbs .breadcrumb {
+	display: inline;
+}
+#breadcrumbs .breadcrumb::after {
+	content: " > ";
+}
+#breadcrumbs .breadcrumb:last-child::after {
+	content: "";
+}
+
+/* We need this wrapper to position footer always at the bottom.
+   See http://matthewjamestaylor.com/blog/keeping-footers-at-the-bottom-of-the-page
+   Since we position this block absolutely, we must set its width. Otherwise the width
+   would only encompass its content. Footer itself has a padding, so we cannot set
+   footer's width to 100%, else it would overflow and create a scroll bar.
+*/
+#pageFooterWrapper {
+	font-size: 70%;
+	border-top: 2px solid #e0cfc2;
+	background: #333;
+	color: #1e1b1d;
+	-moz-border-radius-topleft: 6px;
+	-webkit-border-top-left-radius: 6px;
+	border-top-left-radius: 6px;
+	-moz-border-radius-topright: 6px;
+	-webkit-border-top-right-radius: 6px;
+	border-top-right-radius: 6px;
+	color: #777;
+	height: 4em;
+	margin-top: -4em;
+	width: 100%;
+	position: absolute;
+	bottom: 0px;
+}
+#pageFooterWrapper footer {
+	padding: 1em 6px 0.5em 12px; /* Same value for left/right as padding of mainMenu to align edges */
+	text-align: center;
+}
+#pageFooterWrapper footer a
+, #pageFooterWrapper footer a:visited
+, #pageFooterWrapper footer a:active
+, #pageFooterWrapper footer a:hover {
+	color: #aaa;
+	text-decoration: none;
+}
+#pageFooterWrapper footer a:hover {
+	text-decoration: underline;
+}
+

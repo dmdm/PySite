@@ -1,3 +1,5 @@
+<%namespace name="pym" file="pysite:templates/_lib/pym.mako"/>
+
 <!DOCTYPE html>
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
@@ -14,10 +16,11 @@
 		<%block name="styles">
         <link rel="stylesheet" href="${request.static_url('pysite:static/css/normalize.css')}">
         <link rel="stylesheet" href="${request.static_url('pysite:static/css/base1.css')}">
-        <link rel="stylesheet" href="${request.static_url('pysite:static/css/styles.css')}">
-        <link rel="stylesheet" href="${request.static_url('pysite:static/css/base2.css')}">
         <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jquery/ui/themes/humanity/jquery-ui.css')}">
         <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jquery/ui/timepicker/timepicker.css')}">
+        <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jquery/ui/pnotify/jquery.pnotify.default.css')}">
+        <link rel="stylesheet" href="${request.static_url('pysite:static/css/styles.css')}">
+        <link rel="stylesheet" href="${request.static_url('pysite:static/css/base2.css')}">
 		</%block>
 		<script>
 		<%block name="require_config">
@@ -26,7 +29,7 @@
 				  // Dependencies are loaded before any "require()"d libraries.
 				  // It seems we must use absolute URLs here.
 				, deps: [
-					'${request.static_url('pysite:static/app/libs/modernizr.js')}'
+					'${request.static_url('pysite:static/app/libs/plugins.js')}'
 				]
 				, paths: {
 					  'jquery': 'libs/jquery/jquery'
@@ -35,10 +38,9 @@
 					, 'requirejs': 'libs/requirejs'
 				}
 				, shim: {
-					  //jQuery UI depends on jQuery
-					  'ui/jquery-ui':             ['jquery']
-					  // Timepicker depends on jQuery UI
-					, 'ui/timepicker/timepicker': ['ui/jquery-ui']
+					  'ui/jquery-ui':                  ['jquery']
+					, 'ui/timepicker/timepicker':      ['ui/jquery-ui']
+					, 'ui/pnotify/jquery.pnotify.min': ['ui/jquery-ui']
 				}
 			};
 		</%block>
@@ -53,30 +55,62 @@
         <![endif]-->
 
 		<div id="pageContainer"><!-- BEGIN #pageContainer -->
-			<div id="pageHeaderWrapper">
+
+			<div id="pageHeaderWrapper"><!-- BEGIN #pageHeaderContainer -->
 				<%block name="pageHeader">
 				<header class="clearfix">
-				<h1>${self.meta_title()}</h1>
+				<table><tbody>
+					<tr>
+						<td><h1>${self.meta_title()}</h1></td>
+						<td id="userInfo">
+							<div id="userLogInOut">
+							% if request.user.is_auth():
+								<a href="${request.resource_url(request.context, '@@logout')}">Logout</a>
+							% else:
+								<a href="${request.resource_url(request.context, '@@login')}">Login</a>
+							% endif
+							</div>
+							<div id="userDisplayName">${request.user.display_name}</div>
+						</td>
+						<td id="logo" rowspan="2">
+						% if logo_url:
+							<img class="img" src="${logo_url}" border="0" alt="${logo_alt}" />
+						% else:
+							<div class="img"></div>
+						% endif
+						</td>
+					</tr>
+					<tr class="row2">
+						<td id="breadcrumbs" colspan="2"><div id="breadcrumbs-inner">
+						${pym.breadcrumbs()}
+						</div></td>
+					</tr>
+				</tbody></table>
 				</header>
 				</%block>
-			</div>
+			</div><!-- END #pageHeaderContainer -->
 
 			<div id="content"><!-- BEGIN #content -->
 				  ${next.body()}
 			</div><!-- END #content -->
 
-		</div><!-- END #pageContainer -->
+			<div id="pageFooterWrapper"><!-- BEGIN #pageFooterContainer -->
+				<%block name="pageFooter">
+				<footer>
+					&copy;2012 by <a href="http://parenchym.com">Dirk Makowski</a>.
+					All rights reserved.
+				</footer>
+				</%block>
+			</div><!-- END #pageFooterContainer -->
 
-		<div id="pageFooterWrapper">
-			<%block name="pageFooter">
-			<footer>
-				&copy;2012 by <a href="http://parenchym.com">Dirk Makowski</a>.
-				All rights reserved.
-			</footer>
-			</%block>
-		</div>
+		</div><!-- END #pageContainer -->
+		<script>
+		require(['requirejs/domReady!', 'jquery', 'pym'], function(doc, $, PYM) {
+			PYM.init({
+				huhu: "HUHUHUHU"
+			});
+			${pym.growl_flash()}
+		});
+		</script>
     </body>
 </html>
-
-
-

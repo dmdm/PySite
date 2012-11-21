@@ -3,6 +3,9 @@
 <%block name="styles">
 	${parent.styles()}
 	<link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/elfinder/css/elfinder.min.css')}">
+	<style>
+	#content { padding-left: 0px; padding-right: 0px; }
+	</style>
 </%block>
 <%block name="require_config">
 	${parent.require_config()}
@@ -22,9 +25,12 @@
 require(['requirejs/domReady!', 'jquery', 'elfinder/elfinder.min', 'elfinder/i18n/elfinder.de', 'elfinder/i18n/elfinder.en'],
 function(doc,                   $)
 {
+	var h = $('#pageContainer').height() - $('#pageHeaderWrapper').outerHeight()
+		- $('#pageFooterWrapper').outerHeight() - 10;
 	var elf = $('#elfinder').elfinder({
-		lang: 'de',
-		url : '${request.resource_url(request.context, '@@xhr_filemgr')}'
+		  lang: 'de'
+		, url : '${request.resource_url(request.context, '@@xhr_filemgr')}'
+		, height: h
 	}).elfinder('instance');
 });
 </script>
