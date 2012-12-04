@@ -16,6 +16,9 @@ accessible with URLs like these::
     http://www.site_2.org/index
 
 
+.. note:: More documentation is in directory "doc".
+
+
 How to Build a Site
 ===================
 
