@@ -42,6 +42,7 @@
 					, 'ui/timepicker/timepicker':      ['ui/jquery-ui']
 					, 'ui/pnotify/jquery.pnotify.min': ['ui/jquery-ui']
 				}
+				, waitSeconds: 15
 			};
 		</%block>
 		</script>

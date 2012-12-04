@@ -1,0 +1,298 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Installation &mdash; PySite 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySite 0.1 documentation" href="../index.html" />
+    <link rel="next" title="pysite.sitemgr" href="../api/pysite/sitemgr/init.html" />
+    <link rel="prev" title="Hilfe" href="../hilfe.html" />
+<link rel="stylesheet" href="../_static/pysite.css" type="text/css" media="screen" charset="utf-8" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api/pysite/sitemgr/init.html" title="pysite.sitemgr"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../hilfe.html" title="Hilfe"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="installation">
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<ol class="arabic simple">
+<li>Create a virtual environment</li>
+<li>Install Pyramid</li>
+<li>Install Pym-elFinder</li>
+<li>Install PySite</li>
+<li>Configure PySite</li>
+<li>Run PySite</li>
+<li>Create a site</li>
+<li>View and manage the site</li>
+</ol>
+<div class="section" id="create-virtual-environment">
+<h2>1. Create virtual environment<a class="headerlink" href="#create-virtual-environment" title="Permalink to this headline">¶</a></h2>
+<p>Create a virtual environment for Python 3 and activate it.
+We use virtualenvwrapper:</p>
+<div class="highlight-python"><pre>$ mkvirtualenv -p python3.2 PySite-env
+
+(PySite-env)$ cdvirtualenv</pre>
+</div>
+</div>
+<div class="section" id="install-pyramid">
+<h2>2. Install Pyramid<a class="headerlink" href="#install-pyramid" title="Permalink to this headline">¶</a></h2>
+<p>Install Pyramid 1.3.1. Versions before that are not compatible with Python 3,
+and version 1.4 we have not tested yet:</p>
+<div class="highlight-python"><pre>(PySite-env)$ pip install pyramid==1.3.1</pre>
+</div>
+<p>This will also install several packages on which Pyramid depends.</p>
+<p>Do not install Pyramid 1.3, since you will then run into
+<a class="reference external" href="https://github.com/Pylons/pyramid/issues/604">this bug</a>.</p>
+</div>
+<div class="section" id="install-pym-elfinder">
+<h2>3. Install Pym-elFinder<a class="headerlink" href="#install-pym-elfinder" title="Permalink to this headline">¶</a></h2>
+<p>PySite uses elFinder as the UI of the filemanager, and Pym-elFinder is my
+server-side implementation of its client protocol. Clone it from my github
+repo and install it in development mode:</p>
+<div class="highlight-python"><pre>(PySite-env)            $ git clone https://github.com/dmdm/Pym-elFinder
+(PySite-env)            $ cd Pym-elFinder
+(PySite-env)Pym-elFinder$ pip install -e .
+(PySite-env)Pym-elFinder$ cd ..</pre>
+</div>
+</div>
+<div class="section" id="install-pysite">
+<h2>4. Install PySite<a class="headerlink" href="#install-pysite" title="Permalink to this headline">¶</a></h2>
+<p>Clone it from its github repo and install in development mode:</p>
+<div class="highlight-python"><pre>(PySite-env)      $ git clone https://github.com/dmdm/PySite
+(PySite-env)      $ cd PySite
+(PySite-env)PySite$ pip install -e .
+(PySite-env)PySite$ cd ..</pre>
+</div>
+<p>This will take a while, PySite pulls several other packages, and some will compile
+C extensions.</p>
+</div>
+<div class="section" id="configure-pysite">
+<h2>5. Configure PySite<a class="headerlink" href="#configure-pysite" title="Permalink to this headline">¶</a></h2>
+<p>Configuration takes place in several rc-files inside directory &#8220;etc&#8221;. The format is
+YAML.</p>
+<p>Details about the <a class="reference external" href="http://3amcode.de/pharaoh/Cms/pharaoh/parenchym/configuration/">configuration system</a>.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The rc-files are not covered by the reload-feature of the waitress
+webserver. You must restart waitress manually if you change settings here.</p>
+</div>
+<div class="section" id="configure-the-framework">
+<h3>5.1 Configure the framework<a class="headerlink" href="#configure-the-framework" title="Permalink to this headline">¶</a></h3>
+<p>Inside directory &#8220;etc&#8221;, create a file &#8220;rcsecrets.yaml&#8221; with this content:</p>
+<div class="highlight-python"><pre>auth.tkt_policy.secret : &#x27;***&#x27;
+auth.user_root.pwd : &#x27;***&#x27;
+session.key : PySite
+session.secret : &#x27;***&#x27;</pre>
+</div>
+<p>For each <tt class="docutils literal"><span class="pre">'***'</span></tt> you type a different high-end password, of course ;)</p>
+</div>
+<div class="section" id="create-working-directories">
+<h3>5.2 Create working directories<a class="headerlink" href="#create-working-directories" title="Permalink to this headline">¶</a></h3>
+<p>PySite needs several more working directories, which are not included in the
+git repo. A script creates them and sets their correct permissions:</p>
+<div class="highlight-python"><pre>(PySite-env)PySite$ ./bin/setup-dirs</pre>
+</div>
+<p>Should you need different permissions, edit that script.</p>
+</div>
+<div class="section" id="initialise-the-database">
+<h3>5.3 Initialise the database<a class="headerlink" href="#initialise-the-database" title="Permalink to this headline">¶</a></h3>
+<p>PySite needs a SQL database to store users and groups etc. For the
+sake of simplicity, we use SQLite. Should you want a different
+RDBMS, you must configure its SQLAlchemy settings in the appropriate
+rc-file.</p>
+<p>Create the database with this script:</p>
+<div class="highlight-python"><pre>(PySite-env)PySite$ initialize_PySite_db</pre>
+</div>
+<p>(You may run this command from anywhere, it was registered as a console script
+during the installation of PySite.)</p>
+<p>(Will rename this script in the future. Look for sth. like &#8220;pysite_init_db&#8221;.)</p>
+</div>
+<div class="section" id="optional-settings">
+<h3>5.4 Optional settings<a class="headerlink" href="#optional-settings" title="Permalink to this headline">¶</a></h3>
+<p>If you want to run PySite on different hosts which need different settings,
+create for each host a subdirectory in &#8220;etc&#8221;. The name of that subdirectory
+is the hostname. There, create files &#8220;rc.yaml&#8221;, and &#8220;rcsecrets.yaml&#8221;.
+In these rc-files write only settings which differ from the main settings.</p>
+</div>
+</div>
+<div class="section" id="run-pysite">
+<h2>6. Run PySite<a class="headerlink" href="#run-pysite" title="Permalink to this headline">¶</a></h2>
+<p>Start the webserver with PySite:</p>
+<div class="highlight-python"><pre>(PySite-env)PySite$ pserve development.ini --reload</pre>
+</div>
+<p>You may now point your browser to &#8220;localhost:6543&#8221;. Since we have not set up a site
+yet, not much is to be seen. Maybe you&#8217;ll encounter not-found errors.</p>
+</div>
+<div class="section" id="create-a-site">
+<h2>7. Create a site<a class="headerlink" href="#create-a-site" title="Permalink to this headline">¶</a></h2>
+<p>Several steps are necessary to create a new site. Currently we have to do them
+manually. Will provide scripts soon.</p>
+<div class="section" id="create-sites-dir">
+<h3>7.1 Create SITES_DIR<a class="headerlink" href="#create-sites-dir" title="Permalink to this headline">¶</a></h3>
+<p>Firstly, we need a directory where the sites will be stored. It can be located
+anywhere, and may, and maybe should, be external to the virtual environment.</p>
+<p>E.g.:</p>
+<div class="highlight-python"><pre>$ mkdir /opt/mysites</pre>
+</div>
+<p>In &#8220;etc/rc.yaml&#8221; tell PySite about this directory:</p>
+<div class="highlight-python"><pre>sites_dir: /opt/mysites</pre>
+</div>
+<p>You may also want to define the filesystem quota, which defaults to 50MB per site:</p>
+<div class="highlight-python"><pre>quota.max_size: 50000000</pre>
+</div>
+</div>
+<div class="section" id="create-the-site">
+<h3>7.2 Create the site<a class="headerlink" href="#create-the-site" title="Permalink to this headline">¶</a></h3>
+<p>From &#8220;var/site-templates&#8221;, copy the subdirectory &#8220;www.default.local&#8221; and its YAML
+file to the directory you created in step 7.2</p>
+</div>
+<div class="section" id="setup-site-security">
+<h3>7.3 Setup site security<a class="headerlink" href="#setup-site-security" title="Permalink to this headline">¶</a></h3>
+<p>In step 5.3 you initialised the database which also created a user &#8220;root&#8221; as
+administrator. Its password you had configured in step 5.1, key
+&#8220;auth.user_root.pwd&#8221;. User root is allowed to access and manage any site.</p>
+<p>We now need users with rights that are specific to this new site. Therefore,
+you create a role with a name identical to the site name (&#8220;www.default.local&#8221; in
+our case). Then create a user, e.g. &#8220;Sally&#8221; and assign it to that role.</p>
+<p>Sorry, there are no scripts for that yet. Look at <cite>pysite/usrmgr/install.py</cite>
+to get an idea.</p>
+<p>The idea is, that all members of a role whose name corresponds to the site name
+get manage rights for the filemanager.</p>
+<p>This may change in the future.</p>
+</div>
+</div>
+<div class="section" id="view-and-manage-the-site">
+<h2>8. View and manage the site<a class="headerlink" href="#view-and-manage-the-site" title="Permalink to this headline">¶</a></h2>
+<p>Visit the site at &#8220;localhost:6543/sites/www.default.local&#8221;.</p>
+<p>Call the filemanager at &#8220;localhost:6543/sites/www.default.local/&#64;&#64;filemgr&#8221;.
+You will be prompted to login.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Installation</a><ul>
+<li><a class="reference internal" href="#create-virtual-environment">1. Create virtual environment</a></li>
+<li><a class="reference internal" href="#install-pyramid">2. Install Pyramid</a></li>
+<li><a class="reference internal" href="#install-pym-elfinder">3. Install Pym-elFinder</a></li>
+<li><a class="reference internal" href="#install-pysite">4. Install PySite</a></li>
+<li><a class="reference internal" href="#configure-pysite">5. Configure PySite</a><ul>
+<li><a class="reference internal" href="#configure-the-framework">5.1 Configure the framework</a></li>
+<li><a class="reference internal" href="#create-working-directories">5.2 Create working directories</a></li>
+<li><a class="reference internal" href="#initialise-the-database">5.3 Initialise the database</a></li>
+<li><a class="reference internal" href="#optional-settings">5.4 Optional settings</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#run-pysite">6. Run PySite</a></li>
+<li><a class="reference internal" href="#create-a-site">7. Create a site</a><ul>
+<li><a class="reference internal" href="#create-sites-dir">7.1 Create SITES_DIR</a></li>
+<li><a class="reference internal" href="#create-the-site">7.2 Create the site</a></li>
+<li><a class="reference internal" href="#setup-site-security">7.3 Setup site security</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#view-and-manage-the-site">8. View and manage the site</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../hilfe.html"
+                        title="previous chapter">Hilfe</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../api/pysite/sitemgr/init.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/narr/installation.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api/pysite/sitemgr/init.html" title="pysite.sitemgr"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../hilfe.html" title="Hilfe"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Dirk Makowski.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

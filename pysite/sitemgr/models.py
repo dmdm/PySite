@@ -1,5 +1,20 @@
 # coding: utf-8
 
+"""
+This module contains the SiteManager's nodes for the resource tree.
+
+Node `/sites` is the root of the SiteManager. The :mod:`~.pysite.resmgr`
+places it into the resource tree. Its children are the configured sites, which
+are loaded dynamically.
+
+Node `/sites/www.example.com` is the node of a configured site. Its
+dynamically loaded children are the pages of this site.
+
+Node `/sites/www.example.com/index` is the node of a page. It may have
+subpages as its children or be a leaf node.
+
+"""
+
 from glob import glob
 import os.path
 import yaml

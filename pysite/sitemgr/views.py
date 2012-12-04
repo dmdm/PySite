@@ -16,10 +16,16 @@ class SitesView(object):
         self.context = context
         self.request = request
 
-    @view_config()
-    @view_config(name='view')
+    @view_config(
+        name=''
+        , renderer='pysite:sitemgr/templates/index.mako'
+    )
+    @view_config(
+        name='view'
+        , renderer='pysite:sitemgr/templates/index.mako'
+    )
     def view(self):
-        return Response('huhu')
+        return dict()
 
     # Add more view methods to manage sites here
 

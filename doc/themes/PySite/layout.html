@@ -1,0 +1,17 @@
+{#
+    PySite/layout.html
+    ~~~~~~~~~~~~~~~~~~~
+
+    Sphinx layout template for the PySite theme.
+
+    :copyright: Copyright 2012 by Dirk Makowski
+#}
+{% extends "basic/layout.html" %}
+
+{%- block extrahead %}
+<link rel="stylesheet" href="{{ pathto('_static/pysite.css', 1) }}" type="text/css" media="screen" charset="utf-8" />
+{% endblock %}
+
+{% if theme_collapsiblesidebar|tobool %}
+{% set script_files = script_files + ['_static/sidebar.js'] %}
+{% endif %}

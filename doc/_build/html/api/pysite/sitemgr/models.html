@@ -1,0 +1,183 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysite.sitemgr.models &mdash; PySite 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="PySite 0.1 documentation" href="../../../index.html" />
+    <link rel="next" title="pysite.sitemgr.page" href="../sitemgr/page.html" />
+    <link rel="prev" title="pysite.sitemgr" href="../sitemgr/init.html" />
+<link rel="stylesheet" href="../../../_static/pysite.css" type="text/css" media="screen" charset="utf-8" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../sitemgr/page.html" title="pysite.sitemgr.page"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../sitemgr/init.html" title="pysite.sitemgr"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../../../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysite.sitemgr.models">
+<span id="pysite-sitemgr-models"></span><h1><tt class="docutils literal"><span class="pre">pysite.sitemgr.models</span></tt><a class="headerlink" href="#module-pysite.sitemgr.models" title="Permalink to this headline">¶</a></h1>
+<p>This module contains the SiteManager&#8217;s nodes for the resource tree.</p>
+<p>Node <cite>/sites</cite> is the root of the SiteManager. The <tt class="xref py py-mod docutils literal"><span class="pre">resmgr</span></tt>
+places it into the resource tree. Its children are the configured sites, which
+are loaded dynamically.</p>
+<p>Node <cite>/sites/www.example.com</cite> is the node of a configured site. Its
+dynamically loaded children are the pages of this site.</p>
+<p>Node <cite>/sites/www.example.com/index</cite> is the node of a page. It may have
+subpages as its children or be a leaf node.</p>
+<dl class="class">
+<dt id="pysite.sitemgr.models.Page">
+<em class="property">class </em><tt class="descclassname">pysite.sitemgr.models.</tt><tt class="descname">Page</tt><big>(</big><em>parent</em>, <em>site</em>, <em>name</em>, <em>dir_</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.models.Page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="pysite.sitemgr.models.Page.keys">
+<tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#pysite.sitemgr.models.Page.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysite.sitemgr.models.Page.title">
+<tt class="descname">title</tt><a class="headerlink" href="#pysite.sitemgr.models.Page.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysite.sitemgr.models.Site">
+<em class="property">class </em><tt class="descclassname">pysite.sitemgr.models.</tt><tt class="descname">Site</tt><big>(</big><em>parent</em>, <em>name</em>, <em>dir_</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.models.Site" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="pysite.sitemgr.models.Site.keys">
+<tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#pysite.sitemgr.models.Site.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysite.sitemgr.models.Site.title">
+<tt class="descname">title</tt><a class="headerlink" href="#pysite.sitemgr.models.Site.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="pysite.sitemgr.models.Sites">
+<em class="property">class </em><tt class="descclassname">pysite.sitemgr.models.</tt><tt class="descname">Sites</tt><big>(</big><em>parent</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.models.Sites" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <tt class="xref py py-class docutils literal"><span class="pre">builtins.object</span></tt></p>
+<dl class="method">
+<dt id="pysite.sitemgr.models.Sites.keys">
+<tt class="descname">keys</tt><big>(</big><big>)</big><a class="headerlink" href="#pysite.sitemgr.models.Sites.keys" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="pysite.sitemgr.models.Sites.SITES_DIR">
+<tt class="descname">SITES_DIR</tt><em class="property"> = None</em><a class="headerlink" href="#pysite.sitemgr.models.Sites.SITES_DIR" title="Permalink to this definition">¶</a></dt>
+<dd><p>Directory where the sites are stored.
+This must be set during app startup!</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="pysite.sitemgr.models.Sites.title">
+<tt class="descname">title</tt><a class="headerlink" href="#pysite.sitemgr.models.Sites.title" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../sitemgr/init.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr</span></tt></a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../sitemgr/page.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr.page</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../../../_sources/api/pysite/sitemgr/models.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../sitemgr/page.html" title="pysite.sitemgr.page"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../sitemgr/init.html" title="pysite.sitemgr"
+             >previous</a> |</li>
+        <li><a href="../../../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Dirk Makowski.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

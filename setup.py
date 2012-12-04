@@ -51,7 +51,7 @@ setup(name='PySite',
       [paste.app_factory]
       main = pysite:main
       [console_scripts]
-      initialize_PySite_db = pysite.scripts.initializedb:main
+      pysite_init_db = pysite.scripts.initializedb:main
       """,
       )
 
