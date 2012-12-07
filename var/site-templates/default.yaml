@@ -1,0 +1,6 @@
+max_size: 50000000
+acl:
+    # Replace role "wheel" with a role specific to your site
+    # (The site manager will replace the role of the first ACE
+    # by the actual role specified during the creation of a new site.)
+  - [ "allow", "r:wheel", "manage_files" ]

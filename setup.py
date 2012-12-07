@@ -8,6 +8,7 @@ CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
     'anyjson',
+    'Babel',
     'blinker',
     'pyramid',
     'pyramid_beaker',
@@ -15,6 +16,7 @@ requires = [
     'pyramid_jinja2',
     'pyramid_tm',
     'python_magic',
+    'pytz',
     'PyYAML',
     'SQLAlchemy',
     'transaction',
@@ -52,6 +54,7 @@ setup(name='PySite',
       main = pysite:main
       [console_scripts]
       pysite_init_db = pysite.scripts.initializedb:main
+      pysite = pysite.scripts.pysite:main
       """,
       )
 

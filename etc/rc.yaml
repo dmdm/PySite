@@ -18,12 +18,14 @@ auth.user_root.pwd : SECRET
 # 'sqlalchemy'
 auth.provider : sqlalchemy
 
-### # ---[ I18N ]-------
-### 
-### i18n.avail_languages:
-### - de
-### - en
-### - nl
+# ---[ I18N ]-------
+
+pyramid.default_locale_name: en
+i18n.avail_languages:
+- de
+- en
+# allow all languages
+- '*'
 
 # ---[ PySite ]-------
 
@@ -77,7 +79,6 @@ pyramid.debug_templates: true
 pyramid.debug_authorization: false
 pyramid.debug_notfound: false
 pyramid.debug_routematch: false
-pyramid.default_locale_name: en
 # XXX  Define includes in the paster INI files.
 #      We then can better differentiate between e.g. devel and production
 ### # If given in paster INI, these values are separated by \n

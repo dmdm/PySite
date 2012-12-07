@@ -27,7 +27,7 @@
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="top" title="PySite 0.1 documentation" href="../../../index.html" />
     <link rel="next" title="pysite.sitemgr.models" href="../sitemgr/models.html" />
-    <link rel="prev" title="Hilfe" href="../../../hilfe.html" />
+    <link rel="prev" title="pysite" href="../../../narr/cli-pysite.html" />
 <link rel="stylesheet" href="../../../_static/pysite.css" type="text/css" media="screen" charset="utf-8" />
 
   </head>
@@ -45,7 +45,7 @@
           <a href="../sitemgr/models.html" title="pysite.sitemgr.models"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../../../hilfe.html" title="Hilfe"
+          <a href="../../../narr/cli-pysite.html" title="pysite"
              accesskey="P">previous</a> |</li>
         <li><a href="../../../index.html">PySite 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -60,7 +60,7 @@
 <span id="pysite-sitemgr"></span><h1><tt class="docutils literal"><span class="pre">pysite.sitemgr</span></tt><a class="headerlink" href="#module-pysite.sitemgr" title="Permalink to this headline">¶</a></h1>
 <p>Module of the SiteManager.</p>
 <p>All sites and pages are dynamically read from the filesystem.</p>
-<p>Sites are located inside a specific directory that is set in class 
+<p>Sites are located inside a specific directory that is set in class
 attribute <a class="reference internal" href="../sitemgr/models.html#pysite.sitemgr.models.Sites.SITES_DIR" title="pysite.sitemgr.models.Sites.SITES_DIR"><tt class="xref py py-attr docutils literal"><span class="pre">models.Sites.SITES_DIR</span></tt></a> on application start. Each site
 is a subdirectory; its master configuration settings are read from
 a YAML file with the same name, which is also stored in the SITES_DIR.
@@ -74,8 +74,30 @@ contains the published pages of the site.</p>
 <p>A page needs two files: one with extension &#8221;.jinja2&#8221;. This contains the content
 and the filename is used in the page&#8217;s URL. The second needed file is a file
 with the same name and extension &#8221;.yaml&#8221;. It contains the page&#8217;s settings.</p>
-<p>See <a class="reference internal" href="../sitemgr/models.html#module-pysite.sitemgr.models" title="pysite.sitemgr.models"><tt class="xref py py-mod docutils literal"><span class="pre">models</span></tt></a> for a description how the SiteManager connects to the resource tree.</p>
-<p>See <a class="reference internal" href="../sitemgr/page.html#module-pysite.sitemgr.page" title="pysite.sitemgr.page"><tt class="xref py py-mod docutils literal"><span class="pre">page</span></tt></a> for details about creating pages and linking.</p>
+<p>For example:</p>
+<div class="highlight-python"><pre>SITES_DIR
+|
++-- www.site-1.com.yaml
++-- www.site-1.com
+|   |
+|   +-- rc.yaml
+|   +-- assets
+|   +-- plugins
+|   +-- content
+|       |
+|       +-- index.yaml
+|       +-- index.jinja2
+|       |
+|       +-- page-2.yaml
+|       +-- page-2.jinja2
+|
++-- www.site-2.com.yaml
++-- www.site-2.com
+    [...]</pre>
+</div>
+<p>See <a class="reference internal" href="../sitemgr/models.html#module-pysite.sitemgr.models" title="pysite.sitemgr.models"><tt class="xref py py-mod docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a> for a description how the SiteManager
+connects to the resource tree.</p>
+<p>See <a class="reference internal" href="../sitemgr/page.html#module-pysite.sitemgr.page" title="pysite.sitemgr.page"><tt class="xref py py-mod docutils literal"><span class="pre">pysite.sitemgr.page</span></tt></a> for details about creating pages and linking.</p>
 </div>
 
 
@@ -85,8 +107,8 @@ with the same name and extension &#8221;.yaml&#8221;. It contains the page&#8217
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../../../hilfe.html"
-                        title="previous chapter">Hilfe</a></p>
+  <p class="topless"><a href="../../../narr/cli-pysite.html"
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">pysite</span></tt></a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../sitemgr/models.html"
                         title="next chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a></p>
@@ -125,7 +147,7 @@ with the same name and extension &#8221;.yaml&#8221;. It contains the page&#8217
           <a href="../sitemgr/models.html" title="pysite.sitemgr.models"
              >next</a> |</li>
         <li class="right" >
-          <a href="../../../hilfe.html" title="Hilfe"
+          <a href="../../../narr/cli-pysite.html" title="pysite"
              >previous</a> |</li>
         <li><a href="../../../index.html">PySite 0.1 documentation</a> &raquo;</li> 
       </ul>

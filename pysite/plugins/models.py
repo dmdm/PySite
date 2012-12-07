@@ -9,5 +9,5 @@ class Node(abstractmodels.Node):
         super().__init__(parent)
         self._title = "Plugins"
         # TODO Make this dynamic
-        import pysite.plugins.events.models
-        self['events'] = pysite.plugins.events.models.Node(self)
+        import pysite.plugins.eventlist.models
+        self['eventlist'] = pysite.plugins.eventlist.models.Node(self)

@@ -1,0 +1,4 @@
+# Access these settings within templates like this:
+#     {{ site.title }}
+
+title: Default Site

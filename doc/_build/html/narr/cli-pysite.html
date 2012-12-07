@@ -1,0 +1,189 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>pysite &mdash; PySite 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySite 0.1 documentation" href="../index.html" />
+    <link rel="next" title="pysite.sitemgr" href="../api/pysite/sitemgr/init.html" />
+    <link rel="prev" title="Hilfe" href="../hilfe.html" />
+<link rel="stylesheet" href="../_static/pysite.css" type="text/css" media="screen" charset="utf-8" />
+
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api/pysite/sitemgr/init.html" title="pysite.sitemgr"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../hilfe.html" title="Hilfe"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-pysite.scripts.pysite">
+<span id="pysite"></span><h1><tt class="docutils literal"><span class="pre">pysite</span></tt><a class="headerlink" href="#module-pysite.scripts.pysite" title="Permalink to this headline">¶</a></h1>
+<p><tt class="docutils literal"><span class="pre">pysite</span></tt> has several subcommands to manage your PySite setup: you can
+manage principals (users), roles and role memberships as well as install new
+sites and check the integrity of existing sites.</p>
+<p>The subcommands are:</p>
+<div class="highlight-python"><pre>list-principals     List principals
+add-principal       Add principal
+update-principal    Update principal with given ID
+delete-principal    Delete principal with given ID
+list-roles          List roles
+add-role            Add role
+update-role         Update role with given ID
+delete-role         Delete role with given ID
+list-rolemembers    List rolemembers
+add-rolemember      Add rolemember
+delete-rolemember   Delete rolemember with given ID
+list-sites          List sites
+add-site            Add site</pre>
+</div>
+<p>Type <tt class="docutils literal"><span class="pre">pysite</span> <span class="pre">-h</span></tt> for general help and a list of the subcommands,
+<tt class="docutils literal"><span class="pre">pysite</span> <span class="pre">subcommand</span> <span class="pre">-h</span></tt> to get help for that subcommand.</p>
+<p><tt class="docutils literal"><span class="pre">pysite</span></tt> allows you to use different formats for input and output.
+Choices are json, yaml (default) and tsv.</p>
+<p>Tsv is handy if you want to review the output in a spreadsheet:</p>
+<div class="highlight-python"><pre>pysite -c production.ini --format tsv list-principals &gt; a &amp;&amp; gnumeric a</pre>
+</div>
+<p>Both, json and yaml allow inline-style. Here is an example of inline YAML:</p>
+<div class="highlight-python"><pre>pysite -c production.ini --format yaml add-principal \
+    &#x27;{principal: FOO5, email: foo5@here, pwd: FOO, roles: [foo, bar]}&#x27;
+TTY? True
+Locale? en_GB UTF-8
+id: 106
+display_name: FOO5
+email: foo5@here
+first_name: null
+gui_token: null
+identity_url: null
+is_blocked: false
+is_enabled: false
+last_name: null
+login_time: null
+notes: null
+prev_login_time: null
+principal: FOO5
+pwd: FOO
+owner: 2
+ctime: &#x27;2012-12-07 07:47:23&#x27;
+editor: null
+mtime: null
+role_names:
+- foo
+- bar
+- users
+Done.</pre>
+</div>
+<p>Here is an example of creating a new site:</p>
+<div class="highlight-python"><pre>pysite -c production.ini --format yaml add-site &#x27;{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}&#x27;
+TTY? True
+Locale? en_GB UTF-8
+Proceed to create a site in /tmp/sites (yes/NO)? yes
+Copied template [...]/var/site-templates/default
+Added role &#x27;www.new-site.com&#x27; (108)
+Added principal &#x27;sally&#x27; (111)
+Set principal &#x27;sally&#x27; as member of role &#x27;www.new-site.com&#x27;
+Done.</pre>
+</div>
+<p>To get an overview, which user is in which role, and if there are orphans (should not),
+do:</p>
+<div class="highlight-python"><pre>pysite -c production.ini --format tsv list-rolemembers &gt; a &amp;&amp; gnumeric a</pre>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../hilfe.html"
+                        title="previous chapter">Hilfe</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../api/pysite/sitemgr/init.html"
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr</span></tt></a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/narr/cli-pysite.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../api/pysite/sitemgr/init.html" title="pysite.sitemgr"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../hilfe.html" title="Hilfe"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2012, Dirk Makowski.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

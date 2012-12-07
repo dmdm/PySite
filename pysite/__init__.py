@@ -11,6 +11,7 @@ from   pysite.rc              import Rc
 import pysite.resmgr
 import pysite.security
 import pysite.models
+import pysite.i18n
 
 
 def main(global_config, **settings):
@@ -68,6 +69,11 @@ def includeme(config):
     config.set_request_property(pysite.security.get_user, 'user', reify=True)
     config.set_authentication_policy(auth_pol)
     config.set_authorization_policy(authz_pol)
+
+    # i18n
+    #config.add_translation_dirs('pysite:locale/')
+    #config.add_translation_dirs('deform:locale/')
+    config.set_locale_negotiator(pysite.i18n.locale_negotiator)
 
     # Init DB
     pysite.models.init(config.registry.settings, 'db.pysite.sa.')

@@ -6,7 +6,7 @@ Installation
 3. Install Pym-elFinder
 4. Install PySite
 5. Configure PySite
-6. Run PySite
+6. Run PySite server
 7. Create a site
 8. View and manage the site
 
@@ -25,15 +25,15 @@ We use virtualenvwrapper::
 2. Install Pyramid
 ------------------
     
-Install Pyramid 1.3.1. Versions before that are not compatible with Python 3,
+Install Pyramid 1.3.1. Versions before 1.3 are not compatible with Python 3,
 and version 1.4 we have not tested yet::
 
 	(PySite-env)$ pip install pyramid==1.3.1
 
 This will also install several packages on which Pyramid depends.
 
-Do not install Pyramid 1.3, since you will then run into 
-`this bug <https://github.com/Pylons/pyramid/issues/604>`_.
+.. note:: Do not install Pyramid 1.3, since you will then run into 
+	`this bug <https://github.com/Pylons/pyramid/issues/604>`_.
 
 
 3. Install Pym-elFinder
@@ -51,6 +51,32 @@ repo and install it in development mode::
 
 4. Install PySite
 -----------------
+
+4.1 Install Babel
+.................
+
+Download and unpack the Py3k port of Babel from here
+(see `discussion topic <https://groups.google.com/forum/?fromgroups=#!searchin/python-babel/localedata/python-babel/WS7bakYSdnE/omKrgA15KWkJ>`_):
+
+https://bitbucket.org/vinay.sajip/babel3/get/tip.tar.gz
+
+
+Download and unpack the CLDR data from here:
+
+http://unicode.org/Public/cldr/1.7.2/core.zip
+
+In the Babel source directory, do::
+
+    $ ./setup.py egg_info
+    $ mkdir babel/localedata
+    $ ./scripts/import_cldr.py /path/to/cldrdir
+    $ ./setup.py install
+
+The Babel site has `detailed instructions <http://babel.edgewall.org/wiki/SubversionCheckout>`_.
+
+
+4.2 Install PySite
+..................
 
 Clone it from its github repo and install in development mode::
 
@@ -98,6 +124,9 @@ git repo. A script creates them and sets their correct permissions::
 
 Should you need different permissions, edit that script.
 
+.. note:: You almost certainly need to edit the script and change the settings for
+	USER and GROUP, and maybe GROUP_APPLICATION!
+
 
 5.3 Initialise the database
 ...........................
@@ -109,12 +138,10 @@ rc-file.
 
 Create the database with this script::
     
-	(PySite-env)PySite$ initialize_PySite_db
+	(PySite-env)PySite$ pysite_init_db
 
 (You may run this command from anywhere, it was registered as a console script
 during the installation of PySite.)
-
-(Will rename this script in the future. Look for sth. like "pysite_init_db".)
 
 
 5.4 Optional settings
@@ -126,8 +153,8 @@ is the hostname. There, create files "rc.yaml", and "rcsecrets.yaml".
 In these rc-files write only settings which differ from the main settings.
 
 
-6. Run PySite
--------------
+6. Run PySite server
+--------------------
 
 Start the webserver with PySite::
     
@@ -140,15 +167,24 @@ yet, not much is to be seen. Maybe you'll encounter not-found errors.
 7. Create a site
 ----------------
 
-Several steps are necessary to create a new site. Currently we have to do them
-manually. Will provide scripts soon.
+The simplest way to create a new site is with the ``pysite`` command line tool::
 
+    pysite -c production.ini --format yaml add-site '{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}'
+
+This will create a new site in the SITES_DIR directory (which you had configured in
+the rc files as key ``sites_dir``). It then copies the default site template and creates
+the specified principal and its roles.
+
+See :doc:`cli-pysite` for details.
+
+Or, proceed with the following steps if you prefer to handle it manually.
 
 7.1 Create SITES_DIR
 ....................
 
-Firstly, we need a directory where the sites will be stored. It can be located
-anywhere, and may, and maybe should, be external to the virtual environment.
+Firstly, we need a directory where the sites will be stored (SITES_DIR). It can
+be located anywhere, and may, and maybe should, be external to the virtual
+environment.
 
 E.g.::
 
@@ -162,12 +198,19 @@ You may also want to define the filesystem quota, which defaults to 50MB per sit
 
     quota.max_size: 50000000
 
+(This is a global default. You may set ``max_size`` individually for each site.)
+
 
 7.2 Create the site
 ...................
 
-From "var/site-templates", copy the subdirectory "www.default.local" and its YAML
-file to the directory you created in step 7.2
+Let's say we want to create a site called "www.new-site.com".
+
+Copy a site template into the SITES_DIR and name its subdirectory and YAML file
+according to your site name::
+
+	cp -a var/site-templates/default SITES_DIR/www.new-site.com
+	cp -a var/site-templates/default.yaml SITES_DIR/www.new-site.com.yaml
 
 
 7.3 Setup site security
@@ -178,16 +221,33 @@ administrator. Its password you had configured in step 5.1, key
 "auth.user_root.pwd". User root is allowed to access and manage any site.
 
 We now need users with rights that are specific to this new site. Therefore,
-you create a role with a name identical to the site name ("www.default.local" in
+you create a role with a name identical to the site name ("www.new-site.com" in
 our case). Then create a user, e.g. "Sally" and assign it to that role.
 
-Sorry, there are no scripts for that yet. Look at `pysite/usrmgr/install.py`
-to get an idea.
+Giving that "manager role" the same name as the site is just a convention. It
+allows us to easily identify to which site a role belongs. Of course you may
+name your roles any way you find suitable.
 
-The idea is, that all members of a role whose name corresponds to the site name
-get manage rights for the filemanager.
+Use the command line tool :doc:`cli-pysite` to accomplish this.
 
-This may change in the future.
+Now edit the ACL of your site (in the site's YAML file
+``www.new-site.com.yaml``) and grant that role permission "manage_files",
+e.g.::
+
+	acl:
+	- - allow
+	  - r:www.new-site.com
+	  - manage_files
+
+.. raw:: html
+
+	Or <del>gangnam</del> inline style:
+	
+::
+
+	acl:
+	- [ "allow", "r:www.new-site.com", "manage_files" ]
+
 
 
 8. View and manage the site

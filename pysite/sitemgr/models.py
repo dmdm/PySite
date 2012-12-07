@@ -97,7 +97,8 @@ class Site(object):
         # Load user settings
         fn = os.path.join(dir_, 'rc.yaml')
         with open(fn, 'r', encoding='utf-8') as fh:
-            rc = yaml.load(fh, YamlLoader)
+            # Safe load user settings!
+            rc = yaml.safe_load(fh)
         if rc:
             self.rc.update(rc)
         # Load master settings

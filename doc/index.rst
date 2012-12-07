@@ -29,9 +29,18 @@ TOC
 .. toctree::
    :maxdepth: 1
 
+   narr/installation
+   narr/i18n
+   narr/designer_notes
    Overview <https://github.com/dmdm/PySite/blob/master/README.rst>
    hilfe
-   narr/installation
+
+Command Line Tools
+..................
+.. toctree::
+   :maxdepth: 1
+
+   narr/cli-pysite
 
 
 API
@@ -41,8 +50,8 @@ API
    :maxdepth: 2
 
    api/pysite/sitemgr/init
-   api/pysite/sitemgr/models
    api/pysite/sitemgr/page
+   api/pysite/sitemgr/models
 
 
 TODOs

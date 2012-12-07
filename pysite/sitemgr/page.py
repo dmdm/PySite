@@ -6,6 +6,7 @@ import jinja2 as jj
 import jinja2.sandbox
 import pyramid.traversal
 
+import pysite.security
 
 class Sandbox(jinja2.sandbox.SandboxedEnvironment):
     pass #  TODO  Create a useful sandbox
@@ -35,8 +36,6 @@ class Page(object):
     The rendering environment by default is a sandbox, and the following globals
     are available in a template:
 
-    - `request`: Instance of the current Pyramid request. (Use `request.context` to
-      access its context resource.)
     - `site`:    Contains the settings of the site.
       Usage: `{{ site.title }}`
     - `page`:    Contains the settings of the current page.
@@ -58,8 +57,7 @@ class Page(object):
         self.jjenv = None
         """Instance of a Jinja environment"""
         self.jjglobals = dict(
-            request=request
-            , site=context.site.rc
+              site=context.site.rc
             , page=context.rc
             , url=self.url
             , asset_url=self.asset_url

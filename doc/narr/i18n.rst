@@ -1,0 +1,9 @@
+i18n
+####
+
+The current locale is determined from the browser, either from its language settings,
+or by appending ``?_LOCALE_=de`` at the URL.
+
+PySite supports internationalisation of templates with `Babel <http://babel.edgewall.org/>`_.
+
+Currently, only a formatter is available in templates: ``bfmt`` (babel formatter)).

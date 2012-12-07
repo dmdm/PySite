@@ -147,7 +147,8 @@ class Principal(DbBase, DefaultMixin):
     #             (%(principal_id)s, %(role_id)s) RETURNING pym.rolemember.id'
     #             {'principal_id': 2L, 'role_id': 101L}
     roles = relationship('Role', secondary=RoleMember.__table__,
-        primaryjoin='Principal.id==RoleMember.principal_id'
+        primaryjoin='Principal.id==RoleMember.principal_id',
+        backref="principals"
     )
     role_names = association_proxy('roles', 'name')
 

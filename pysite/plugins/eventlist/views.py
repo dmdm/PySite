@@ -10,7 +10,7 @@ L = logging.getLogger('PySite')
 
 @view_config(
     name='',
-    context=pysite.plugins.events.models.Node,
+    context=pysite.plugins.eventlist.models.Node,
     renderer='pysite:plugins/events/templates/index.mako',
     permission='admin'
 )

@@ -12,7 +12,10 @@ from sqlalchemy import (
 from sqlalchemy.orm import (
     scoped_session,
     sessionmaker,
+    ColumnProperty
+    , class_mapper
     )
+from sqlalchemy.orm.collections import InstrumentedList
 from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy.sql.expression import func
 
@@ -65,6 +68,11 @@ class DefaultMixin(object):
             ForeignKey("principal.id", onupdate="CASCADE", ondelete="RESTRICT"),
             nullable=True, onupdate=_get_current_user)
 
+    def dump(self):
+        from pysite.models import todict
+        from pprint import pprint
+        pprint(todict(self))
+
 
 # ================================
 
@@ -87,3 +95,70 @@ def create_all():
     DbBase.metadata.create_all(DbEngine)
 
 # ================================
+
+
+# ===[ HELPER ]===================
+
+def todict(o, fully_qualified=False):
+    """Transmogrifies data of record object into dict.
+
+    Inspired by http://blog.mitechie.com/2010/04/01/hacking-the-sqlalchemy-base-class/
+    Converts only physical table columns. Columns created by e.g. relationship() must be
+    handled otherwise.
+
+    :param rs: Data to transmogrify
+    :param fully_qualified: Whether dict keys should be fully qualified (schema
+        + '.' + table + '.' + column) or not (just column name)
+
+    :rtype: Dict or list of dicts
+    """
+    def convert_datetime(value):
+        try:
+            return value.strftime("%Y-%m-%d %H:%M:%S")
+        except AttributeError: # Catch AttributeError: 'NoneType' object has no attribute 'strftime'
+            return None
+
+    d = {}
+    for c in o.__table__.columns:
+        if isinstance(c.type, DateTime):
+            value = convert_datetime(getattr(o, c.name))
+        elif isinstance(c, InstrumentedList):
+            value = list(c)
+        else:
+            value = getattr(o, c.name)
+
+        if fully_qualified:
+            k = o.__table__.schema + '.' + o.__table__.name + '.' + c.name
+        else:
+            k = c.name
+        d[k] = value
+    return d
+
+
+def todata(rs, fully_qualified=False):
+    """Transmogrifies a result set into a list of dicts.
+    
+    If ``rs`` is a single instance, only a dict is returned. If ``rs`` is a
+    list, a list of dicts is returned.
+
+    :param rs: Data to transmogrify
+    :param fully_qualified: Whether dict keys should be fully qualified (schema
+        + '.' + table + '.' + column) or not (just column name)
+
+    :rtype: Dict or list of dicts
+    """
+    if isinstance(rs, list):
+        data = []
+        for row in rs:
+            data.append(todict(row, fully_qualified=fully_qualified))
+        return data
+    else:
+        return todict(rs, fully_qualified=fully_qualified)
+
+
+def attribute_names(cls, kind="all"):
+    if kind == 'columnproperty':
+        return [prop.key for prop in class_mapper(cls).iterate_properties
+            if isinstance(prop, ColumnProperty)]
+    else:
+        return [prop.key for prop in class_mapper(cls).iterate_properties]
