@@ -142,7 +142,6 @@ class PySiteCli(object):
             )
         )
         rc.load()
-        rc.s('sites_dir', '/tmp/sites')
         settings.update(rc.data)
         settings['rc'] = rc
 
