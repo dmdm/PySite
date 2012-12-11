@@ -1,0 +1,34 @@
+{% extends "/layout/base.jinja2" %}
+{% from '/plugins/eventlist/macros.jinja2' import eventlist, nextevents with context %}
+{% set _ = plugins.eventlist.load('eventlist.yaml') %}
+
+{% block content %}
+	<div class="info">
+	<p>This is a demonstration of the eventlist plugin.</p>
+	<p>Define a list of events in a simple YAML text file. Type in the start and
+	end date of the event, and any more fields you like. See the file
+	<em>plugins/eventlist/eventlist.yaml</em> for details.
+	</p>
+	<p>With the built-in filter you can easily pick a specific year from list of
+	all events and display its events.
+	</p>
+	<p>The dates are localised. Try a different language setting in your browser
+	or append "<em>?_LOCALE_=it</em>" to the URL.
+	</p>
+	</div>
+	<h2>Calendar 2015</h2>
+	{{ eventlist(2015) }}
+	<p>&nbsp;</p>
+	<h2>Calendar 2016</h2>
+	{{ eventlist(2016) }}
+	<p>&nbsp;</p>
+	<hr>
+	<p>&nbsp;</p>
+	<div class="info">
+	<p>Or, pick just the upcoming events. You can specify how many events to pick
+	in the template.</p>
+	</div>
+	<h2>Upcoming Events</h2>
+	{{ nextevents(3) }}
+	</div>
+{% endblock %}

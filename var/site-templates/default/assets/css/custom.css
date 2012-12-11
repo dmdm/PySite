@@ -1,0 +1,98 @@
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+
+/**
+ * General font styles
+ */
+body {
+color:#000;
+font-family:sans serif;
+font-size:100%;
+line-height:1.6em;
+margin:0;
+padding:0;
+background-color: #fff;
+background-color: #a0522d;
+}
+
+h1 { font-size: 160%; }
+h2 { font-size: 130%; }
+h1, h2, h3 {
+color:#000;
+font-family:serif;
+font-style:italic;
+font-weight: normal;
+line-height: 1.6em;
+}
+
+
+/**
+ * Areas
+ */
+
+#page-container {
+	-webkit-box-sizing: border-box;
+	   -moz-box-sizing: border-box;
+	        box-sizing: border-box;
+	width: 960px;
+	padding: 0;
+	margin: 0 auto;
+}
+#content {
+	padding: 20px 46px 20px 46px;
+	background-color: #faf0e6;
+	-webkit-box-shadow: inset 4px 0px 8px 0px #999, inset -4px 0px 8px 0px #999 ;
+	        box-shadow: inset 4px 0px 6px 6px #a0522d, inset -4px 0px 6px 6px #a0522d ; 
+}
+
+nav.top-menu { padding: 12px 46px 12px 46px; }
+nav.top-menu a { display: inline-block; margin-right: 3em; color: #faf0e6; }
+
+a { color: #000; }
+
+.info {
+	border: solid 1px #a0522d;
+	padding: 0.5em 1em;
+	background-color: rgba(100, 100, 100, 0.2);
+	-webkit-border-radius: 6px;
+	        border-radius: 6px; 
+	text-shadow: 1px 1px 0px #eee;
+    filter: dropshadow(color=#eee, offx=1, offy=1);
+	font-family: monospace;
+	font-size: 120%;
+	font-weight: bold;
+}
+
+/* ===[ BEGIN PLUGIN EVENTLIST ]======= */
+
+.eventlist {
+	border-spacing: 0px;
+	width: 100%;
+}
+.eventlist tbody td {
+	font-size: 12px;
+	line-height: 1.4em;
+	border-top: solid 1px #aaa;
+	padding: 12px 6px 12px 6px;
+	padding-bottom: 12px;
+	width: 30%;
+}
+
+.evt-timespan { font-weight: bold; }
+.evt-contacts-title { font-style: italic; margin-top: 4px;}
+.evt-contacts { margin-left: .7em;}
+
+/* ===[ END PLUGIN EVENTLIST ]======= */
+
+
+
+
+
+/* ========================================================= */
+
+
+.zitat {
+	color: red;
+}

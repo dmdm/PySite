@@ -22,6 +22,7 @@ of its client API.
 .. image:: /img/filemanager.png
    :class: image
 
+Additional info can be found in `my blog <http://parenchym.com/pymblog/>`_.
 
 TOC
 ---

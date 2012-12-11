@@ -52,9 +52,9 @@ class Sites(object):
             msg = "Site not found: '{0}'".format(name)
             logger.error(msg)
             raise KeyError(msg)
-        fn = os.path.realpath(os.path.join(dir_, '..', name + '.yaml'))
+        fn = os.path.normpath(os.path.join(dir_, '..', name + '.yaml'))
         if not os.path.exists(fn):
-            msg = "Missing config file for site '{0}'".format(name)
+            msg = "Missing config file for site '{0}:{1}'".format(name, fn)
             logger.error(msg)
             raise KeyError(msg)
         return Site(self, name, dir_)
@@ -102,7 +102,7 @@ class Site(object):
         if rc:
             self.rc.update(rc)
         # Load master settings
-        fn = os.path.join(dir_, '..', name + '.yaml')
+        fn = os.path.normpath(os.path.join(dir_, '..', name + '.yaml'))
         with open(fn, 'r', encoding='utf-8') as fh:
             rc = yaml.load(fh, YamlLoader)
         if rc:

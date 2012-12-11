@@ -1,0 +1,58 @@
+{% macro timespan(evt) %}
+	{% if evt.date_from.year == evt.date_to.year %}
+		{% if evt.date_from.month == evt.date_to.month %}
+			{{bfmt.date(evt.date_from, format="d.")}}&ndash;{{bfmt.date(evt.date_to, format='d. MMMM y')}}
+		{% else %}
+			{{bfmt.date(evt.date_from, format="d. MMM")}}&ndash;{{bfmt.date(evt.date_to, format='d. MMMM y')}}
+		{% endif %}
+	{% else %}
+			{{bfmt.date(evt.date_from, format="d. MMM y")}}&ndash;{{bfmt.date(evt.date_to, format='d. MMM y')}}
+	{% endif %}
+{% endmacro %}
+
+{% macro eventrow(evt) %}
+		<tr>
+			<td>
+				{% if evt.location is defined %}<div class="evt-location">{{ evt.location }}</div>{% endif %}
+				<div class="evt-timespan">{{ timespan(evt) }}</div>
+				{% if evt.date_info is defined %}<div class="evt-date_info">{{ evt.date_info }}</div>{% endif %}
+			</td>
+			<td>
+				<div class="evt-title">{{ evt.title }}</div>
+				{% if evt.subtitle is defined %}<div class="evt-subtitle">{{ evt.subtitle }}</div>{% endif %}
+			</td>
+			<td>
+				{% if evt.address is defined %}<div class="evt-address">{{ evt.address |safe }}</div>{% endif %}
+				{% if evt.contacts is defined %}
+					<div class="evt-contacts-title">Contact:</div>
+					<div class="evt-contacts">
+						{% for ct in evt.contacts %}
+							<div class="evt-contacts-name">{{ ct.name }}</div>
+							<div class="evt-contacts-phone">{{ ct.phone }}</div>
+							<div class="evt-contacts-email">{{ ct.email }}</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</td>
+		</tr>
+{% endmacro %}
+
+{% macro eventlist(year) %}
+	<table class="eventlist">
+	<tbody>
+	{% for evt in plugins.eventlist.all_events(year) %}
+		{{ eventrow(evt) }}
+	{% endfor %}
+	</tbody>
+	</table>
+{% endmacro %}
+
+{% macro nextevents(n) %}
+	<table class="eventlist">
+	<tbody>
+	{% for evt in plugins.eventlist.next_events(n) %}
+		{{ eventrow(evt) }}
+	{% endfor %}
+	</tbody>
+	</table>
+{% endmacro %}

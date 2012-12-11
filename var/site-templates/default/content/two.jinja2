@@ -1,15 +1,13 @@
-{% extends "base.jinja2" %}
+{% extends "/layout/base.jinja2" %}
 
 {% block content %}
-
-<h1>{{ page.title }}</h1>
 
 <p><img src="{{ asset_url("img/grass-mud-horse.jpg") }}">
 </p>
 
 <p>Jump back to the
 <a href="{{ url('index') }}">front page</a> or <a href="{{ asset_url('img/weiwei.jpg') }}">look</a> at Jumping <del>Jack</del>
-<ins>Weiwei</ins> Flash.
+Weiwei Flash.
 </p>
 
 {% endblock %}

@@ -1,0 +1,7 @@
+styles:
+  contents:
+  - assets/css/normalize.css
+  - assets/css/main1.css
+  - assets/css/custom.css
+  - assets/css/main2.css
+  output: assets/css/styles.css

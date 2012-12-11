@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import os.path
+import markdown
 
 from   pyramid.config         import Configurator
 from   pyramid_beaker         import session_factory_from_settings
@@ -85,10 +86,41 @@ def includeme(config):
     config.add_static_view('static-pysite', 'pysite:static')
 
     # Add static views for assets directory of each site
-    add_site_assets(config)
+    _add_site_assets(config)
+
+    # Provide a markdown renderer
+    _add_markdown(config)
+
+
+def _add_markdown(config):
+        extensions = [
+            'abbr',
+            'attr_list',
+            'def_list',
+            'fenced_code',
+            'footnotes',
+            'smart_strong',
+            'tables',
+            'codehilite',
+            'sane_lists',
+            'toc'
+        ]
+        extension_configs = dict()
+        # We are calling markdown from a Jinja template which is intended to
+        # contain user written HTML, so do not use safe_mode here to escape raw
+        # HTML inside markdown.
+        opts = dict(
+            extensions=extensions,
+            extension_configs=extension_configs,
+            output_format='html5',
+            safe_mode=False
+        )
+        # Instanciate Markdown once per application and re-use it in each
+        # request
+        config.registry.pysite_markdown = markdown.Markdown(**opts)
 
     
-def add_site_assets(config):
+def _add_site_assets(config):
     sites_dir = config.registry.settings['sites_dir']
     for f in os.listdir(sites_dir):
         ff = os.path.join(sites_dir, f)

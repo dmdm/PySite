@@ -1,13 +1,14 @@
-{% extends "base.jinja2" %}
+{% extends "/layout/base.jinja2" %}
+{% set some_var="SOME VARIABLE" %}
 
 {% block content %}
 
-<h1>{{ page.title }}</h1>
-
-<h2>This site is derived from the default site template</h2>
+<h2>This site is derived from the default site template.</h2>
 
 <p>Lorem ipsum
 </p>
+
+<h3>födflkasöldfkasdf</h3>
 
 <p><img src="{{ asset_url("img/grass-mud-horse2.jpg") }}">
 </p>
@@ -15,5 +16,34 @@
 <p>If you do not grok what the depicted thing is,
 <a href="{{ url('two') }}">here</a> is another aspect of it.
 </p>
+
+
+{% filter markdown %}
+
+This is Markdown
+================
+
+dflkjahflafdf kwewer werj qwölkrjwöekr 
+{: #first-para .some-css-class data-foo="bar" }
+
+- aaa
+- bbb
+- ccc
+
+
+Col 1 | Col 2 | Right Aligned
+------|-------|--------------:
+cell1 | cell2 | 1000
+cell3 | cell4 |    12.45
+
+
+
+{{ some_var }}
+
+Markdown ends here
+------------------
+
+{% endfilter %}
+
 
 {% endblock %}

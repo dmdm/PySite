@@ -91,12 +91,15 @@ class Page(object):
         return self.page
 
     def _init_jinja(self):
-        self.tpldir = os.path.join(self.context.site.dir_, 'content')
+        site_dir = self.context.site.dir_
+        self.tpldir = os.path.join(site_dir, 'content')
         self.jjenv = Sandbox(
-            loader=jj.FileSystemLoader(self.tpldir, encoding='utf-8')
+            loader=jj.FileSystemLoader(site_dir, encoding='utf-8')
             , autoescape=True
             , auto_reload=True
         )
+        self.jjenv.filters['markdown'] = \
+            self.request.registry.pysite_markdown.convert
 
     def load(self, fn=None, jjglobals=None):
         """
@@ -111,7 +114,7 @@ class Page(object):
         """
         if not fn:
             dir_ = self.context.dir_.replace(self.tpldir, '')
-            fn = os.path.join(dir_,
+            fn = os.path.join(dir_, 'content',
                 self.context.__name__) + '.jinja2'
         if jjglobals:
             self.jjglobals.update(jjglobals)
@@ -172,3 +175,4 @@ class Page(object):
         if anchor:
             url += '#' + anchor
         return url
+

@@ -1,0 +1,141 @@
+# *************
+# The Eventlist
+# *************
+#
+# Basic Format
+# ============
+#
+# An eventlist is a YAML mapping. The field ``EVENTS`` contains the list of
+# events.
+#
+# Each event is a mapping which has at least fields ``date_from`` and ``date_to``.
+# Both dates must be strings, preferrably as ISO dates: YYYY-MM-DD.
+#
+# An event may have arbitrary additional fields. Their meaning depends on the
+# used Jinja template.
+#
+# The order of the fields or of events is not relevant. The list is
+# automatically sorted by ``date_from``.
+# 
+# Sample::
+# 
+#     EVENTS:
+#     - date_from: 2012-10-09
+#       date_to: 2012-10-12
+#       title: Breakfast by Tiffany
+#     - date_from: 2012-11-01
+#       date_to: 2012-11-30
+#       date_info: From dusk til dawn
+#       title: Call me November
+#       info: "<p>Yes, I am a real month.</br>Visit me next year, too!</p>"
+#
+#
+# Default Format
+# ==============
+#
+# Event Fields
+# ------------
+#
+# ``date_info``: (optional) A text line with additional information about the
+#              date.
+#              E.g.: "Do 16 Uhr - So 13 Uhr"
+#
+# ``title``:     Title of event
+#
+# ``subtitle``:  (optional) A subtitle
+#
+# ``location``:  The location.
+#              E.g. "Baden-Baden"
+#
+# ``address``:   (optional) A string with address information. Use HTML to format
+#              it.
+#              E.g. "Seminarhaus Breema<br />Obere Windeckstr. 20"
+#
+# ``contacts``:  (optional) A list of contacts (see below). Either an explicit
+#              contact mapping or a reference to a contact of the CONTACTS
+#              list.
+#
+#
+# Contacts
+# --------
+#
+# Each contact is a mapping with these fields:
+# 
+# ``email``: Email address
+#
+# ``name``:  Name of contact person
+#
+# ``phone``: A phone number
+#
+# To avoid redundancy, you may collect all contact mappings as a list of key
+# ``CONTACTS`` and inside an event refer to it with a YAML reference.
+#
+# E.g.:
+#
+#     CONTACTS:
+#     - &idFOO
+#       email: foo@example.com
+#       name: Mr. Foo
+#       phone: 555-7745
+#     EVENTS:
+#     - date_from: 2012-12-01
+#       date_to:   2012-12-02
+#       title: The Big Frobotz
+#       contacts:
+#       - *idFOO
+#
+    
+CONTACTS:
+- &id001
+  email: susi.sausebrett@example.com
+  name: Susi Sausebrett
+  phone: 001-555-1234
+- &id002
+  email: jonah.wales@example.com
+  name: Jonah Wales
+  phone: 001-555-8753
+- &id003
+  email: carol.wolpertinger@example.com
+  name: Carol Wolpertinger
+  phone: 001-555-2464
+EVENTS:
+- date_from: 2015-06-08
+  date_to: 2015-06-09
+  title: Super Weekend
+  location: Schweiz
+  contacts:
+  - *id001
+- date_from: 2015-06-21
+  date_to: 2015-06-25
+  title: Kanooing with Klaus
+  location: Rivendell
+  contacts:
+  - *id002
+- date_from: 2015-11-21
+  date_to: 2015-12-03
+  title: CROSS MONTH BOUNDARY
+- date_from: 2015-12-21
+  date_to: 2016-01-03
+  title: CROSS YEAR BOUNDARY
+- date_from: 2016-03-01
+  date_to: 2016-03-01
+  date_info: 19-22h
+  title: Birthday Lisa
+  location: Minas Tirith
+  contacts:
+  - *id003
+- date_from: 2016-03-29
+  date_to: 2016-04-05
+  title: Exciting Event
+  location: Livingroom
+  contacts:
+  - *id001
+- date_from: 2016-04-16
+  date_to: 2016-04-19
+  title: Jam with Knife and Spoon
+  subtitle: Musical
+  location: Badenweiler
+  address: Mosquito Bar<br />Lake View Ave 27
+  contacts:
+  - *id003
+  - *id001
