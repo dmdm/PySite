@@ -111,6 +111,8 @@ class Principal(DbBase, DefaultMixin):
         }
     )
 
+    FIND_ONE_FIELD = 'principal'
+
     is_enabled      = Column(Boolean, nullable=False, default=False)
     """Tells whether or not a (human) admin has en/disabled this account."""
     is_blocked      = Column(Boolean, nullable=False, default=False)
@@ -138,6 +140,7 @@ class Principal(DbBase, DefaultMixin):
     """Hmmm...?"""
     notes           = Column(UnicodeText)
     """Well, some notes."""
+
     # XXX Too bad: we cannot simply do roles.append(new_role), because
     #     when SA saves the modified principal, it just sets values for
     #     principal_id and role_id, not owner which is required:
@@ -151,6 +154,7 @@ class Principal(DbBase, DefaultMixin):
         backref="principals"
     )
     role_names = association_proxy('roles', 'name')
+
 
     @validates('email')
     def validate_email(self, key, email):
@@ -273,6 +277,8 @@ class Role(DbBase, DefaultMixin):
             #'schema': 'pym'
         }
     )
+
+    FIND_ONE_FIELD = 'name'
 
     name           = Column(Unicode(255), nullable=False, index=True, unique=True)
     notes          = Column(Unicode(255))

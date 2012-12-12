@@ -53,8 +53,9 @@ setup(name='PySite',
       [paste.app_factory]
       main = pysite:main
       [console_scripts]
-      pysite_init_db = pysite.scripts.initializedb:main
+      pysite-init-db = pysite.scripts.initializedb:main
       pysite = pysite.scripts.pysite:main
+      pysite-vmail = pysite.scripts.pysite_vmail:main
       """,
       )
 

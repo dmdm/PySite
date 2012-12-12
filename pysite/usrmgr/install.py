@@ -117,14 +117,12 @@ def setup_users(rc):
     sess.add(p)
     sess.flush()
 
-###     # XXX PostgreSQL only
-###     # Regular users have ID > 100
-###     #sess.execute('ALTER SEQUENCE pym.principal_id_seq RESTART WITH 101')
-###     sess.execute('ALTER SEQUENCE principal_id_seq RESTART WITH 101')
-###     # Regular roles have ID > 100
-###     #sess.execute('ALTER SEQUENCE pym.role_id_seq RESTART WITH 101')
-###     sess.execute('ALTER SEQUENCE role_id_seq RESTART WITH 101')
-###     sess.flush()
+    # XXX PostgreSQL only
+    # Regular users have ID > 100
+    sess.execute('ALTER SEQUENCE principal_id_seq RESTART WITH 101')
+    # Regular roles have ID > 100
+    sess.execute('ALTER SEQUENCE role_id_seq RESTART WITH 101')
+    sess.flush()
    
 ###     # Principal 'Foo' for testing
 ###     p = Principal(principal='foo',email='foo@localhost')

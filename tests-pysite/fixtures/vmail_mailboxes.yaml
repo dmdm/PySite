@@ -1,0 +1,20 @@
+- name: arawn
+  domain: annwn.local
+  pwd: arawn
+- name: manannan
+  domain: annwn.local
+  pwd: manannan
+
+- name: spock
+  domain: sol.local
+  pwd: spock
+- name: uhura
+  domain: sol.local
+  pwd: spock
+
+- name: g-kar
+  domain: centauri.local
+  pwd: g-kar
+- name: londo
+  domain: centauri.local
+  pwd: londo

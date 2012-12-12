@@ -91,6 +91,15 @@ def includeme(config):
     # Provide a markdown renderer
     _add_markdown(config)
 
+def _init_vmail(rc):
+    """
+    Inits vmail component.
+
+    Though I am declared as private, CLI scripts like tests
+    are allowed (and must) call me during their initialisation.
+    """
+    pysite.vmailmgr.manager.UID = rc.g('vmail.uid')
+    pysite.vmailmgr.manager.GID = rc.g('vmail.gid')
 
 def _add_markdown(config):
         extensions = [

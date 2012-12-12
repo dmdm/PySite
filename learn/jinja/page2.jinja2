@@ -1,0 +1,16 @@
+{% for i in range(5) -%}
+    {{ i }}: hello from jinja
+{% endfor %}
+
+{% set some_var="SOME VARIABLE" %}
+
+{% assets "12122", bar="baz", "555", foo, egon="susi", "ghghg", zip %}
+inside assets block BEGIN_URL {{ ASSET_URL|safe }} END_URL BEGIN_EXTRA {{ EXTRA }} END_EXTRA
+{{ some_var }}
+{% endassets %}
+
+{% filter markdown %}
+
+{% include "page2.inc.md" %}
+
+{% endfilter %}

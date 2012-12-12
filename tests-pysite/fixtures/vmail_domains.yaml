@@ -1,0 +1,6 @@
+- name: annwn.local
+  tenant: blue
+- name: sol.local
+  tenant: blue
+- name: centauri.local
+  tenant: red

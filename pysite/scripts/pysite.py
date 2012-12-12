@@ -418,6 +418,13 @@ class PySiteCli(object):
         - Delete roles (``pysite delete-role``)
         """)
 
+    def create_model(self):
+        # Import all modules with models here, so that
+        # create_all() notices them.
+        import pysite.models
+        import pysite.vmailmgr.models
+        pysite.models.create_all()
+
 
 def main(argv=sys.argv):
     cli = PySiteCli()
@@ -558,6 +565,11 @@ def main(argv=sys.argv):
     parser_delete_site = subparsers.add_parser('delete-site',
         help="Delete site")
     parser_delete_site.set_defaults(func=cli.delete_site)
+
+    # Parser cmd create-model
+    parser_create_model = subparsers.add_parser('create-model',
+        help="Create the DB model")
+    parser_create_model.set_defaults(func=cli.create_model)
 
     # Parse args and run command
     args = parser.parse_args()

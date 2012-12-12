@@ -41,7 +41,7 @@ class Renderer(object):
 
     def load(self, fn=None, jjglobals=None):
         if not fn:
-            fn = os.path.join(self.tpldir, 'page.jinja2')
+            fn = os.path.join(self.tpldir, 'page2.jinja2')
         if jjglobals:
             self.jjglobals.update(jjglobals)
         #import ipdb; ipdb.set_trace()

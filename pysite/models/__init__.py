@@ -7,7 +7,8 @@ from sqlalchemy import (
     Column,
     Integer,
     DateTime,
-    ForeignKey
+    ForeignKey,
+    event
 )
 from sqlalchemy.orm import (
     scoped_session,
@@ -49,11 +50,12 @@ class DefaultMixin(object):
     ctime    = Column(DateTime, server_default=func.current_timestamp(), nullable=False)
     """Timestamp, creation time."""
 
+    FIND_ONE_FIELD = None
+
     @declared_attr
     def owner(cls):
         """ID of user who created this record."""
         return Column(Integer,
-            #ForeignKey("pym.principal.id", onupdate="CASCADE", ondelete="RESTRICT"),
             ForeignKey("principal.id", onupdate="CASCADE", ondelete="RESTRICT"),
             nullable=False)
     
@@ -64,7 +66,6 @@ class DefaultMixin(object):
     def editor(cls):
         """ID of user who was last editor."""
         return Column(Integer,
-            #ForeignKey("pym.principal.id", onupdate="CASCADE", ondelete="RESTRICT"),
             ForeignKey("principal.id", onupdate="CASCADE", ondelete="RESTRICT"),
             nullable=True, onupdate=_get_current_user)
 
@@ -72,6 +73,30 @@ class DefaultMixin(object):
         from pysite.models import todict
         from pprint import pprint
         pprint(todict(self))
+        
+    @classmethod
+    def find_one(cls, criterion):
+        """
+        Some entities have besides the PK column another one that is unique and thus
+        can identify the entity. :meth:`find_one()` allows to load such an
+        entity by giving as ``criterion`` either the PK value (int) or a value
+        from that unique column (e.g. a str).
+
+        Since each model may have a different unique column, :attr:`FIND_ONE_FIELD`
+        denotes the name of that column. It is None if that model has no unique
+        column besides the PK.
+
+        E.g. a role can be identified by its ID (PK column) or by its name. So,
+        :meth:`find_one` loads either by ``Role.find_one(12)`` or by 
+        ``Role.find_one('wheel')``.
+        """
+        sess = DbSession()
+        if isinstance(criterion, int):
+            return sess.query(cls).get(criterion)
+        else:
+            fil = {cls.FIND_ONE_FIELD: criterion}
+            return sess.query(cls).filter_by(**fil).one()
+
 
 
 # ================================
@@ -96,6 +121,20 @@ def create_all():
 
 # ================================
 
+### # ===[ FOR SQLITE ]=======
+### @event.listens_for(DbEngine, "connect")
+### def set_sqlite_pragma(dbapi_connection, connection_record):
+###     """
+###     This is supposed to turn foreign key constraints on for SQLite, so that
+###     we can use SA's ``passive_delete=True``.
+### 
+###     XXX Alas, (at least from CLI scripts) we get an error:
+###     ``sqlalchemy.exc.InvalidRequestError: No such event 'connect' for target 'None'``
+###     """
+###     cursor = dbapi_connection.cursor()
+###     cursor.execute("PRAGMA foreign_keys=ON")
+###     cursor.close()
+### # ================================
 
 # ===[ HELPER ]===================
 

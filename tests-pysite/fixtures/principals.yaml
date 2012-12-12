@@ -1,0 +1,8 @@
+- principal: blue
+  display_name: Mr. Blue
+  email: blue@example.com
+  roles: [ annwn.de, sol.de ]
+- principal: red
+  display_name: Mr. Red
+  email: red@example.com
+  roles: [ centauri.local ]

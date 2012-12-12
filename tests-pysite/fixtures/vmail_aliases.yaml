@@ -1,0 +1,9 @@
+- name: info
+  domain: annwn.local
+  dest: arawn@annwn.local
+- name: info
+  domain: sol.local
+  dest: uhura@sol.local
+- name: info
+  domain: centauri.local
+  dest: g-kar@centauri.local

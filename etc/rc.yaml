@@ -27,6 +27,23 @@ i18n.avail_languages:
 # allow all languages
 - '*'
 
+# ---[ VMail ]-------
+
+# You may use the same Unix user for all virtual mail users.  E.g. the account
+# is "vmail" with UID 700. You must have created this account manually.
+vmail.uid: 700
+# You may use the same Unix group for all virtual mail users.  E.g. use the
+# standard group "mail" with GID 8 (on Debian).
+vmail.gid: 8
+# The root directory of your mailboxes
+vmail.root_dir: '/var/vmail'
+# User's home directory. If relative, root_dir is prepended.
+# You can use variables '{domain}' and '{user}'.
+vmail.home_dir: '{domain}/{user}'
+# User's mail directory. If relative, root_dir is prepended.
+# You can use variables '{domain}' and '{user}'.
+vmail.mail_dir: '{domain}/{user}'
+
 # ---[ PySite ]-------
 
 # The hosted sites are stored here (must be absolute path).
