@@ -7,8 +7,8 @@ from pysite.models import DbSession
 from pysite.usrmgr.models import (Principal)
 from pysite.vmailmgr.models import (Domain, Mailbox, Alias)
 
-MAX_MAILBOXES = 10
-MAX_ALIASES = 10
+MAX_MAILBOXES = 5
+MAX_ALIASES = 5
 QUOTA = 10
 UID = 700
 GID = 8

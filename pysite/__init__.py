@@ -98,8 +98,14 @@ def _init_vmail(rc):
     Though I am declared as private, CLI scripts like tests
     are allowed (and must) call me during their initialisation.
     """
-    pysite.vmailmgr.manager.UID = rc.g('vmail.uid')
-    pysite.vmailmgr.manager.GID = rc.g('vmail.gid')
+    pysite.vmailmgr.manager.UID = rc.g('vmail.uid', 700)
+    pysite.vmailmgr.manager.GID = rc.g('vmail.gid', 8)
+    pysite.vmailmgr.manager.MAX_MAILBOXES = rc.g('vmail.max_mailboxes', 5)
+    pysite.vmailmgr.manager.MAX_ALIASES = rc.g('vmail.max_aliases', 5)
+    pysite.vmailmgr.manager.QUOTA = rc.g('vmail.quota', 10)
+    pysite.vmailmgr.manager.ROOT_DIR = rc.g('vmail.root_dir', '/var/vmail')
+    pysite.vmailmgr.manager.HOME_DIR = rc.g('vmail.home_dir', '{domain}/{user}')
+    pysite.vmailmgr.manager.MAIL_DIR = rc.g('vmail.mail_dir', '{domain}/{user}')
 
 def _add_markdown(config):
         extensions = [
