@@ -26,19 +26,85 @@
 	<script src="${request.static_url('pysite:static/app/libs/ace/ace.js')}"></script>
 </%block>
 
+<div><a id="open-editor" href="#" onclick="open_editor($(this));">Editor</a>&nbsp;</div>
 <div id="elfinder"></div>
 
 <script>
+var pym_editors = {};
+function open_editor(o) {
+	var data = {
+			  mime: o.data('mime')
+			, filename: o.data('filename')
+			, hash: o.data('hash')
+		}
+		, url = '${request.resource_url(request.context, '@@editor')}'
+		, qq = []
+	;
+
+	for (var k in data) {
+		qq.push(encodeURIComponent(k) + '=' + encodeURIComponent(data[k])); 
+	}
+	url += '?' + qq.join('&');
+	if (pym_editors[data['hash']]) {
+		pym_editors[data['hash']].focus();
+	}
+	else {
+		var win = window.open(url, data['hash'],
+				 'resizable=yes,scrollbars=yes,status=yes,centerscreen=yes'
+			)
+        ;
+        win.onunload = function() {
+            for (var k in pym_editors) {
+                if (pym_editors[k] == this) {
+                    console.log('Deleting: ' + k);
+                    delete pym_editors[k];
+                    break;
+                }
+            }
+        };
+		pym_editors[data['hash']] = win;
+	}
+}
 var editor;
 require(['requirejs/domReady!', 'jquery', 'elfinder/elfinder.min', 'elfinder.commands.edit', 'elfinder/i18n/elfinder.de', 'elfinder/i18n/elfinder.en'],
 function(doc,                   $)
 {
+
+	$('#open-editor').hide();
 	var h = $('#pageContainer').height() - $('#pageHeaderWrapper').outerHeight()
 		- $('#pageFooterWrapper').outerHeight() - 10;
 	var elf = $('#elfinder').elfinder({
 		  lang: 'de'
 		, url : '${request.resource_url(request.context, '@@xhr_filemgr')}'
 		, height: h
+		, handlers : {
+			select : function(event, elfinderInstance) {
+				if (event.data.selected.length) {
+					var hash = event.data.selected[0]
+					    , file = elfinderInstance.files()[hash]
+					;
+					if (file.mime.match(/^text\//)) {
+						$('#open-editor')
+							.data('hash', file.hash)
+							.data('mime', file.mime)
+							.data('filename', file.name)
+							.text('Edit file "'+file.name+'"')
+							.show()
+						;
+						console.log(hash);
+						console.log(file);
+					}
+					else {
+						$('#open-editor').hide();
+					}
+				}
+			}
+		}
+	}).elfinder('instance');
+});
+</script>
+
+<%doc>
 		, commandsOptions: {
 			edit: {
 				editors: [
@@ -85,12 +151,4 @@ function(doc,                   $)
 				]
 			}
 		}
-		, handlers : {
-			select : function(event, elfinderInstance) {
-				console.log(event.data);
-				console.log(event.data.selected); // selected files hashes list
-			}
-		}
-	}).elfinder('instance');
-});
-</script>
+</%doc>
