@@ -6,16 +6,18 @@ from sqlalchemy.orm import (
     relationship,
     backref
 )
+import colander
 from pyramid.security import Allow
 
-import pysite.resmgr.abstractmodels
-from pysite.models import DbBase, DefaultMixin
+import pysite.lib
+from pysite.dd import apply_mixin
+from pysite.models import DbBase, DefaultMixin, DefaultMixinDd
 
-__all__ = ['Node', 'Domain', 'Mailbox', 'Alias']
+__all__ = ['Node', 'DomainDd', 'Domain', 'Mailbox', 'Alias']
 
 
-class Node(pysite.resmgr.abstractmodels.Node):
-    __name__ = 'VMailMgr'
+class Node(pysite.lib.BaseNode):
+    __name__ = 'vmailmgr'
     __acl__ = [
         (Allow, 'r:wheel', 'admin')
     ]
@@ -23,6 +25,107 @@ class Node(pysite.resmgr.abstractmodels.Node):
     def __init__(self, parent):
         super().__init__(parent)
         self._title = 'VMail Manager'
+
+
+DomainDd = {
+    # This must be the same as ``__tablename__`` in a SQLAlchemy declarative.
+    '__tablename__': 'vmail_domain',
+    # This must be the same as ``__schema__`` in the table args of a
+    # SQLAlchemy declarative.
+    '__schema__': '',
+    'name': {
+        'type': colander.Str(),
+        'title': "Name",
+        'widget': None,
+        'validator': colander.Length(max=100),
+        'colModel': {
+            'width': 200,
+            'editable': True
+        }
+    },
+    'tenant_id': {
+        'type': colander.Int(),
+        'missing': colander.null,
+        'title': 'TenantId',
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': False
+        }
+    },
+    # Query should map `tenant.display_name' to `tenant_display_name'
+    'tenant_display_name': {
+        'type': colander.String(),
+        'missing': colander.null,
+        'title': 'Tenant',
+        'widget': None,
+        'colModel': {
+            'width': 100,
+            'editable': False
+        }
+    },
+    'used_mailboxes': {
+        'type': colander.Int(),
+        'title': "Used Mailboxes",
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': False
+        }
+    },
+    'max_mailboxes': {
+        'type': colander.Int(),
+        'title': "Max Mailboxes",
+        'widget': None,
+        'validator': colander.Range(min=-1),
+        'colModel': {
+            'width': 50,
+            'editable': True
+        }
+    },
+    'used_aliases': {
+        'type': colander.Int(),
+        'title': "Used Aliases",
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': False
+        }
+    },
+    'max_aliases': {
+        'type': colander.Int(),
+        'title': "Max Aliases",
+        'widget': None,
+        'validator': colander.Range(min=-1),
+        'colModel': {
+            'width': 50,
+            'editable': True
+        }
+    },
+    'quota': {
+        'type': colander.Int(),
+        'title': "Quota [MB]",
+        'widget': None,
+        'validator': colander.Range(min=0),
+        'colModel': {
+            'width': 70,
+            'editable': True
+        }
+    },
+    'is_enabled': {
+        'type': colander.Bool(),
+        'title': "Enabled?",
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': True,
+            'edittype': 'checkbox',
+            'editoptions': {'value': "True:False"},
+            'formoptions': {'elmprefix': None}
+        }
+    }
+}
+apply_mixin(DomainDd, DefaultMixinDd)
 
 
 class Domain(DbBase, DefaultMixin):
@@ -79,16 +182,21 @@ class Domain(DbBase, DefaultMixin):
     """
     max_mailboxes = sa.Column(sa.Integer, default=10, nullable=False)
     """
-    Max mailboxes in this domain.
+    Max mailboxes in this domain. 0=No mailboxes allowed, -1=unlimited.
     """
     max_aliases = sa.Column(sa.Integer, default=10, nullable=False)
     """
-    Max aliases in this domain.
+    Max aliases in this domain. 0=No aliases allowed, -1=unlimited.
     """
     quota = sa.Column(sa.Integer, default=10, nullable=False)
     """
-    Default quota for a mailbox in MB. Max used space for domain defaults to
-    max_mailboxes*default_quota.
+    Default quota in MB for a single mailbox in this domain. Max used space for
+    domain defaults to max_mailboxes*quota.
+    """
+    is_enabled = sa.Column(sa.Boolean, nullable=False, default=True)
+    """
+    Tells whether this domain is enabled or not.
+    This affects all mailboxes in this domain.
     """
 
     def __str__(self):
@@ -109,7 +217,7 @@ class Mailbox(DbBase, DefaultMixin):
     """
     Name part of user's email address.
     """
-    pwd = sa.Column(sa.Unicode(32), nullable=False)
+    pwd = sa.Column(sa.Unicode(80), nullable=False)
     """
     Password.
     """
@@ -125,17 +233,13 @@ class Mailbox(DbBase, DefaultMixin):
     """
     Quota in MB.
     """
-    homedir = sa.Column(sa.Unicode(255), nullable=True)
+    home_dir = sa.Column(sa.Unicode(255), nullable=True)
     """
-    Home directory (relative part below vmail.root_dir).
+    Home directory (absolute path, needed for dovecot).
     """
-    abshomedir = sa.Column(sa.Unicode(255), nullable=True)
+    mail_dir = sa.Column(sa.Unicode(255), nullable=True)
     """
-    Absolute path to home directory, for dovecot.
-    """
-    absmaildir = sa.Column(sa.Unicode(255), nullable=True)
-    """
-    Absolute path to mail directory, for dovecot.
+    Mail directory( absolute path, needed for dovecot).
     """
     domain_id = sa.Column(
         sa.Integer,
@@ -145,6 +249,10 @@ class Mailbox(DbBase, DefaultMixin):
     )
     """
     ID of user's domain.
+    """
+    is_enabled = sa.Column(sa.Boolean, nullable=False, default=True)
+    """
+    Tells whether this mailbox is enabled or not.
     """
 
     def __str__(self):
@@ -177,6 +285,10 @@ class Alias(DbBase, DefaultMixin):
     dest = sa.Column(sa.Unicode(255), nullable=False)
     """
     Full email address of destination.
+    """
+    is_enabled = sa.Column(sa.Boolean, nullable=False, default=True)
+    """
+    Tells whether this alias is enabled or not.
     """
 
     def __str__(self):

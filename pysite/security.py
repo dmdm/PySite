@@ -1,11 +1,15 @@
 # coding: utf-8
 
+import re
+import hashlib
+
 from pyramid.security import unauthenticated_userid
 from pyramid.response import Response
 from pyramid.httpexceptions import HTTPFound
 from pyramid.view import forbidden_view_config
 
 from pysite.usrmgr.const import *
+from pysite.exc import PySiteError
 
 
 class AuthProviderFactory(object):
@@ -146,3 +150,46 @@ def forbidden_view(request):
         request.session.flash(request.url, queue='login_referrer')
         return HTTPFound(location=request.resource_url(
             request.context, '@@login'),)
+
+
+# https://github.com/django/django/blob/master/django/contrib/auth/hashers.py
+def encrypt_pwd(pwd, salt=None, scheme='PLAIN-MD5'):
+    scheme = scheme.upper()
+    try:
+        pwd = pwd.encode('utf-8')
+    except AttributeError:
+        pass # Already was byte string
+    if scheme == 'PLAIN':
+        salt = b''
+        hash = pwd
+    elif scheme == 'PLAIN-MD5':
+        salt = b''
+        hash = hashlib.md5(pwd).hexdigest()
+    else:
+        raise PySiteError("Unsupported encryption scheme: '{0}'".format(
+            scheme))
+    try:
+        scheme = scheme.encode('utf-8')
+    except AttributeError:
+        pass # Already was byte string
+    return (b'{' + scheme + b'}' + hash + salt).decode('utf-8')
+
+
+def check_pwd(pwd, enc_pwd, scheme='PLAIN-MD5'):
+    scheme = scheme.upper()
+    m = re.match(r'(\{'+scheme+'\})(.+)', enc_pwd)
+    if m:
+        scheme = m.group(1)
+        pwd = m.group(2)
+    else:
+        raise PySiteError(
+            "Invalid enc_pwd format. Should be '{SCHEME}HEX_OR_BASE64'.")
+    if scheme == 'PLAIN':
+        salt = b''
+    elif scheme == 'PLAIN-MD5':
+        salt = b''
+    else:
+        raise PySiteError("Unsupported encryption scheme: '{0}'".format(
+            scheme))
+    pwd_enc = encrypt_pwd(pwd, salt, scheme)
+    return (pwd_enc == enc_pwd)

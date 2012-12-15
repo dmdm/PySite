@@ -51,18 +51,18 @@ def main(global_config, **settings):
 
     return config.make_wsgi_app()
 
+
 def includeme(config):
-    # Init resource root
-    # Also init the sites_dir
+    # Init the SITES_DIR
     pysite.sitemgr.models.Sites.SITES_DIR = config.registry.settings['sites_dir']
+    # Init resource root
     config.set_root_factory(pysite.resmgr.root_factory)
-    
+
     # Init session
     session_factory = session_factory_from_settings(config.registry.settings)
     config.set_session_factory(session_factory)
-    
+
     # Init Auth and Authz
-    
     auth_pol = SessionAuthenticationPolicy(
         callback=pysite.security.group_finder
     )
@@ -78,10 +78,10 @@ def includeme(config):
 
     # Init DB
     pysite.models.init(config.registry.settings, 'db.pysite.sa.')
-    
+
     # Run scan() which also imports db models
     config.scan('pysite')
-    
+
     # Static assets for this project
     config.add_static_view('static-pysite', 'pysite:static')
 
@@ -91,6 +91,7 @@ def includeme(config):
     # Provide a markdown renderer
     _add_markdown(config)
 
+
 def _init_vmail(rc):
     """
     Inits vmail component.
@@ -98,44 +99,65 @@ def _init_vmail(rc):
     Though I am declared as private, CLI scripts like tests
     are allowed (and must) call me during their initialisation.
     """
-    pysite.vmailmgr.manager.UID = rc.g('vmail.uid', 700)
-    pysite.vmailmgr.manager.GID = rc.g('vmail.gid', 8)
-    pysite.vmailmgr.manager.MAX_MAILBOXES = rc.g('vmail.max_mailboxes', 5)
-    pysite.vmailmgr.manager.MAX_ALIASES = rc.g('vmail.max_aliases', 5)
-    pysite.vmailmgr.manager.QUOTA = rc.g('vmail.quota', 10)
-    pysite.vmailmgr.manager.ROOT_DIR = rc.g('vmail.root_dir', '/var/vmail')
-    pysite.vmailmgr.manager.HOME_DIR = rc.g('vmail.home_dir', '{domain}/{user}')
-    pysite.vmailmgr.manager.MAIL_DIR = rc.g('vmail.mail_dir', '{domain}/{user}')
+    pysite.vmailmgr.manager.UID = rc.g('vmail.uid',
+        pysite.vmailmgr.manager.UID)
+    pysite.vmailmgr.manager.GID = rc.g('vmail.gid',
+        pysite.vmailmgr.manager.GID)
+    pysite.vmailmgr.manager.MAX_MAILBOXES = rc.g('vmail.max_mailboxes',
+        pysite.vmailmgr.manager.MAX_MAILBOXES)
+    pysite.vmailmgr.manager.MAX_ALIASES = rc.g('vmail.max_aliases',
+        pysite.vmailmgr.manager.MAX_ALIASES)
+    pysite.vmailmgr.manager.QUOTA = rc.g('vmail.quota',
+        pysite.vmailmgr.manager.QUOTA)
+    pysite.vmailmgr.manager.ROOT_DIR = rc.g('vmail.root_dir',
+        pysite.vmailmgr.manager.ROOT_DIR)
+    pysite.vmailmgr.manager.HOME_DIR = rc.g('vmail.home_dir',
+        pysite.vmailmgr.manager.HOME_DIR)
+    pysite.vmailmgr.manager.MAIL_DIR = rc.g('vmail.mail_dir',
+        pysite.vmailmgr.manager.MAIL_DIR)
+
 
 def _add_markdown(config):
-        extensions = [
-            'abbr',
-            'attr_list',
-            'def_list',
-            'fenced_code',
-            'footnotes',
-            'smart_strong',
-            'tables',
-            'codehilite',
-            'sane_lists',
-            'toc'
-        ]
-        extension_configs = dict()
-        # We are calling markdown from a Jinja template which is intended to
-        # contain user written HTML, so do not use safe_mode here to escape raw
-        # HTML inside markdown.
-        opts = dict(
-            extensions=extensions,
-            extension_configs=extension_configs,
-            output_format='html5',
-            safe_mode=False
-        )
-        # Instanciate Markdown once per application and re-use it in each
-        # request
-        config.registry.pysite_markdown = markdown.Markdown(**opts)
+    """
+    Creates application-wide instance of Markdown.
 
-    
+    Instance of Markdown is stored in the registry, so we create it
+    once and can use it in each request: ``request.registry.pysite_markdown``.
+    """
+    extensions = [
+        'abbr',
+        'attr_list',
+        'def_list',
+        'fenced_code',
+        'footnotes',
+        'smart_strong',
+        'tables',
+        'codehilite',
+        'sane_lists',
+        'toc'
+    ]
+    extension_configs = dict()
+    # We are calling markdown from a Jinja template which is intended to
+    # contain user written HTML, so do not use safe_mode here to escape raw
+    # HTML inside markdown.
+    opts = dict(
+        extensions=extensions,
+        extension_configs=extension_configs,
+        output_format='html5',
+        safe_mode=False
+    )
+    # Instanciate Markdown once per application and re-use it in each
+    # request
+    config.registry.pysite_markdown = markdown.Markdown(**opts)
+
+
 def _add_site_assets(config):
+    """
+    Creates static route to the assets directory of each site.
+
+    The route name is ``stattic-`` appended with the site's name, e.g.
+    ``static-www.sample.com``.
+    """
     sites_dir = config.registry.settings['sites_dir']
     for f in os.listdir(sites_dir):
         ff = os.path.join(sites_dir, f)

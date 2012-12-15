@@ -1,12 +1,44 @@
+html,
+button,
+input,
+select,
+textarea {
+    font-family: sans-serif;
+}
+
+code,
+kbd,
+pre,
+samp {
+    font-family: monospace, serif;
+    _font-family: 'courier new', monospace;
+    font-size: 1em;
+}
+html {
+    font-size: 100%; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+    -ms-text-size-adjust: 100%; /* 2 */
+}
+
 .ui-pnotify {
 	font-size: 9pt;
 }
 .ui-pnotify-title { margin-top: 0px; }
+
 textarea.elfinder-file-edit {
 	font-family: monospace;
 	white-space: pre;
 	resize: none;
 }
+
+.ui-widget {
+	font: inherit;
+	/*
+	font-size: 90%;
+	font-family: Arial;
+	*/
+}
+
 
 
 /**

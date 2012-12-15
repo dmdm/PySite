@@ -10,6 +10,8 @@ ${parent.scripts()}
 <p>Welcome to ${meta_title()}</p>
 
 <ul>
+<li><a href="${request.resource_url(request.context.__parent__['sites'])}">Manage Sites</a></li>
 <li><a href="${request.resource_url(request.context['plugins'])}">Manage plugins</a></li>
 <li><a href="${request.resource_url(request.context.__parent__, '@@filemgr')}">File Manager</a></li>
+<li><a href="${request.resource_url(request.context['vmailmgr'])}">VMail Manager</a></li>
 </ul>

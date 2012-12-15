@@ -35,14 +35,16 @@ vmail.uid: 700
 # You may use the same Unix group for all virtual mail users.  E.g. use the
 # standard group "mail" with GID 8 (on Debian).
 vmail.gid: 8
-# The root directory of your mailboxes
+# The root directory of your mailboxes.
 vmail.root_dir: '/var/vmail'
-# User's home directory. If relative, root_dir is prepended.
-# You can use variables '{domain}' and '{user}'.
+# User's home directory. If relative, root_dir is prepended automatically.
+# You can use variables '{root}', '{domain}' and '{user}'.
+# This setting corresponds to Dovecot's "mail_home".
 vmail.home_dir: '{domain}/{user}'
-# User's mail directory. If relative, root_dir is prepended.
-# You can use variables '{domain}' and '{user}'.
-vmail.mail_dir: '{domain}/{user}'
+# User's mail directory. If relative, root_dir is prepended automatically.
+# You can use variables '{root}', '{domain}' and '{user}'.
+# This setting corresponds to Dovecot's "mail_location".
+vmail.mail_dir: '{domain}/{user}/Maildir'
 
 # ---[ PySite ]-------
 

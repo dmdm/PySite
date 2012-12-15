@@ -6,6 +6,7 @@ from pysite.exc import PySiteError
 from pysite.models import DbSession
 from pysite.usrmgr.models import (Principal)
 from pysite.vmailmgr.models import (Domain, Mailbox, Alias)
+import pysite.security
 
 MAX_MAILBOXES = 5
 MAX_ALIASES = 5
@@ -14,7 +15,8 @@ UID = 700
 GID = 8
 ROOT_DIR = '/var/vmail'
 HOME_DIR = '{domain}/{user}'
-MAIL_DIR = '{domain}/{user}'
+MAIL_DIR = '{domain}/{user}/Maildir'
+PASSWORD_SCHEME = 'PLAIN'
 
 
 def add_domain(data):
@@ -96,9 +98,10 @@ def add_mailbox(data):
     an instance of a Domain.
 
     Data fields:
-    - ``name``: Required
-    - ``owner``: Required
-    - ``domain``: Domain
+    - ``name``: Required. Str
+    - ``owner``: Required. ID of Principal.
+    - ``domain``: Required. Domain.
+    - ``pwd``: Required. Password.
 
     :param data: Dict with data fields
     :returns: Instance of created mailbox
@@ -108,20 +111,29 @@ def add_mailbox(data):
         dom = Domain.find_one(data['domain'])
     if len(dom.mailboxes) >= dom.max_mailboxes:
         raise PySiteError("Maximum number of mailboxes reached.")
+
+    if not data['pwd'].startswith('{'):
+        data['pwd'] = pysite.security.encrypt_pwd(data['pwd'], scheme=PASSWORD_SCHEME)
+
     if not 'uid' in data:
         data['uid'] = UID
     if not 'gid' in data:
         data['gid'] = GID
     if not 'quota' in data:
         data['quota'] = dom.quota
-    if not 'homedir' in data:
-        data['homedir'] = HOME_DIR.format(domain=dom.name, user=data['name'])
-    if not 'abshomedir' in data:
-        data['abshomedir'] = os.path.join(ROOT_DIR,
-            HOME_DIR.format(domain=dom.name, user=data['name']))
-    if not 'absmaildir' in data:
-        data['absmaildir'] = os.path.join(ROOT_DIR,
-            MAIL_DIR.format(domain=dom.name, user=data['name']))
+    
+    d = data['home_dir'] if 'home_dir' in data else HOME_DIR
+    d = d.format(root=ROOT_DIR, domain=dom.name, user=data['name'])
+    if not d.startswith(os.path.sep):
+        d = os.path.join(ROOT_DIR, d)
+    data['home_dir'] = d
+    
+    d = data['mail_dir'] if 'mail_dir' in data else MAIL_DIR
+    d = d.format(root=ROOT_DIR, domain=dom.name, user=data['name'])
+    if not d.startswith(os.path.sep):
+        d = os.path.join(ROOT_DIR, d)
+    data['mail_dir'] = d
+    
     mb = Mailbox()
     for k, v in data.items():
         if k == 'domain':

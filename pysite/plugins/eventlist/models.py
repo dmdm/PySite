@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-from pysite.resmgr import abstractmodels
+import pysite.lib
 
-class Node(abstractmodels.Node):
+class Node(pysite.lib.BaseNode):
     __name__ = 'eventlist'
 
     def __init__(self, parent):

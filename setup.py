@@ -10,6 +10,8 @@ requires = [
     'anyjson',
     'Babel',
     'blinker',
+    'colander',
+    'deform',
     'pyramid',
     'pyramid_beaker',
     'pyramid_debugtoolbar',

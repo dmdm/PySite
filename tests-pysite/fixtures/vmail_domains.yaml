@@ -4,3 +4,11 @@
   tenant: blue
 - name: centauri.local
   tenant: red
+- name: parenchym.com
+  tenant: red
+  max_mailboxes: 10
+  quota: 500
+- name: praxis-integrales-heilen.de
+  tenant: red
+  max_mailboxes: 10
+  quota: 500

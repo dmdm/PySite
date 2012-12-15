@@ -181,6 +181,35 @@
         $.pnotify(msg);
     }
 
+    my.grid = {
+        resize: function (grid) {
+            p = grid.closest('.ui-jqgrid').parent();
+            width = p.innerWidth();
+            grid.setGridWidth(width);
+        }
+        , doAfterSubmit: function (response, postdata) {
+            var resp = $.parseJSON(response.responseText);
+            var ok = resp.status;
+            $('.formError', '.ui-jqdialog').html('');
+            if (ok) {
+                var new_id = resp.new_id || null;
+                var msg = resp.msg || 'Ok';
+                return [ true, msg, new_id ];
+            }
+            else {
+                var msg = resp.msg || 'Errors';
+                //PYM.growlFlash([msg]);
+                var errors = resp.errors;
+                for (var k in errors) {
+                    var id = '#' + k.replace(/\./g, '-');
+                    var div_id = id + '-error';
+                    $(div_id).html(errors[k]);
+                }
+                return [ false, msg, null ];
+            }
+        }
+    };
+
     return my;
 }));
 
