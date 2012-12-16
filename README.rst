@@ -215,20 +215,20 @@ E.g.::
 
 	http://www.master-site.org/sites/www.my-site.org/@@filemgr
 
-Step 3 (todo)
+Step 3 (DONE)
 -------------
 
-Append ``/@@edit`` to a page's URL to enter edit mode of this page.
+Added ACE online code editor.
 
-Build UI to allow editing of contents in a more friendly wysiwyg manner.
+Started facilities to manage virtual mailboxes.
 
-Have in-line editing with "hallo" or "aloha" editor, like `Mezzanine`_.
-
-Maybe add ACE online code editor.
 
 Step 4..n (todo)
 ----------------
 
+- Append ``/@@edit`` to a page's URL to enter edit mode of this page.
+- Build UI to allow editing of contents in a more friendly wysiwyg manner.
+- Have in-line editing with "hallo" or "aloha" editor, like `Mezzanine`_.
 - Maybe integrate database
 - UI to manage sites, not only content, users, ACL etc.
 

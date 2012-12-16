@@ -1,9 +1,98 @@
-i18n
-####
+===========================
+Internationalisation (I18N)
+===========================
 
-The current locale is determined from the browser, either from its language settings,
-or by appending ``?_LOCALE_=de`` at the URL.
+How A Visitor Requests A Locale
+===============================
 
-PySite supports internationalisation of templates with `Babel <http://babel.edgewall.org/>`_.
+A visitor of your site may request a particular locale by either the language settings
+in her browser, or by appending the query field ``_LOCALE_`` to the URL, e.g.
+``http://www.example.com?_LOCALE_=it``.
 
-Currently, only a formatter is available in templates: ``bfmt`` (babel formatter)).
+You may specify the languages of your site in the site's rc file (file ``rc.yaml`` in
+the site's root directory), or you may allow all languages::
+
+	# This is a list of available languages, or [ '*' ]
+	# e.g. [ en, de, fr ]
+	i18n.avail_languages: [ it, fr, de, zh, ah ]
+	# This is the default language. It is used if the one given by the user
+	# could not be matched to a valid locale.
+	i18n.default_language: en
+
+
+Localised Formatting
+====================
+
+You have access to the matched locale from a template as ``locale``. ``locale.language``
+tells you the language name, and ``locale.territory`` tells you the territory (if set).
+See the Babel docs
+`about Locale <http://babel.edgewall.org/wiki/ApiDocs/babel.core#babel.core:Locale>`_
+for details.
+
+Additionally, ``bfmt`` provides you a formatter initialised with the current locale.
+Use it like this: ``{{bfmt.date(evt.date_to, format='d. MMMM y')}}``.
+See the Babel docs
+`about Formatter <http://babel.edgewall.org/wiki/ApiDocs/babel.support#babel.support:Format>`_
+for details. Here are examples concerning formatting of
+`dates <http://babel.edgewall.org/wiki/Documentation/dates.html>`_
+and `numbers <http://babel.edgewall.org/wiki/Documentation/numbers.html>`_.
+See also the Unicode Locale Data Markup Language (LDML) about formatting
+patterns for
+`dates <http://unicode.org/reports/tr35/#Date_Format_Patterns>`_ and
+`numbers <http://unicode.org/reports/tr35/#Number_Format_Patterns>`_.
+
+
+Content Negotiation
+===================
+
+Let's say, the address ``http://www.example.com/animals/bees`` shall
+provide an article in different languages.
+
+In the folder ``content/animals`` create a file ``bees.yaml`` and
+``bees.jinja2`` as usual. But now, you write your articles into
+separate files, e.g. ``bees-en.jinja2`` for the English version,
+``bees-it.jinja2`` for Italian and so on.
+
+Put this in the main file (``bees.jinja2``)::
+    
+    {% block content %}
+        {% if locale.language == 'it' %}
+            {% include "bees-it.jinja2" %}
+        {% elif locale.language == 'fr' %}
+            {% include "bees-fr.jinja2" %}
+        {% else %}
+            {# This will be the default #}
+            {% include "bees-en.jinja2" %}
+        {% endif %}
+    {% endblock %}
+
+
+Translated Strings
+==================
+
+To provide translated strings, you may use the ``load_config()`` function. Write
+a mapping of a slug to a string in a particular language into a YAML file, one
+file per language, like so:
+
+``messages-de.yaml``::
+
+    greeting: Hallo Welt
+
+``messages-en.yaml``::
+
+    greeting: Hello World
+
+Then load the messages into your template::
+        
+        {% if locale.language == 'de' %}
+            {% set msgs = load_config("messages-de.yaml") %}
+        {% elif locale.language == 'fr' %}
+            {% set msgs = load_config("messages-fr.yaml") %}
+        {% else %}
+            {# This will be the default #}
+            {% set msgs = load_config("messages-en.yaml") %}
+        {% endif %}
+        
+        {% block content %}
+            <p>In your language, you greet: {{msgs['greeting']}}
+        {% endblock %}

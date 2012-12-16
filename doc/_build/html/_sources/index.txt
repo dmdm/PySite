@@ -10,8 +10,15 @@ PySite is a system to host and manage multiple websites.
 
 It is not a CMS in the traditional sense. Rather, you manage the contents of a
 website via a filemanager interface, which gives you access to all
-settings, the pages, the styles, plugins, you name it. Create the pages with
-`Jinja <http://jinja.pocoo.org/>`_ templates.
+settings, the pages, the styles, plugins, you name it. Compose your pages with
+`Jinja <http://jinja.pocoo.org/>`_ templates, and edit your code comfortably
+with syntax highlighting in the `ACE <http://ace.ajax.org>`_ editor.
+
+PySite also contains a facility to manage virtual mailboxes, if you
+maintain your own SMTP and IMAP server, e.g. with
+`Postfix <http://www.postfix.org/>`_ and `Dovecot <http://www.dovecot.org/>`_.
+Websites and email domains are independent, so you can host mailboxes for
+domains that do not have a website, and vice versa.
 
 `Fork me on github <https://github.com/dmdm/PySite>`_.
 
@@ -22,7 +29,8 @@ of its client API.
 .. image:: /img/filemanager.png
    :class: image
 
-Additional info can be found in `my blog <http://parenchym.com/pymblog/>`_.
+Additional info can be found in `my blog <http://parenchym.com/pymblog/>`_,
+and here is the code of a `sample site <https://github.com/dmdm/PySite/tree/master/var/site-templates/default>`_.
 
 TOC
 ---
@@ -31,10 +39,11 @@ TOC
    :maxdepth: 1
 
    narr/installation
+   narr/templates
    narr/i18n
-   narr/designer_notes
-   Overview <https://github.com/dmdm/PySite/blob/master/README.rst>
-   hilfe
+   narr/plugins
+   Overview (draft) <https://github.com/dmdm/PySite/blob/master/README.rst>
+   Hilfe (German) <hilfe>
 
 Command Line Tools
 ..................

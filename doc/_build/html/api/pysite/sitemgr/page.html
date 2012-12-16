@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>pysite.sitemgr.page &mdash; PySite 0.1 documentation</title>
+    <title>pysite.sitemgr.page &mdash; PySite 0.3 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.1',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="PySite 0.1 documentation" href="../../../index.html" />
-    <link rel="next" title="TODOs" href="../../../todolist.html" />
-    <link rel="prev" title="pysite.sitemgr.models" href="../sitemgr/models.html" />
+    <link rel="top" title="PySite 0.3 documentation" href="../../../index.html" />
+    <link rel="next" title="pysite.sitemgr.models" href="../sitemgr/models.html" />
+    <link rel="prev" title="pysite.sitemgr" href="../sitemgr/init.html" />
 <link rel="stylesheet" href="../../../_static/pysite.css" type="text/css" media="screen" charset="utf-8" />
 
   </head>
@@ -42,12 +42,12 @@
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../../../todolist.html" title="TODOs"
+          <a href="../sitemgr/models.html" title="pysite.sitemgr.models"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../sitemgr/models.html" title="pysite.sitemgr.models"
+          <a href="../sitemgr/init.html" title="pysite.sitemgr"
              accesskey="P">previous</a> |</li>
-        <li><a href="../../../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../../../index.html">PySite 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -78,8 +78,8 @@ inside a Pyramid view:</p>
     <span class="k">return</span> <span class="n">Response</span><span class="p">(</span><span class="n">page</span><span class="o">.</span><span class="n">get_page</span><span class="p">())</span>
 </pre></div>
 </div>
-<p>The rendering environment by default is a sandbox, and the following globals
-are available in a template:</p>
+<p>The rendering environment by default is a sandbox, and the following
+globals are available in a template:</p>
 <ul class="simple">
 <li><cite>site</cite>:    Contains the settings of the site.
 Usage: <cite>{{ site.title }}</cite></li>
@@ -87,6 +87,7 @@ Usage: <cite>{{ site.title }}</cite></li>
 Usage: <cite>{{ page.keywords }}</cite></li>
 <li><cite>url()</cite>:   See <a class="reference internal" href="#pysite.sitemgr.page.Page.url" title="pysite.sitemgr.page.Page.url"><tt class="xref py py-meth docutils literal"><span class="pre">url()</span></tt></a></li>
 <li><cite>asset_url()</cite>: See <a class="reference internal" href="#pysite.sitemgr.page.Page.asset_url" title="pysite.sitemgr.page.Page.asset_url"><tt class="xref py py-meth docutils literal"><span class="pre">asset_url()</span></tt></a></li>
+<li>&#8216;load_config(): See <a class="reference internal" href="#pysite.sitemgr.page.Page.load_config" title="pysite.sitemgr.page.Page.load_config"><tt class="xref py py-meth docutils literal"><span class="pre">load_config()</span></tt></a></li>
 </ul>
 <p>It also sets these options:</p>
 <ul class="simple">
@@ -108,8 +109,8 @@ via a static route in Pyramid.</p>
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
 <li><strong>path</strong> &#8211; Path to a static asset, relative to the assets directory.</li>
-<li><strong>query</strong> &#8211; Optional data to build a query string. Internally is passed to
-<cite>urllib.parse.urlencode</cite>.</li>
+<li><strong>query</strong> &#8211; Optional data to build a query string. Internally is
+passed to <cite>urllib.parse.urlencode</cite>.</li>
 <li><strong>anchor</strong> &#8211; Optional an anchor name.</li>
 </ul>
 </td>
@@ -132,7 +133,8 @@ via a static route in Pyramid.</p>
 <col class="field-body" />
 <tbody valign="top">
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>jjglobals</strong> &#8211; A dict with additional globals; passed to <a class="reference internal" href="#pysite.sitemgr.page.Page.load" title="pysite.sitemgr.page.Page.load"><tt class="xref py py-meth docutils literal"><span class="pre">load()</span></tt></a>.</li>
+<li><strong>jjglobals</strong> &#8211; A dict with additional globals; passed to
+<a class="reference internal" href="#pysite.sitemgr.page.Page.load" title="pysite.sitemgr.page.Page.load"><tt class="xref py py-meth docutils literal"><span class="pre">load()</span></tt></a>.</li>
 <li><strong>jjcontext</strong> &#8211; A dict with additional settings for the rendering
 context; passed to <a class="reference internal" href="#pysite.sitemgr.page.Page.render" title="pysite.sitemgr.page.Page.render"><tt class="xref py py-meth docutils literal"><span class="pre">render()</span></tt></a>.</li>
 </ul>
@@ -149,7 +151,8 @@ context; passed to <a class="reference internal" href="#pysite.sitemgr.page.Page
 <dt id="pysite.sitemgr.page.Page.load">
 <tt class="descname">load</tt><big>(</big><em>fn=None</em>, <em>jjglobals=None</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a template.</p>
-<p>Populates attribute <a class="reference internal" href="#pysite.sitemgr.page.Page.jjtpl" title="pysite.sitemgr.page.Page.jjtpl"><tt class="xref py py-attr docutils literal"><span class="pre">jjtpl</span></tt></a> with an instance of the Jinja template.</p>
+<p>Populates attribute <a class="reference internal" href="#pysite.sitemgr.page.Page.jjtpl" title="pysite.sitemgr.page.Page.jjtpl"><tt class="xref py py-attr docutils literal"><span class="pre">jjtpl</span></tt></a> with an instance of the Jinja
+template.</p>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
 <col class="field-body" />
@@ -157,9 +160,39 @@ context; passed to <a class="reference internal" href="#pysite.sitemgr.page.Page
 <tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
 <li><strong>fn</strong> &#8211; Filename of the template. If omitted, it is built according
 to the current request&#8217;s context.</li>
-<li><strong>jjglobals</strong> &#8211; A dict with additional globals to pass to the template.
-If set, attribute <a class="reference internal" href="#pysite.sitemgr.page.Page.jjglobals" title="pysite.sitemgr.page.Page.jjglobals"><tt class="xref py py-attr docutils literal"><span class="pre">jjglobals</span></tt></a> is updated by these.</li>
+<li><strong>jjglobals</strong> &#8211; A dict with additional globals to pass to the
+template.  If set, attribute <a class="reference internal" href="#pysite.sitemgr.page.Page.jjglobals" title="pysite.sitemgr.page.Page.jjglobals"><tt class="xref py py-attr docutils literal"><span class="pre">jjglobals</span></tt></a> is updated by these.</li>
 </ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="pysite.sitemgr.page.Page.load_config">
+<tt class="descname">load_config</tt><big>(</big><em>fn</em>, <em>encoding='utf-8'</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.load_config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Loads a configuration file.</p>
+<p>YAML, JSON and INI format are supported.</p>
+<p>Usage:</p>
+<div class="highlight-python"><pre>{% set data = load_config(&quot;test.yaml&quot;) %}
+{% for k, v in data.items() %}
+    &lt;div&gt;Found key &quot;{{k}}&quot; with value &quot;{{v}}&quot;.&lt;/div&gt;
+{% endfor %}</pre>
+</div>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>fn</strong> &#8211; Name of configuration file. Path may be relative or absolute
+within the site.</li>
+<li><strong>encoding</strong> &#8211; Optional. Character set encoding of the configuration
+data.  Defaults to &#8216;utf-8&#8217;.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Loaded data structure, mostly list or dict.</p>
 </td>
 </tr>
 </tbody>
@@ -190,7 +223,8 @@ context. If set, attribute <a class="reference internal" href="#pysite.sitemgr.p
 request&#8217;s method <cite>resource_url()</cite> to create the URL. All
 optional keyword arguments are passed to <cite>resource_url()</cite>.</p>
 <p>Usage:</p>
-<div class="highlight-python"><pre>&lt;p&gt;Go to &lt;a href=&quot;{{ url(&quot;dir_1/dir_2/other_page&quot;) }}&quot;&gt;other page&lt;/a&gt;&lt;/p&gt;</pre>
+<div class="highlight-python"><pre>&lt;p&gt;Go to &lt;a href=&quot;{{ url(&quot;dir_1/dir_2/other_page&quot;) }}&quot;&gt;
+other page&lt;/a&gt;&lt;/p&gt;</pre>
 </div>
 <table class="docutils field-list" frame="void" rules="none">
 <col class="field-name" />
@@ -270,11 +304,11 @@ optional keyword arguments are passed to <cite>resource_url()</cite>.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../sitemgr/models.html"
-                        title="previous chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a></p>
+  <p class="topless"><a href="../sitemgr/init.html"
+                        title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">pysite.sitemgr</span></tt></a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../../../todolist.html"
-                        title="next chapter">TODOs</a></p>
+  <p class="topless"><a href="../sitemgr/models.html"
+                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../../_sources/api/pysite/sitemgr/page.txt"
@@ -307,12 +341,12 @@ optional keyword arguments are passed to <cite>resource_url()</cite>.</p>
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../../../todolist.html" title="TODOs"
+          <a href="../sitemgr/models.html" title="pysite.sitemgr.models"
              >next</a> |</li>
         <li class="right" >
-          <a href="../sitemgr/models.html" title="pysite.sitemgr.models"
+          <a href="../sitemgr/init.html" title="pysite.sitemgr"
              >previous</a> |</li>
-        <li><a href="../../../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../../../index.html">PySite 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

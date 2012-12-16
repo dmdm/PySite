@@ -27,7 +27,7 @@ requires = [
     ]
 
 setup(name='PySite',
-      version='0.1',
+      version='0.3',
       description='PySite',
       long_description=README + '\n\n' +  CHANGES,
       classifiers=[

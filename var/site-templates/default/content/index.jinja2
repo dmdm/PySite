@@ -17,6 +17,12 @@
 <a href="{{ url('two') }}">here</a> is another aspect of it.
 </p>
 
+<p>
+{% set data = load_config("test.yaml") %}
+{% for k, v in data.items() %}
+Found key "{{k}}" with value "{{v}}".<br>
+{% endfor %}
+</p>
 
 {% filter markdown %}
 

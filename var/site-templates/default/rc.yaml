@@ -1,4 +1,18 @@
 # Access these settings within templates like this:
 #     {{ site.title }}
 
+# The site's title
 title: Default Site
+
+# Tell PySite in which languages your site is available.
+# Use '*' to allow any language, or leave this setting undefined at all.
+# A client requests a particular language either by the languages setting
+# in her browser or by appending the query field '_LOCALE_' to the URL,
+# e.g. 'http://www.my-site.com?_LOCALE_=fr_FR'
+
+# This is a list of available languages, or [ '*' ]
+# e.g. [ en, de, fr ]
+#i18n.avail_languages: [ ]
+# This is the default language. It is used if the one given by the user
+# could not be matched to a valid locale.
+#i18n.default_language: en

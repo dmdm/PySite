@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>i18n &mdash; PySite 0.1 documentation</title>
+    <title>Internationalisation (I18N) &mdash; PySite 0.3 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +25,9 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySite 0.1 documentation" href="../index.html" />
-    <link rel="next" title="Formatting" href="designer_notes.html" />
-    <link rel="prev" title="Installation" href="installation.html" />
+    <link rel="top" title="PySite 0.3 documentation" href="../index.html" />
+    <link rel="next" title="Plugins" href="plugins.html" />
+    <link rel="prev" title="Templates" href="templates.html" />
 <link rel="stylesheet" href="../_static/pysite.css" type="text/css" media="screen" charset="utf-8" />
 
   </head>
@@ -42,12 +42,12 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="designer_notes.html" title="Formatting"
+          <a href="plugins.html" title="Plugins"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="installation.html" title="Installation"
+          <a href="templates.html" title="Templates"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySite 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -56,12 +56,89 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="i18n">
-<h1>i18n<a class="headerlink" href="#i18n" title="Permalink to this headline">¶</a></h1>
-<p>The current locale is determined from the browser, either from its language settings,
-or by appending <tt class="docutils literal"><span class="pre">?_LOCALE_=de</span></tt> at the URL.</p>
-<p>PySite supports internationalisation of templates with <a class="reference external" href="http://babel.edgewall.org/">Babel</a>.</p>
-<p>Currently, only a formatter is available in templates: <tt class="docutils literal"><span class="pre">bfmt</span></tt> (babel formatter)).</p>
+  <div class="section" id="internationalisation-i18n">
+<h1>Internationalisation (I18N)<a class="headerlink" href="#internationalisation-i18n" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="how-a-visitor-requests-a-locale">
+<h2>How A Visitor Requests A Locale<a class="headerlink" href="#how-a-visitor-requests-a-locale" title="Permalink to this headline">¶</a></h2>
+<p>A visitor of your site may request a particular locale by either the language settings
+in her browser, or by appending the query field <tt class="docutils literal"><span class="pre">_LOCALE_</span></tt> to the URL, e.g.
+<tt class="docutils literal"><span class="pre">http://www.example.com?_LOCALE_=it</span></tt>.</p>
+<p>You may specify the languages of your site in the site&#8217;s rc file (file <tt class="docutils literal"><span class="pre">rc.yaml</span></tt> in
+the site&#8217;s root directory), or you may allow all languages:</p>
+<div class="highlight-python"><pre># This is a list of available languages, or [ &#x27;*&#x27; ]
+# e.g. [ en, de, fr ]
+i18n.avail_languages: [ it, fr, de, zh, ah ]
+# This is the default language. It is used if the one given by the user
+# could not be matched to a valid locale.
+i18n.default_language: en</pre>
+</div>
+</div>
+<div class="section" id="localised-formatting">
+<h2>Localised Formatting<a class="headerlink" href="#localised-formatting" title="Permalink to this headline">¶</a></h2>
+<p>You have access to the matched locale from a template as <tt class="docutils literal"><span class="pre">locale</span></tt>. <tt class="docutils literal"><span class="pre">locale.language</span></tt>
+tells you the language name, and <tt class="docutils literal"><span class="pre">locale.territory</span></tt> tells you the territory (if set).
+See the Babel docs
+<a class="reference external" href="http://babel.edgewall.org/wiki/ApiDocs/babel.core#babel.core:Locale">about Locale</a>
+for details.</p>
+<p>Additionally, <tt class="docutils literal"><span class="pre">bfmt</span></tt> provides you a formatter initialised with the current locale.
+Use it like this: <tt class="docutils literal"><span class="pre">{{bfmt.date(evt.date_to,</span> <span class="pre">format='d.</span> <span class="pre">MMMM</span> <span class="pre">y')}}</span></tt>.
+See the Babel docs
+<a class="reference external" href="http://babel.edgewall.org/wiki/ApiDocs/babel.support#babel.support:Format">about Formatter</a>
+for details. Here are examples concerning formatting of
+<a class="reference external" href="http://babel.edgewall.org/wiki/Documentation/dates.html">dates</a>
+and <a class="reference external" href="http://babel.edgewall.org/wiki/Documentation/numbers.html">numbers</a>.
+See also the Unicode Locale Data Markup Language (LDML) about formatting
+patterns for
+<a class="reference external" href="http://unicode.org/reports/tr35/#Date_Format_Patterns">dates</a> and
+<a class="reference external" href="http://unicode.org/reports/tr35/#Number_Format_Patterns">numbers</a>.</p>
+</div>
+<div class="section" id="content-negotiation">
+<h2>Content Negotiation<a class="headerlink" href="#content-negotiation" title="Permalink to this headline">¶</a></h2>
+<p>Let&#8217;s say, the address <tt class="docutils literal"><span class="pre">http://www.example.com/animals/bees</span></tt> shall
+provide an article in different languages.</p>
+<p>In the folder <tt class="docutils literal"><span class="pre">content/animals</span></tt> create a file <tt class="docutils literal"><span class="pre">bees.yaml</span></tt> and
+<tt class="docutils literal"><span class="pre">bees.jinja2</span></tt> as usual. But now, you write your articles into
+separate files, e.g. <tt class="docutils literal"><span class="pre">bees-en.jinja2</span></tt> for the English version,
+<tt class="docutils literal"><span class="pre">bees-it.jinja2</span></tt> for Italian and so on.</p>
+<p>Put this in the main file (<tt class="docutils literal"><span class="pre">bees.jinja2</span></tt>):</p>
+<div class="highlight-python"><pre>{% block content %}
+    {% if locale.language == &#x27;it&#x27; %}
+        {% include &quot;bees-it.jinja2&quot; %}
+    {% elif locale.language == &#x27;fr&#x27; %}
+        {% include &quot;bees-fr.jinja2&quot; %}
+    {% else %}
+        {# This will be the default #}
+        {% include &quot;bees-en.jinja2&quot; %}
+    {% endif %}
+{% endblock %}</pre>
+</div>
+</div>
+<div class="section" id="translated-strings">
+<h2>Translated Strings<a class="headerlink" href="#translated-strings" title="Permalink to this headline">¶</a></h2>
+<p>To provide translated strings, you may use the <tt class="docutils literal"><span class="pre">load_config()</span></tt> function. Write
+a mapping of a slug to a string in a particular language into a YAML file, one
+file per language, like so:</p>
+<p><tt class="docutils literal"><span class="pre">messages-de.yaml</span></tt>:</p>
+<div class="highlight-python"><pre>greeting: Hallo Welt</pre>
+</div>
+<p><tt class="docutils literal"><span class="pre">messages-en.yaml</span></tt>:</p>
+<div class="highlight-python"><pre>greeting: Hello World</pre>
+</div>
+<p>Then load the messages into your template:</p>
+<div class="highlight-python"><pre>{% if locale.language == &#x27;de&#x27; %}
+    {% set msgs = load_config(&quot;messages-de.yaml&quot;) %}
+{% elif locale.language == &#x27;fr&#x27; %}
+    {% set msgs = load_config(&quot;messages-fr.yaml&quot;) %}
+{% else %}
+    {# This will be the default #}
+    {% set msgs = load_config(&quot;messages-en.yaml&quot;) %}
+{% endif %}
+
+{% block content %}
+    &lt;p&gt;In your language, you greet: {{msgs[&#x27;greeting&#x27;]}}
+{% endblock %}</pre>
+</div>
+</div>
 </div>
 
 
@@ -70,12 +147,23 @@ or by appending <tt class="docutils literal"><span class="pre">?_LOCALE_=de</spa
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Internationalisation (I18N)</a><ul>
+<li><a class="reference internal" href="#how-a-visitor-requests-a-locale">How A Visitor Requests A Locale</a></li>
+<li><a class="reference internal" href="#localised-formatting">Localised Formatting</a></li>
+<li><a class="reference internal" href="#content-negotiation">Content Negotiation</a></li>
+<li><a class="reference internal" href="#translated-strings">Translated Strings</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
-  <p class="topless"><a href="installation.html"
-                        title="previous chapter">Installation</a></p>
+  <p class="topless"><a href="templates.html"
+                        title="previous chapter">Templates</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="designer_notes.html"
-                        title="next chapter">Formatting</a></p>
+  <p class="topless"><a href="plugins.html"
+                        title="next chapter">Plugins</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/narr/i18n.txt"
@@ -108,12 +196,12 @@ or by appending <tt class="docutils literal"><span class="pre">?_LOCALE_=de</spa
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="designer_notes.html" title="Formatting"
+          <a href="plugins.html" title="Plugins"
              >next</a> |</li>
         <li class="right" >
-          <a href="installation.html" title="Installation"
+          <a href="templates.html" title="Templates"
              >previous</a> |</li>
-        <li><a href="../index.html">PySite 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySite 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -1,0 +1,228 @@
+
+
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <meta name="viewport" content="width=device-width">
+  		<title>DateiManager</title>
+		<meta name="description" content="This is PySite on Pyramid">
+		<meta name="keywords"    content="Python,PySite,Hosting,Web Site,Pyramid,Web Framework">
+		<meta name="author"      content="Dirk Makowski (http://parenchym.com)">
+		
+	
+        <link rel="stylesheet" href="http://localhost:6543/static-pysite/css/normalize.css">
+        <link rel="stylesheet" href="http://localhost:6543/static-pysite/css/base1.css">
+        <link rel="stylesheet" href="http://localhost:6543/static-pysite/app/libs/jquery/ui/themes/humanity/jquery-ui.css">
+        <link rel="stylesheet" href="http://localhost:6543/static-pysite/app/libs/jquery/ui/timepicker/timepicker.css">
+        <link rel="stylesheet" href="http://localhost:6543/static-pysite/app/libs/jquery/ui/pnotify/jquery.pnotify.default.css">
+        <link rel="stylesheet" href="http://localhost:6543/static-pysite/css/styles.css">
+        <link rel="stylesheet" href="http://localhost:6543/static-pysite/css/base2.css">
+		
+	<link rel="stylesheet" href="http://localhost:6543/static-pysite/app/libs/elfinder/css/elfinder.min.css">
+	<style>
+	#open-editor { text-decoration: none; }
+	</style>
+
+		<script>
+		
+	
+			var require = {
+				  baseUrl: 'http://localhost:6543/static-pysite/app'
+				  // Dependencies are loaded before any "require()"d libraries.
+				  // It seems we must use absolute URLs here.
+				, deps: [
+					'http://localhost:6543/static-pysite/app/libs/plugins.js'
+				]
+				, paths: {
+					  'jquery': 'libs/jquery/jquery'
+					, 'ui':     'libs/jquery/ui'
+					// Define a path for requirejs, as it makes loading its plugins more comfortable
+					, 'requirejs': 'libs/requirejs'
+				}
+				, shim: {
+					  'ui/jquery-ui':                  ['jquery']
+					, 'ui/timepicker/timepicker':      ['ui/jquery-ui']
+					, 'ui/pnotify/jquery.pnotify': ['ui/jquery-ui']
+				}
+				, waitSeconds: 15
+			};
+		
+	require.paths['elfinder'] = 'libs/elfinder/js';
+	require.shim['elfinder/elfinder.min'] = {
+		  deps: ['ui/jquery-ui']
+		, exports: 'elFinder' // The i18n files need this
+	};
+	// All i18n files depend on the elFinder instance from the main script
+	require.shim['elfinder/i18n/elfinder.de'] = ['elfinder/elfinder.min'];
+	require.shim['elfinder/i18n/elfinder.en'] = ['elfinder/elfinder.min'];
+	require.shim['elfinder.commands.edit'] = ['elfinder/elfinder.min'];
+
+		</script>
+		
+	
+			<script src="http://localhost:6543/static-pysite/app/libs/requirejs/require.js"></script>
+			<script>
+			require(['pym'], function(PYM) {
+				PYM.init({
+					huhu: "HUHUHUHU"
+				});
+			});
+			</script>
+		
+
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+        <![endif]-->
+
+		<div id="pageContainer"><!-- BEGIN #pageContainer -->
+
+			<div id="pageHeaderWrapper"><!-- BEGIN #pageHeaderContainer -->
+				
+				<header class="clearfix">
+				<table><tbody>
+					<tr>
+						<td><h1>DateiManager</h1></td>
+						<td id="userInfo">
+							<div id="userLogInOut">
+								<a href="http://localhost:6543/sites/www.default.local/@@logout">Logout</a>
+							</div>
+							<div id="userDisplayName">Root</div>
+						</td>
+						<td id="logo" rowspan="2">
+							<img class="img" src="http://localhost:6543/static-pysite/img/filemgr.png" border="0" alt="FileManager" />
+						</td>
+					</tr>
+					<tr class="row2">
+						<td id="breadcrumbs" colspan="2"><div id="breadcrumbs-inner">
+						
+
+<div class="breadcrumb"><a href="http://localhost:6543/">Home</a></div>
+<div class="breadcrumb"><a href="http://localhost:6543/sites/">Sites</a></div>
+<div class="breadcrumb"><a href="http://localhost:6543/sites/www.default.local/">Default Site</a></div>
+<div class="breadcrumb"><a href="None">filemgr</a></div>
+
+						</div></td>
+					</tr>
+				</tbody></table>
+				</header>
+				
+			</div><!-- END #pageHeaderContainer -->
+
+			<div id="content"><!-- BEGIN #content -->
+				  
+
+
+
+
+
+<div id="elfinder"></div>
+
+<script>
+var pym_editors = {};
+function open_editor(o) {
+	var data = {
+			  mime: o.data('mime')
+			, filename: o.data('filename')
+			, hash: o.data('hash')
+		}
+		, url = 'http://localhost:6543/sites/www.default.local/@@editor'
+		, qq = []
+	;
+
+	for (var k in data) {
+		qq.push(encodeURIComponent(k) + '=' + encodeURIComponent(data[k])); 
+	}
+	url += '?' + qq.join('&');
+	if (pym_editors[data['hash']]) {
+		pym_editors[data['hash']].focus();
+	}
+	else {
+		var win = window.open(url, data['hash'],
+				 'resizable=yes,scrollbars=yes,status=yes,centerscreen=yes,width=700,chrome=yes'
+			)
+        ;
+        win.onunload = function() {
+            for (var k in pym_editors) {
+                if (pym_editors[k] == this) {
+                    console.log('Deleting: ' + k);
+                    delete pym_editors[k];
+                    break;
+                }
+            }
+        };
+		pym_editors[data['hash']] = win;
+	}
+}
+var editor;
+require(['requirejs/domReady!', 'jquery', 'elfinder/elfinder.min', 'elfinder.commands.edit', 'elfinder/i18n/elfinder.de', 'elfinder/i18n/elfinder.en'],
+function(doc,                   $)
+{
+
+	var h = $('#pageContainer').height() - $('#pageHeaderWrapper').outerHeight()
+		- $('#pageFooterWrapper').outerHeight() - 10;
+	var elf = $('#elfinder').elfinder({
+		  lang: 'de'
+		, url : 'http://localhost:6543/sites/www.default.local/@@xhr_filemgr'
+		, height: h
+		, handlers : {
+			select : function(event, elfinderInstance) {
+				if (event.data.selected.length) {
+					var hash = event.data.selected[0]
+					    , file = elfinderInstance.files()[hash]
+					;
+					if (file.mime.match(/^text\//)) {
+						$('#open-editor')
+							.data('hash', file.hash)
+							.data('mime', file.mime)
+							.data('filename', file.name)
+							.text('Edit file "'+file.name+'"')
+						;
+						$('#open-editor-buttonset').show();
+						console.log(hash);
+						console.log(file);
+					}
+					else {
+						$('#open-editor-buttonset').hide();
+					}
+				}
+			}
+		}
+	}).elfinder('instance');
+	var elm = $('.elfinder-button-icon-help').closest('.elfinder-buttonset');
+	elm.after('<div id="open-editor-buttonset" class="ui-widget-content ui-corner-all elfinder-buttonset">'
+		+ '<a id="open-editor" class="ui-widget-header" href="#" onclick="open_editor($(this));">Editor</a>&nbsp;'
+		+ '</div>'
+	);
+	$('#open-editor-buttonset').hide();
+});
+</script>
+
+
+
+			</div><!-- END #content -->
+
+			<div id="pageFooterWrapper"><!-- BEGIN #pageFooterContainer -->
+				
+				<footer>
+					&copy;2012 by <a href="http://parenchym.com">Dirk Makowski</a>.
+					All rights reserved.
+				</footer>
+				
+			</div><!-- END #pageFooterContainer -->
+
+		</div><!-- END #pageContainer -->
+		<script>
+		require(['requirejs/domReady!', 'jquery', 'pym'], function(doc, $, PYM) {
+			
+
+		});
+		</script>
+    </body>
+</html>

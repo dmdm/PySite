@@ -25,6 +25,7 @@
         bottom: 0;
         left: 0;
     }
+	body { overflow: none; }
 ul#css3menu1 a.active { font-weight: bold; color: white; }
 
 ul#css3menu1 { width: 100%; line-height: 1.4; }
@@ -97,6 +98,7 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
         <ul>
           <li><a id="cmd-file-save" href="#">Save &lt;Ctrl-S&gt;</a></li>
           <li><a id="cmd-file-reload" href="#">Reload</a></li>
+          <li><a id="cmd-file-resize" href="#">Resize</a></li>
         </ul>
     </div>
   </li>
@@ -105,6 +107,7 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
         <ul>
           <li><a href="#" data-obj="session" data-func="UseSoftTabs">Soft Tabs</a></li>
           <li><a href="#" data-obj="editor" data-func="ShowInvisibles">Show Invisibles</a></li>
+          <li><a href="#" data-obj="session" data-func="UseWrapMode">Wrap Mode</a></li>
         </ul>
     </div>
   </li>
@@ -389,6 +392,9 @@ function(doc,                   $,        PYM)
             });
             $('#cmd-file-save').on('click', function (evt) {
                 save_file(true);
+            });
+            $('#cmd-file-resize').on('click', function (evt) {
+                editor.resize(true);
             });
         }
         

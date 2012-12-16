@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>PySite &mdash; PySite 0.1 documentation</title>
+    <title>PySite &mdash; PySite 0.3 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1',
+        VERSION:     '0.3',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PySite 0.1 documentation" href="#" />
+    <link rel="top" title="PySite 0.3 documentation" href="#" />
     <link rel="next" title="Installation" href="narr/installation.html" />
 <link rel="stylesheet" href="_static/pysite.css" type="text/css" media="screen" charset="utf-8" />
 
@@ -43,7 +43,7 @@
         <li class="right" >
           <a href="narr/installation.html" title="Installation"
              accesskey="N">next</a> |</li>
-        <li><a href="#">PySite 0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">PySite 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -57,23 +57,31 @@
 <p>PySite is a system to host and manage multiple websites.</p>
 <p>It is not a CMS in the traditional sense. Rather, you manage the contents of a
 website via a filemanager interface, which gives you access to all
-settings, the pages, the styles, plugins, you name it. Create the pages with
-<a class="reference external" href="http://jinja.pocoo.org/">Jinja</a> templates.</p>
+settings, the pages, the styles, plugins, you name it. Compose your pages with
+<a class="reference external" href="http://jinja.pocoo.org/">Jinja</a> templates, and edit your code comfortably
+with syntax highlighting in the <a class="reference external" href="http://ace.ajax.org">ACE</a> editor.</p>
+<p>PySite also contains a facility to manage virtual mailboxes, if you
+maintain your own SMTP and IMAP server, e.g. with
+<a class="reference external" href="http://www.postfix.org/">Postfix</a> and <a class="reference external" href="http://www.dovecot.org/">Dovecot</a>.
+Websites and email domains are independent, so you can host mailboxes for
+domains that do not have a website, and vice versa.</p>
 <p><a class="reference external" href="https://github.com/dmdm/PySite">Fork me on github</a>.</p>
 <p>PySite is built with the <a class="reference external" href="http://www.pylonsproject.org/">Pyramid framework</a> and
 uses <a class="reference external" href="http://elfinder.org/">elFinder</a> which connects to <a class="reference external" href="https://github.com/dmdm/Pym-elFinder">my implementation</a>
 of its client API.</p>
 <img alt="_images/filemanager.png" class="image" src="_images/filemanager.png" />
-<p>Additional info can be found in <a class="reference external" href="http://parenchym.com/pymblog/">my blog</a>.</p>
+<p>Additional info can be found in <a class="reference external" href="http://parenchym.com/pymblog/">my blog</a>,
+and here is the code of a <a class="reference external" href="https://github.com/dmdm/PySite/tree/master/var/site-templates/default">sample site</a>.</p>
 <div class="section" id="toc">
 <h2>TOC<a class="headerlink" href="#toc" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
 <li class="toctree-l1"><a class="reference internal" href="narr/installation.html">Installation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="narr/i18n.html">i18n</a></li>
-<li class="toctree-l1"><a class="reference internal" href="narr/designer_notes.html">Formatting</a></li>
-<li class="toctree-l1"><a class="reference external" href="https://github.com/dmdm/PySite/blob/master/README.rst">Overview</a></li>
-<li class="toctree-l1"><a class="reference internal" href="hilfe.html">Hilfe</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narr/templates.html">Templates</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narr/i18n.html">Internationalisation (I18N)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="narr/plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference external" href="https://github.com/dmdm/PySite/blob/master/README.rst">Overview (draft)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="hilfe.html">Hilfe (German)</a></li>
 </ul>
 </div>
 <div class="section" id="command-line-tools">
@@ -176,7 +184,7 @@ of its client API.</p>
         <li class="right" >
           <a href="narr/installation.html" title="Installation"
              >next</a> |</li>
-        <li><a href="#">PySite 0.1 documentation</a> &raquo;</li> 
+        <li><a href="#">PySite 0.3 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

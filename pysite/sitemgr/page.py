@@ -7,9 +7,11 @@ import jinja2.sandbox
 import pyramid.traversal
 
 import pysite.security
+import pysite.lib
+
 
 class Sandbox(jinja2.sandbox.SandboxedEnvironment):
-    pass #  TODO  Create a useful sandbox
+    pass  # TODO  Create a useful sandbox
 
 
 class Page(object):
@@ -33,8 +35,8 @@ class Page(object):
             page = Page(context, request)
             return Response(page.get_page())
 
-    The rendering environment by default is a sandbox, and the following globals
-    are available in a template:
+    The rendering environment by default is a sandbox, and the following
+    globals are available in a template:
 
     - `site`:    Contains the settings of the site.
       Usage: `{{ site.title }}`
@@ -42,6 +44,7 @@ class Page(object):
       Usage: `{{ page.keywords }}`
     - `url()`:   See :meth:`url`
     - `asset_url()`: See :meth:`asset_url`
+    - 'load_config(): See :meth:`load_config`
 
     It also sets these options:
 
@@ -57,10 +60,11 @@ class Page(object):
         self.jjenv = None
         """Instance of a Jinja environment"""
         self.jjglobals = dict(
-              site=context.site.rc
-            , page=context.rc
-            , url=self.url
-            , asset_url=self.asset_url
+            site=context.site.rc,
+            page=context.rc,
+            url=self.url,
+            asset_url=self.asset_url,
+            load_config=self.load_config
         )
         """Dict of variables that will globally be available in a template"""
         self.jjcontext = dict()
@@ -81,7 +85,8 @@ class Page(object):
         This function is for convenience, as it just encapsulates calls to
         :func:`load()` and :func:`render()`.
 
-        :param jjglobals: A dict with additional globals; passed to :meth:`load`.
+        :param jjglobals: A dict with additional globals; passed to
+            :meth:`load`.
         :param jjcontext: A dict with additional settings for the rendering
             context; passed to :meth:`render`.
         :returns: Rendered page as string.
@@ -94,9 +99,9 @@ class Page(object):
         site_dir = self.context.site.dir_
         self.tpldir = os.path.join(site_dir, 'content')
         self.jjenv = Sandbox(
-            loader=jj.FileSystemLoader(site_dir, encoding='utf-8')
-            , autoescape=True
-            , auto_reload=True
+            loader=jj.FileSystemLoader(site_dir, encoding='utf-8'),
+            autoescape=True,
+            auto_reload=True
         )
         self.jjenv.filters['markdown'] = \
             self.request.registry.pysite_markdown.convert
@@ -105,12 +110,13 @@ class Page(object):
         """
         Loads a template.
 
-        Populates attribute :attr:`jjtpl` with an instance of the Jinja template.
+        Populates attribute :attr:`jjtpl` with an instance of the Jinja
+        template.
 
         :param fn: Filename of the template. If omitted, it is built according
             to the current request's context.
-        :param jjglobals: A dict with additional globals to pass to the template.
-            If set, attribute :attr:`jjglobals` is updated by these.
+        :param jjglobals: A dict with additional globals to pass to the
+            template.  If set, attribute :attr:`jjglobals` is updated by these.
         """
         if not fn:
             dir_ = self.context.dir_.replace(self.tpldir, '')
@@ -143,7 +149,8 @@ class Page(object):
 
         Usage::
 
-            <p>Go to <a href="{{ url("dir_1/dir_2/other_page") }}">other page</a></p>
+            <p>Go to <a href="{{ url("dir_1/dir_2/other_page") }}">
+            other page</a></p>
 
         :param path: Relative path to another page, which is stored in site's
                      `content` directory.
@@ -164,8 +171,8 @@ class Page(object):
             <img src="{{ asset_url("img/grass-mud-horse2.jpg") }}">
 
         :param path: Path to a static asset, relative to the assets directory.
-        :param query: Optional data to build a query string. Internally is passed to
-                      `urllib.parse.urlencode`.
+        :param query: Optional data to build a query string. Internally is
+            passed to `urllib.parse.urlencode`.
         :param anchor: Optional an anchor name.
         :returns: Absolute URL to static asset
         """
@@ -176,3 +183,23 @@ class Page(object):
             url += '#' + anchor
         return url
 
+    def load_config(self, fn, encoding='utf-8'):
+        """
+        Loads a configuration file.
+        
+        YAML, JSON and INI format are supported.
+        
+        Usage::
+
+            {% set data = load_config("test.yaml") %}
+            {% for k, v in data.items() %}
+                <div>Found key "{{k}}" with value "{{v}}".</div>
+            {% endfor %}
+
+        :param fn: Name of configuration file. Path may be relative or absolute
+            within the site.
+        :param encoding: Optional. Character set encoding of the configuration
+            data.  Defaults to 'utf-8'.
+        :returns: Loaded data structure, mostly list or dict.
+        """
+        return pysite.lib.load_site_config(self.context.dir_, fn, encoding)
