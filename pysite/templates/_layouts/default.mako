@@ -40,7 +40,7 @@
 				, shim: {
 					  'ui/jquery-ui':                  ['jquery']
 					, 'ui/timepicker/timepicker':      ['ui/jquery-ui']
-					, 'ui/pnotify/jquery.pnotify.min': ['ui/jquery-ui']
+					, 'ui/pnotify/jquery.pnotify': ['ui/jquery-ui']
 				}
 				, waitSeconds: 15
 			};
@@ -48,6 +48,13 @@
 		</script>
 		<%block name="scripts">
 			<script src="${request.static_url('pysite:static/app/libs/requirejs/require.js')}"></script>
+			<script>
+			require(['pym'], function(PYM) {
+				PYM.init({
+					huhu: "HUHUHUHU"
+				});
+			});
+			</script>
 		</%block>
     </head>
     <body>
@@ -107,9 +114,6 @@
 		</div><!-- END #pageContainer -->
 		<script>
 		require(['requirejs/domReady!', 'jquery', 'pym'], function(doc, $, PYM) {
-			PYM.init({
-				huhu: "HUHUHUHU"
-			});
 			${pym.growl_flash()}
 		});
 		</script>

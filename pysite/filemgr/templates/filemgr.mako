@@ -50,7 +50,7 @@ function open_editor(o) {
 	}
 	else {
 		var win = window.open(url, data['hash'],
-				 'resizable=yes,scrollbars=yes,status=yes,centerscreen=yes'
+				 'resizable=yes,scrollbars=yes,status=yes,centerscreen=yes,width=700,chrome=yes'
 			)
         ;
         win.onunload = function() {

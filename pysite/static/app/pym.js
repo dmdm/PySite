@@ -3,7 +3,7 @@
         // AMD. Register as an anonymous module.
         define(function(require, exports, module) {
             var $ = require('jquery');
-            require('ui/pnotify/jquery.pnotify.min');
+            require('ui/pnotify/jquery.pnotify');
             // Also create a global in case some scripts
             // that are loaded still are looking for
             // a global even when an AMD loader is in use.

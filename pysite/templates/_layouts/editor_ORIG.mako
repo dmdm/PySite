@@ -47,13 +47,6 @@
 		</script>
 		<%block name="scripts">
 			<script src="${request.static_url('pysite:static/app/libs/requirejs/require.js')}"></script>
-			<script>
-			require(['pym'], function(PYM) {
-				PYM.init({
-					huhu: "HUHUHUHU"
-				});
-			});
-			</script>
 		</%block>
     </head>
     <body>
@@ -65,6 +58,9 @@
 
 		<script>
 		require(['requirejs/domReady!', 'jquery', 'pym'], function(doc, $, PYM) {
+			PYM.init({
+				huhu: "HUHUHUHU"
+			});
 			${pym.growl_flash()}
 		});
 		</script>
