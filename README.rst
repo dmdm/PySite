@@ -17,7 +17,7 @@ accessible with URLs like these::
 
 
 .. note:: More documentation is in directory "doc"
-	**and `online <http://3amcode.de/PySite/>`_.**
+	**and `online`_.**
 
 
 How to Build a Site
@@ -244,3 +244,4 @@ Step 4..n (todo)
 .. _Virtual Root Support: http://docs.pylonsproject.org/projects/pyramid/en/1.3-branch/narr/vhosting.html#virtual-root-support
 .. _Mezzanine: http://mezzanine.jupo.org/docs/inline-editing.html
 .. _blog: http://parenchym.com/pymblog/
+.. _online: http://3amcode.de/PySite/
