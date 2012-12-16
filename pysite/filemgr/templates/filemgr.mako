@@ -3,10 +3,8 @@
 <%block name="styles">
 	${parent.styles()}
 	<link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/elfinder/css/elfinder.min.css')}">
-	<link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/ace/css/editor.css')}">
 	<style>
-	#content { padding-left: 0px; padding-right: 0px; }
-	#editor { width: 100%; height: 100%; border: solid 2px red;}
+	#open-editor { text-decoration: none; }
 	</style>
 </%block>
 <%block name="require_config">
@@ -23,10 +21,8 @@
 </%block>
 <%block name="scripts">
 	${parent.scripts()}
-	<script src="${request.static_url('pysite:static/app/libs/ace/ace.js')}"></script>
 </%block>
 
-<div><a id="open-editor" href="#" onclick="open_editor($(this));">Editor</a>&nbsp;</div>
 <div id="elfinder"></div>
 
 <script>
@@ -70,7 +66,6 @@ require(['requirejs/domReady!', 'jquery', 'elfinder/elfinder.min', 'elfinder.com
 function(doc,                   $)
 {
 
-	$('#open-editor').hide();
 	var h = $('#pageContainer').height() - $('#pageHeaderWrapper').outerHeight()
 		- $('#pageFooterWrapper').outerHeight() - 10;
 	var elf = $('#elfinder').elfinder({
@@ -89,18 +84,24 @@ function(doc,                   $)
 							.data('mime', file.mime)
 							.data('filename', file.name)
 							.text('Edit file "'+file.name+'"')
-							.show()
 						;
+						$('#open-editor-buttonset').show();
 						console.log(hash);
 						console.log(file);
 					}
 					else {
-						$('#open-editor').hide();
+						$('#open-editor-buttonset').hide();
 					}
 				}
 			}
 		}
 	}).elfinder('instance');
+	var elm = $('.elfinder-button-icon-help').closest('.elfinder-buttonset');
+	elm.after('<div id="open-editor-buttonset" class="ui-widget-content ui-corner-all elfinder-buttonset">'
+		+ '<a id="open-editor" class="ui-widget-header" href="#" onclick="open_editor($(this));">Editor</a>&nbsp;'
+		+ '</div>'
+	);
+	$('#open-editor-buttonset').hide();
 });
 </script>
 
