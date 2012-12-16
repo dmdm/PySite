@@ -16,7 +16,8 @@ accessible with URLs like these::
     http://www.site_2.org/index
 
 
-.. note:: More documentation is in directory "doc".
+.. note:: More documentation is in directory "doc" and
+	**`online <http://3amcode.de/PySite/>`_**
 
 
 How to Build a Site
