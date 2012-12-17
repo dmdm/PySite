@@ -175,6 +175,14 @@ class Page(object):
             passed to `urllib.parse.urlencode`.
         :param anchor: Optional an anchor name.
         :returns: Absolute URL to static asset
+
+        .. todo:: Add a signal, so that plugins can hook into the creation
+            of the static URL and trigger e.g. cimpilation of LESSCSS or
+            sth. like this.
+
+            If hook returns its generated URL, no more hooks shall be
+            signaled. If hook returns None, the next hook is signaled.
+            If all hooks returned None, the default generation takes place.
         """
         url = "/static-" + self.context.site.__name__ + '/' + path
         if query:
