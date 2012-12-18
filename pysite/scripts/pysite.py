@@ -359,7 +359,7 @@ class PySiteCli(object):
             for e in err:
                 print("-", e)
         for sitename in dirs:
-            info = sitemgr.check_site(sites_dir, sitename)
+            info = sitemanager.check_site(sites_dir, sitename)
             print("\nSite " + bright(sitename) + ":")
             if info['rc'] is not None:
                 print("Settings:")
@@ -377,7 +377,7 @@ class PySiteCli(object):
         from pysite.ansi import color, error, warn, bright
         from glob import glob
         if self._args.data == 'help':
-            print(sitemgr.add_site.__doc__)
+            print(sitemanager.add_site.__doc__)
             return
         data = self._parse(self._args.data)
         sites_dir = self._rc.g('sites_dir')

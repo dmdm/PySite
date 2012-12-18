@@ -183,7 +183,8 @@ def init_cli_locale(locale_name, print_info=False):
             locale.setlocale(locale.LC_ALL, '')
         else:
             locale.setlocale(locale.LC_ALL, 'en_GB.utf8')
-    lang_code, encoding = locale.getlocale(locale.LC_ALL)
+    #lang_code, encoding = locale.getlocale(locale.LC_ALL)
+    lang_code, encoding = locale.getlocale(locale.LC_CTYPE)
     # If output goes to pipe, detach stdout to allow writing binary data.
     # See http://docs.python.org/3/library/sys.html#sys.stdout
     if not sys.stdout.isatty():

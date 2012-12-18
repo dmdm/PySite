@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+	<title>Foo</title>
+    <link rel="stylesheet" href="normalize.css">
+    <link rel="stylesheet" href="jquery-ui.css">
+    <link rel="stylesheet" href="jPicker.css">
+
+	<script src="query.js"></script>
+	<script src="jquery-ui.js"></script>
+	<script src="jpicker.js"></script>
+</head>
+<body>
+
+<div id="picker"></div>
+
+<script>
+$('#picker').jPicker({
+	images: { clientPath: '/images' }
+});
+</script>
+</body>
+</html>

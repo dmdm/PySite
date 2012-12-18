@@ -2,8 +2,8 @@
 <%block name="meta_title">DateiManager</%block>
 <%block name="styles">
     ${parent.styles()}
-    <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/elfinder/css/elfinder.min.css')}">
     <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/ace/css/editor.css')}">
+    <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jpicker/jpicker-1.css')}">
 <style type="text/css" media="screen">
     #topmenu {
         border: outset 1px gray;
@@ -85,6 +85,7 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
 </style></%block>
 <%block name="require_config">
     ${parent.require_config()}
+	require.shim['libs/jpicker/jpicker'] = ['ui/jquery-ui'];
 </%block>
 <%block name="scripts">
     ${parent.scripts()}
@@ -93,13 +94,12 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
 
 <nav id="topmenu">
 <ul id="css3menu1" class="topmenu">
-  <li class="topmenu"><a href="#" id="cmd-reload" style="height:24px;line-height:24px;">File</a>
+  <li class="topmenu"><a href="#" style="height:24px;line-height:24px;">File</a>
     <div class="submenu" style="width:200px;">
         <ul>
           <li><a id="cmd-file-save" href="#">Save &lt;Ctrl-S&gt;</a></li>
           <li><a id="cmd-file-save_sassc" href="#">Save &amp; compile Sass &lt;Alt-S&gt;</a></li>
           <li><a id="cmd-file-reload" href="#">Reload</a></li>
-          <li><a id="cmd-file-resize" href="#">Resize</a></li>
         </ul>
     </div>
   </li>
@@ -227,15 +227,53 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
       </div>
     </div>
   </li>
+  <li class="toproot"><a href="#" style="height:24px;line-height:24px;">Tools</a>
+    <div class="submenu" style="width:200px;">
+        <ul>
+          <li><a id="cmd-color-picker" href="#">Color Picker</a></li>
+          <li><a id="cmd-resize" href="#">Resize</a></li>
+        </ul>
+    </div>
+  </li>
 </ul>
 </nav>
 
 <div id="editor"></div>
 
 <script>
-require(['requirejs/domReady!', 'jquery', 'pym' ],
+require(['requirejs/domReady!', 'jquery', 'pym', 'libs/jpicker/jpicker' ],
 function(doc,                   $,        PYM)
 {
+	$('#cmd-color-picker').jPicker({
+		window: {
+			expandable: true
+			, position: {
+				y: 'bottom'
+			}
+			, alphaSupport: true 
+			, alphaPrecision: 2
+			, effects: {
+				speed: {
+					show: 'fast'
+					, hide: 'fast'
+				}
+			}
+		}
+		, color: {
+			alphaSupport: true
+			, active: new $.jPicker.Color({ ahex: '99330099' })
+		}
+		, images: {
+			clientPath: '${request.static_url('pysite:static/app/libs/jpicker/images/')}'
+		}
+	}
+	// commit callback
+	, function (color, context) {
+		var edi = PYM.editor.get_editor();
+		edi.insert(color.val('ahex'));
+		edi.focus();
+	}
+	);
     PYM.editor = function ($) {
         /**
          * Private
@@ -345,6 +383,13 @@ function(doc,                   $,        PYM)
                     save_file(true, true);
                 }
             });
+			editor.getSession().selection.on('changeSelection', function(evt) {
+				var sel = editor.session.getTextRange(editor.getSelectionRange());
+				if (sel.match(/^#?[0-9a-f]+$/i)) {
+					console.log('color:' + sel);
+					$.jPicker.List[0].color.active.val('ahex', sel);
+				}
+			});
         }
 
         function set_mode(m) {
@@ -413,8 +458,11 @@ function(doc,                   $,        PYM)
             $('#cmd-file-save_sassc').on('click', function (evt) {
                 save_file(true, true);
             });
-            $('#cmd-file-resize').on('click', function (evt) {
+            $('#cmd-resize').on('click', function (evt) {
                 editor.resize(true);
+            });
+            $('#cmd-color-picker').on('click', function (evt) {
+                alert('click');
             });
         }
         
@@ -465,6 +513,10 @@ function(doc,                   $,        PYM)
             load_file();
             init_menu_options();
         }
+
+		my.get_editor = function () {
+			return editor;
+		}
 
         return my;
     }($);

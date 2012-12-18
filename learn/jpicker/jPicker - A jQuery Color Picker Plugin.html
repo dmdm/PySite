@@ -1,0 +1,943 @@
+<!--?xml version="1.0" encoding="UTF-8"?-->
+<!DOCTYPE html PUBLIC "-//www.digitalmagicpro.com//DTD XHTML 1.1 plus DMP 1.0//EN" "http://www.digitalmagicpro.com/DTD/xhtml-dmp-1.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" xmlns:dmp="http://www.digitalmagicpro.com/intellisense/dmp-validators"><head>
+  <title>jPicker - A jQuery Color Picker Plugin</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="Content-Script-Type" content="text/javascript">
+  <meta name="Description" content="Demonstration And Documentation For jPicker, A jQuery Color Picker Plugin">
+  <meta name="Keywords" content="jQuery Color Picker,jQuery,jPicker,Plugin,Demo,Documentation,Javascript Color Picker">
+  <link rel="shortcut icon" href="http://www.digitalmagicpro.com/favicon.ico">
+  <link type="text/css" rel="stylesheet" href="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/reset-min.css">
+  <link type="text/css" rel="Stylesheet" href="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/jquery-ui-1.css">
+  <link type="text/css" rel="stylesheet" href="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/DigitalMagic.css">
+  <link type="text/css" rel="stylesheet" href="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/jPicker.css">
+  <link type="text/css" rel="stylesheet" href="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/jpicker-1.css">
+</head>
+<body><div style="display: none; left: 512px; position: absolute; top: 980.317px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Expandable Example</h2><div style="background-color: rgb(255, 204, 0);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: hidden;" class="Map3">&nbsp;</span><img style="left: 249px; top: -7px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 218px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(255, 204, 0); visibility: visible;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(255, 204, 0); visibility: visible;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="48" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="100" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="100" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="255" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="204" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="0" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="ffcc00" type="text"></label>&nbsp;</td></tr></tbody></table></div><div style="display: none; left: 512px; position: absolute; top: 1391.32px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Alpha (Transparency) Example)</h2><div style="background-color: rgb(255, 84, 0);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: visible; opacity: 0.4;" class="Map3">&nbsp;</span><img style="left: 249px; top: 95px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: visible; opacity: 0.4;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 238px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(153, 51, 0); visibility: visible; opacity: 0.6;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(153, 51, 0); visibility: visible; opacity: 0.6;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="20" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="100" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="60" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="153" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="51" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="0" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio"><label title="Set To “Alpha” Color Mode"><input value="a" type="radio">A:</label></td><td class="Text"><input maxlength="5" value="60" title="Enter A “Alpha” Value (0-100)" type="text">&nbsp;%</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="993300" type="text"></label><input maxlength="2" class="AHex" value="99" title="Enter A “Alpha” Value (#00-#ff)" type="text"></td></tr></tbody></table></div><div style="display: none; left: 512px; position: absolute; top: 1664.32px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Binded Example</h2><div style="background-color: rgb(255, 187, 0);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: hidden;" class="Map3">&nbsp;</span><img style="left: 13px; top: 23px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 221px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="44" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="8" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="88" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="226" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="221" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="207" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="e2ddcf" type="text"></label>&nbsp;</td></tr></tbody></table></div><div style="display: none; left: 512px; position: absolute; top: 1963.32px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Multiple Binded Example</h2><div style="background-color: rgb(255, 187, 0);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: hidden;" class="Map3">&nbsp;</span><img style="left: 13px; top: 23px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 221px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="44" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="8" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="88" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="226" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="221" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="207" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="e2ddcf" type="text"></label>&nbsp;</td></tr></tbody></table></div><div style="display: none; left: 512px; position: absolute; top: 1992.32px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Multiple Binded Example</h2><div style="background-color: transparent;" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;);" class="Map3">&nbsp;</span><img src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: transparent;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: transparent; visibility: hidden;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" type="text"></label>&nbsp;</td></tr></tbody></table></div><div style="display: none; left: 512px; position: absolute; top: 2021.32px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Multiple Binded Example</h2><div style="background-color: rgb(255, 0, 238);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: hidden;" class="Map3">&nbsp;</span><img style="left: 85px; top: -5px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 36px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(253, 160, 247); visibility: visible;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(253, 160, 247); visibility: visible;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="304" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="36" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="99" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="253" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="160" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="247" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="fda0f7" type="text"></label>&nbsp;</td></tr></tbody></table></div><div style="display: none; left: 512px; position: absolute; top: 2749.32px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Callback Example</h2><div style="background-color: rgb(255, 187, 0);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: hidden;" class="Map3">&nbsp;</span><img style="left: 13px; top: 23px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 221px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="44" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="8" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="88" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="226" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="221" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="207" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="e2ddcf" type="text"></label>&nbsp;</td></tr></tbody></table></div><div style="display: none; left: 512px; position: absolute; top: 3490.32px;" class="jPicker Container"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td class="Move" colspan="5">&nbsp;</td></tr><tr><td rowspan="9"><h2 class="Title">Color Interaction Example</h2><div style="background-color: rgb(255, 187, 0);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: hidden;" class="Map3">&nbsp;</span><img style="left: 13px; top: 23px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 221px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(226, 221, 207); visibility: visible;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="44" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="8" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="88" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="226" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="221" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="207" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="e2ddcf" type="text"></label>&nbsp;</td></tr></tbody></table></div><div id="divPopup" style="background:#666;border:1px solid #ddd;display:none;max-width:700px;padding:0px;position:absolute;z-index:200"><img id="imgPopup" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/ajax-loader.gif" alt="Popup Photo" style="height:auto;max-width:700px;width:auto"></div>
+  <div class="Header">
+    <div class="Contact">
+      <div>
+        <a href="http://www.digitalmagicpro.com/" title="Return To Home Page">Digital Magic Productions<span></span></a>
+        <span>Contact Nationwide Support</span>
+        <strong>1-303-797-7747</strong>
+      </div>
+    </div>
+    <div class="Login">
+      <div>
+        <form id="Login" action="http://login.prohomesites.com/Login/" method="post">
+          <div>
+            <input style="color: rgb(136, 136, 136);" id="Logon" name="Logon" class="textbox" value="Enter Email Address" default="Enter Email Address" title="Enter Logon Email Address" maxlength="100" type="text">
+            <input style="color: rgb(136, 136, 136);" id="HidePassword" name="HidePassword" class="textbox" value="Enter Password" default="Enter Password" title="Enter A Password" type="text">
+            <input id="Password" name="Password" class="textbox" title="Enter A Password" maxlength="50" type="password">
+            <input id="HiddenSubmit" type="submit">
+            <a id="Submit" href="javascript:void(0)" title="Sign In To Your ProHomeSites.com Account">Sign In</a>
+          </div>
+        </form>
+        <ul style="display: none;" class="Error">
+          <li>Logon Email Address is required</li>
+          <li>Logon Email Address is formatted improperly</li>
+          <li>Password is required</li>
+          <li>Password is too short</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="Body">
+    <div class="Navigation">
+      <div>
+        <table cellpadding="0" cellspacing="0">
+          <tbody>
+            <tr>
+              <td class="Left">&nbsp;</td>
+              <td class="Link"><a id="Photography" href="http://www.digitalmagicpro.com/" class="Inactive">Photography</a></td>
+              <td class="Link"><a id="Video" href="http://www.digitalmagicpro.com/Video/" class="Inactive">Video</a></td>
+              <!--td class="Link"><a id="Brochures" href="/Brochure/" class="Inactive">Brochures</a></td-->
+              <td class="Link"><a id="Printing" href="http://www.digitalmagicpro.com/Printing/" class="Inactive">Printing</a></td>
+              <td class="Link"><a id="RealEstate" href="http://www.digitalmagicpro.com/Real-Estate/" class="Inactive">Real Estate</a></td>
+              <td class="Right">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="Content">
+      <div id="Content">
+        <div id="jPicker">
+          <h2 class="jPicker">jPicker - A jQuery Color Picker Plugin.</h2>
+          <p>
+            jPicker is a fast, lightweight jQuery plugin for including 
+an advanced color picker in your web projects. It has been painstakenly 
+ported from John Dyers' awesome work on his picker using the Prototype 
+framework.<br><br>
+            jPicker supports all current browsers and has been extensively tested in Chrome, Firefox, IE5.5+, Safari, and Opera.<br><br>
+            If you are updating a current version, you MUST always use 
+the CSS and image files from the download as there may have been 
+changes.<br><br>
+            If you are moving from a V1.0.* version, you MUST read the 
+docs below to implement some changes to the Color object returned by the
+ callback functions.<br><br>
+            <a href="http://johndyer.name/post/2007/09/PhotoShop-like-JavaScript-Color-Picker.aspx" class="newWindow">View John Dyer's prototype plugin here.</a><br><br>
+            View jPicker details a docs below.<br>
+            <a href="http://www.digitalmagicpro.com/jPicker/jpicker-1.1.6.zip">Download jPicker V1.1.6 (157 KB)</a><br><br>
+            <a href="http://code.google.com/p/jpicker/" target="_blank">Check out the source from Google Code.</a>
+          </p><hr><br>
+          <h2>jPicker Inline Example</h2>
+          <p>
+            jPicker can be used inline by binding to any block level element.<br><br>
+            <code>jPicker() -- no arguments</code>
+            </p><pre>&lt;script type="text/javascript"&gt;        
+  $(document).ready(
+    function()
+    {
+      $('#Inline').jPicker();
+    });
+&lt;/script&gt;
+&lt;div id="Inline"&gt;&lt;/div&gt;</pre>
+            <div class="jPicker Container" id="Inline"><table class="jPicker" cellpadding="0" cellspacing="0"><tbody><tr><td rowspan="9"><h2 class="Title">Inline Example</h2><div style="background-color: rgb(255, 204, 0);" class="Map"><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Maps.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/map-opacity.png&quot;); visibility: hidden;" class="Map3">&nbsp;</span><img style="left: 249px; top: -7px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/mappoint.gif" class="Arrow"></div></td><td rowspan="9"><div style="background-color: transparent;" class="Bar"><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 0px; visibility: visible;" class="Map1">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map2">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map3">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/Bars.png&quot;); top: 260px; visibility: visible;" class="Map4">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Map5">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/AlphaBar.png&quot;); top: 260px; visibility: visible;" class="Map6">&nbsp;</span><img style="left: 0px; top: 218px;" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/rangearrows.gif" class="Arrow"></div></td><td colspan="2" class="Preview">new<div style="background-image: url(&quot;/jPicker/images/preview-opacity.png&quot;);"><span style="background-color: rgb(255, 204, 0); visibility: visible;" class="Active" title="New Color - Press “OK” To Commit">&nbsp;</span><span style="background-color: rgb(255, 204, 0); visibility: visible;" class="Current" title="Click To Revert To Original Color">&nbsp;</span></div>current</td><td rowspan="9" class="Button"><input class="Ok" value="OK" title="Commit To This Color Selection" type="button"><input class="Cancel" value="Cancel" title="Cancel And Revert To Original Color" type="button"><hr><div style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;);" class="Grid"><span class="QuickColor" title="#ffaaaaff" style="background-color:#ffaaaa;">&nbsp;</span><span class="QuickColor" title="#ff5656ff" style="background-color:#ff5656;">&nbsp;</span><span class="QuickColor" title="#ff0000ff" style="background-color:#ff0000;">&nbsp;</span><span class="QuickColor" title="#bf0000ff" style="background-color:#bf0000;">&nbsp;</span><span class="QuickColor" title="#7f0000ff" style="background-color:#7f0000;">&nbsp;</span><span class="QuickColor" title="#ffffffff" style="background-color:#ffffff;">&nbsp;</span><span class="QuickColor" title="#ffd4aaff" style="background-color:#ffd4aa;">&nbsp;</span><span class="QuickColor" title="#ffaa56ff" style="background-color:#ffaa56;">&nbsp;</span><span class="QuickColor" title="#ff7f00ff" style="background-color:#ff7f00;">&nbsp;</span><span class="QuickColor" title="#bf5f00ff" style="background-color:#bf5f00;">&nbsp;</span><span class="QuickColor" title="#7f3f00ff" style="background-color:#7f3f00;">&nbsp;</span><span class="QuickColor" title="#e5e5e5ff" style="background-color:#e5e5e5;">&nbsp;</span><span class="QuickColor" title="#ffffaaff" style="background-color:#ffffaa;">&nbsp;</span><span class="QuickColor" title="#ffff56ff" style="background-color:#ffff56;">&nbsp;</span><span class="QuickColor" title="#ffff00ff" style="background-color:#ffff00;">&nbsp;</span><span class="QuickColor" title="#bfbf00ff" style="background-color:#bfbf00;">&nbsp;</span><span class="QuickColor" title="#7f7f00ff" style="background-color:#7f7f00;">&nbsp;</span><span class="QuickColor" title="#ccccccff" style="background-color:#cccccc;">&nbsp;</span><span class="QuickColor" title="#d4ffaaff" style="background-color:#d4ffaa;">&nbsp;</span><span class="QuickColor" title="#aaff56ff" style="background-color:#aaff56;">&nbsp;</span><span class="QuickColor" title="#7fff00ff" style="background-color:#7fff00;">&nbsp;</span><span class="QuickColor" title="#5fbf00ff" style="background-color:#5fbf00;">&nbsp;</span><span class="QuickColor" title="#3f7f00ff" style="background-color:#3f7f00;">&nbsp;</span><span class="QuickColor" title="#b2b2b2ff" style="background-color:#b2b2b2;">&nbsp;</span><span class="QuickColor" title="#aaffaaff" style="background-color:#aaffaa;">&nbsp;</span><span class="QuickColor" title="#56ff56ff" style="background-color:#56ff56;">&nbsp;</span><span class="QuickColor" title="#00ff00ff" style="background-color:#00ff00;">&nbsp;</span><span class="QuickColor" title="#00bf00ff" style="background-color:#00bf00;">&nbsp;</span><span class="QuickColor" title="#007f00ff" style="background-color:#007f00;">&nbsp;</span><span class="QuickColor" title="#999999ff" style="background-color:#999999;">&nbsp;</span><span class="QuickColor" title="#aaffd4ff" style="background-color:#aaffd4;">&nbsp;</span><span class="QuickColor" title="#56ffaaff" style="background-color:#56ffaa;">&nbsp;</span><span class="QuickColor" title="#00ff7fff" style="background-color:#00ff7f;">&nbsp;</span><span class="QuickColor" title="#00bf5fff" style="background-color:#00bf5f;">&nbsp;</span><span class="QuickColor" title="#007f3fff" style="background-color:#007f3f;">&nbsp;</span><span class="QuickColor" title="#7f7f7fff" style="background-color:#7f7f7f;">&nbsp;</span><span class="QuickColor" title="#aaffffff" style="background-color:#aaffff;">&nbsp;</span><span class="QuickColor" title="#56ffffff" style="background-color:#56ffff;">&nbsp;</span><span class="QuickColor" title="#00ffffff" style="background-color:#00ffff;">&nbsp;</span><span class="QuickColor" title="#00bfbfff" style="background-color:#00bfbf;">&nbsp;</span><span class="QuickColor" title="#007f7fff" style="background-color:#007f7f;">&nbsp;</span><span class="QuickColor" title="#666666ff" style="background-color:#666666;">&nbsp;</span><span class="QuickColor" title="#aad4ffff" style="background-color:#aad4ff;">&nbsp;</span><span class="QuickColor" title="#56aaffff" style="background-color:#56aaff;">&nbsp;</span><span class="QuickColor" title="#007fffff" style="background-color:#007fff;">&nbsp;</span><span class="QuickColor" title="#005fbfff" style="background-color:#005fbf;">&nbsp;</span><span class="QuickColor" title="#003f7fff" style="background-color:#003f7f;">&nbsp;</span><span class="QuickColor" title="#4c4c4cff" style="background-color:#4c4c4c;">&nbsp;</span><span class="QuickColor" title="#aaaaffff" style="background-color:#aaaaff;">&nbsp;</span><span class="QuickColor" title="#5656ffff" style="background-color:#5656ff;">&nbsp;</span><span class="QuickColor" title="#0000ffff" style="background-color:#0000ff;">&nbsp;</span><span class="QuickColor" title="#0000bfff" style="background-color:#0000bf;">&nbsp;</span><span class="QuickColor" title="#00007fff" style="background-color:#00007f;">&nbsp;</span><span class="QuickColor" title="#333333ff" style="background-color:#333333;">&nbsp;</span><span class="QuickColor" title="#d4aaffff" style="background-color:#d4aaff;">&nbsp;</span><span class="QuickColor" title="#aa56ffff" style="background-color:#aa56ff;">&nbsp;</span><span class="QuickColor" title="#7f00ffff" style="background-color:#7f00ff;">&nbsp;</span><span class="QuickColor" title="#5f00bfff" style="background-color:#5f00bf;">&nbsp;</span><span class="QuickColor" title="#3f007fff" style="background-color:#3f007f;">&nbsp;</span><span class="QuickColor" title="#191919ff" style="background-color:#191919;">&nbsp;</span><span class="QuickColor" title="#ffaaffff" style="background-color:#ffaaff;">&nbsp;</span><span class="QuickColor" title="#ff56ffff" style="background-color:#ff56ff;">&nbsp;</span><span class="QuickColor" title="#ff00ffff" style="background-color:#ff00ff;">&nbsp;</span><span class="QuickColor" title="#bf00bfff" style="background-color:#bf00bf;">&nbsp;</span><span class="QuickColor" title="#7f007fff" style="background-color:#7f007f;">&nbsp;</span><span class="QuickColor" title="#000000ff" style="background-color:#000000;">&nbsp;</span><span class="QuickColor" title="#ffaad4ff" style="background-color:#ffaad4;">&nbsp;</span><span class="QuickColor" title="#ff56aaff" style="background-color:#ff56aa;">&nbsp;</span><span class="QuickColor" title="#ff007fff" style="background-color:#ff007f;">&nbsp;</span><span class="QuickColor" title="#bf005fff" style="background-color:#bf005f;">&nbsp;</span><span class="QuickColor" title="#7f003fff" style="background-color:#7f003f;">&nbsp;</span><span class="QuickColor" style="background-color:;background-image:url(/jPicker/images/NoColor.png)">&nbsp;</span></div></td></tr><tr class="Hue"><td class="Radio"><label title="Set To “Hue” Color Mode"><input value="h" checked="checked" type="radio">H:</label></td><td class="Text"><input maxlength="3" value="48" title="Enter A “Hue” Value (0-360°)" type="text">&nbsp;°</td></tr><tr class="Saturation"><td class="Radio"><label title="Set To “Saturation” Color Mode"><input value="s" type="radio">S:</label></td><td class="Text"><input maxlength="3" value="100" title="Enter A “Saturation” Value (0-100%)" type="text">&nbsp;%</td></tr><tr class="Value"><td class="Radio"><label title="Set To “Value” Color Mode"><input value="v" type="radio">V:</label><br><br></td><td class="Text"><input maxlength="3" value="100" title="Enter A “Value” Value (0-100%)" type="text">&nbsp;%<br><br></td></tr><tr class="Red"><td class="Radio"><label title="Set To “Red” Color Mode"><input value="r" type="radio">R:</label></td><td class="Text"><input maxlength="3" value="255" title="Enter A “Red” Value (0-255)" type="text"></td></tr><tr class="Green"><td class="Radio"><label title="Set To “Green” Color Mode"><input value="g" type="radio">G:</label></td><td class="Text"><input maxlength="3" value="204" title="Enter A “Green” Value (0-255)" type="text"></td></tr><tr class="Blue"><td class="Radio"><label title="Set To “Blue” Color Mode"><input value="b" type="radio">B:</label></td><td class="Text"><input maxlength="3" value="0" title="Enter A “Blue” Value (0-255)" type="text"></td></tr><tr class="Alpha"><td class="Radio">&nbsp;</td><td class="Text">&nbsp;</td></tr><tr class="Hex"><td colspan="2" class="Text"><label title="Enter A “Hex” Color Value (#000000-#ffffff)">#:<input maxlength="6" class="Hex" value="ffcc00" type="text"></label>&nbsp;</td></tr></tbody></table></div>
+          <p></p><hr><br>
+          <h2>jPicker Expandable Example</h2>
+          <p>
+            jPicker can also display only a small picker icon that opens a popup for editing.<br><br>
+            <code>jPicker({ window: { expandable: true }})</code>
+            </p><pre>&lt;script type="text/javascript"&gt;
+  $(document).ready(
+    function()
+    {
+      $('#Expandable').jPicker(
+        {
+          window:
+          {
+            expandable: true
+          }
+        });
+    });
+&lt;/script&gt;
+&lt;span id="Expandable"&gt;&lt;/span&gt;</pre>
+            <span id="Expandable"></span><span class="jPicker"><span class="Icon"><span style="background-color: rgb(255, 204, 0);" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span>
+          <p></p><hr><br>
+          <h2>jPicker Alpha Channel Example</h2>
+          <p>
+            jPicker can also pick colors with alpha (transparency) values.<br><br>
+            <code>jPicker({ window: { expandable: true }})</code>
+            </p><pre>&lt;script type="text/javascript"&gt;        
+  $(document).ready(
+    function()
+    {
+      $('#Alpha').jPicker(
+        {
+          window:
+          {
+            expandable: true
+          },
+          color:
+          {
+            alphaSupport: true,
+            active: new $.jPicker.Color({ ahex: '99330099' })
+          }
+        });
+    });
+&lt;/script&gt;
+&lt;span id="Alpha"&gt;&lt;/span&gt;</pre>
+            <span id="Alpha"></span><span class="jPicker"><span class="Icon"><span style="background-color: rgb(153, 51, 0);" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: visible; opacity: 0.4;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span>
+          <p></p><hr><br>
+          <h2>jPicker Binded Example</h2>
+          <p>
+            jPicker can also be binded to an input element.<br><br>
+            <code>jPicker() -- no arguments</code>
+            </p><pre>&lt;script type="text/javascript"&gt;        
+  $(document).ready(
+    function()
+    {
+      $('#Binded').jPicker();
+    });
+&lt;/script&gt;
+&lt;input id="Binded" type="text" value="e2ddcf" /&gt;</pre>
+            <input style="background-color: rgb(226, 221, 207); color: rgb(0, 0, 0);" id="Binded" value="e2ddcf" type="text"><span class="jPicker"><span class="Icon"><span style="background-color: rgb(226, 221, 207);" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span>
+          <p></p><hr><br>
+          <h2>Multiple jPicker Binded Example</h2>
+          <p>
+            jPicker can also be binded to multiple elements at a time.<br><br>
+            <code>jPicker() -- no arguments</code>
+            </p><pre>&lt;script type="text/javascript"&gt;        
+  $(document).ready(
+    function()
+    {
+      $('.Multiple').jPicker();
+    });
+&lt;/script&gt;
+&lt;input class="Multiple" type="text" value="e2ddcf" /&gt;&lt;br /&gt;
+&lt;input class="Multiple" type="text" value="" /&gt;&lt;br /&gt;
+&lt;input class="Multiple" type="text" value="fda0f7" /&gt;</pre>
+            <input style="background-color: rgb(226, 221, 207); color: rgb(0, 0, 0);" class="Multiple" value="e2ddcf" type="text"><span class="jPicker"><span class="Icon"><span style="background-color: rgb(226, 221, 207);" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span><br>
+            <input style="background-color: transparent; color: rgb(0, 0, 0);" class="Multiple" type="text"><span class="jPicker"><span class="Icon"><span style="background-color: transparent;" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: visible;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span><br>
+            <input style="background-color: rgb(253, 160, 247); color: rgb(0, 0, 0);" class="Multiple" value="fda0f7" type="text"><span class="jPicker"><span class="Icon"><span style="background-color: rgb(253, 160, 247);" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span><br>
+          <p></p><hr><br>
+          <h2>jPicker Callback Functions</h2>
+          <p>
+            Register for callback function to have it interact with your page.<br><br>
+            <code>jPicker([settings, [commitCallback, [liveCallback, [cancelCallback]]]])</code>
+            </p><pre>&lt;script type="text/javascript"&gt;
+  $(document).ready(
+    function()
+    {
+      var LiveCallbackElement = $('#Live'),
+          LiveCallbackButton = $('#LiveButton');  // you don't want it searching this on every live callback!!!
+      $('#Callbacks').jPicker(
+        {},
+        function(color, context)
+        {
+          var all = color.val('all');
+          alert('Color chosen - hex: ' + (all &amp;&amp; '#' + all.hex || 'none') + ' - alpha: ' + (all &amp;&amp; all.a + '%' || 'none'));
+          $('#Commit').css(
+            {
+              backgroundColor: all &amp;&amp; '#' + all.hex || 'transparent'
+            }); // prevent IE from throwing exception if hex is empty
+        },
+        function(color, context)
+        {
+          if (context == LiveCallbackButton.get(0)) alert('Color set from button');
+          var hex = color.val('hex');
+          LiveCallbackElement.css(
+            {
+              backgroundColor: hex &amp;&amp; '#' + hex || 'transparent'
+            }); // prevent IE from throwing exception if hex is empty
+        },
+        function(color, context)
+        {
+          alert('"Cancel" Button Clicked');
+        });      
+      $('#LiveButton').click(
+        function()
+        {
+          $.jPicker.List[0].color.active.val('hex', 'e2ddcf', this);
+        });
+    });
+&lt;/script&gt;
+&lt;input id="Callbacks" type="text" value="e2ddcf" /&gt;
+&lt;span id="Commit" style="background-color: #e2ddcf; display: block; float: left; height: 50px; margin: 10px; width: 50px;"&gt;
+  Commit
+&lt;/span&gt;
+&lt;span id="Live" style="display: block; float: left; height: 50px; margin: 10px; width: 50px;"&gt;Live&lt;/span&gt;
+&lt;input id="LiveButton" type="button" value="Set To #e2ddcf" /&gt;</pre>
+            <input style="background-color: rgb(226, 221, 207); color: rgb(0, 0, 0);" id="Callbacks" value="e2ddcf" type="text"><span class="jPicker"><span class="Icon"><span style="background-color: rgb(226, 221, 207);" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span><br>
+            <span id="Commit" style="background-color: #e2ddcf; display: block; float: left; height: 50px; margin: 10px; width: 50px;">Commit</span>
+            <span id="Live" style="display: block; float: left; height: 50px; margin: 10px; width: 50px;">Live</span>
+            <input id="LiveButton" value="Set To #e2ddcf" type="button">
+          <p></p><hr><br>
+          <h2>jPicker Settings And Colors</h2>
+          <p>
+            Use the "val" method on the active color for interaction with the picker.<br><br>
+            <code>(jQuery).jPicker.List[index]</code>
+            </p><pre>&lt;script type="text/javascript"&gt;        
+  $(document).ready(
+    function()
+    {
+      $('#AlterColors').jPicker();
+      $('#GetActiveColor').click(
+        function()
+        {
+          alert($.jPicker.List[0].color.active.val('ahex'));
+        });
+      $('#GetRG').click(
+        function()
+        {
+          var rg=$.jPicker.List[0].color.active.val('rg');
+          alert('red: ' + rg.r + ', green: ' + rg.g);
+        });
+      $('#SetHue').click(
+        function()
+        {
+          $.jPicker.List[0].color.active.val('h', 133);
+        });
+      $('#SetValue').click(
+        function()
+        {
+          $.jPicker.List[0].color.active.val('v', 38);
+        });
+      $('#SetRG').click(
+        function()
+        {
+          $.jPicker.List[0].color.active.val('rg', { r: 213, g: 118 });
+        });
+    });
+&lt;/script&gt;
+&lt;input id="AlterColors" type="text" value="e2ddcf" /&gt;&lt;br /&gt;
+&lt;input id="GetActiveColor" type="button" value="Get Active Color" /&gt;&lt;br /&gt;
+&lt;input id="GetRG" type="button" value="Get Red/Green Value" /&gt;&lt;br /&gt;
+&lt;input id="SetHue" type="button" value="Set Hue To 133" /&gt;&lt;br /&gt;
+&lt;input id="SetValue" type="button" value="Set Value To 38" /&gt;&lt;br /&gt;
+&lt;input id="SetRG" type="button" value="Set Red/Green To 213, 118" /&gt;</pre>
+            <input style="background-color: rgb(226, 221, 207); color: rgb(0, 0, 0);" id="AlterColors" value="e2ddcf" type="text"><span class="jPicker"><span class="Icon"><span style="background-color: rgb(226, 221, 207);" class="Color">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/bar-opacity.png&quot;); visibility: hidden;" class="Alpha">&nbsp;</span><span style="background-image: url(&quot;/jPicker/images/picker.gif&quot;);" class="Image" title="Click To Open Color Picker">&nbsp;</span><span class="Container">&nbsp;</span></span></span><br>
+            <input id="GetActiveColor" value="Get Active Color" type="button"><br>
+            <input id="GetRG" value="Get Red/Green Value" type="button"><br>
+            <input id="SetHue" value="Set Hue To 133" type="button"><br>
+            <input id="SetValue" value="Set Value To 38" type="button"><br>
+            <input id="SetRG" value="Set Red/Green To 213, 118" type="button">
+          <p></p><hr><br>
+          <h2>Download jPicker V1.1.6 ZIP File</h2>
+          <p>
+            Both a full source (97.5 KB) and a minified (37.4 KB) js file are included in this download.<br>
+            <a href="http://www.digitalmagicpro.com/jPicker/jpicker-1.1.6.zip">Download jPicker V1.1.6 (157 KB)</a>
+          </p>
+          <h2>jPicker Core</h2>
+          <p>
+            jPicker Core function - returns the jQuery object.<br><br>
+            <code>jPicker([settings, [commitCallback, [liveCallback, [cancelCallback]]]])</code>
+          </p><hr><br>
+          <h2>Settings</h2>
+          <p>
+            settings [object]: (with defaults)<br>
+            </p><pre>{
+  window: // used to define the position of the popup window only useful in binded mode
+  {
+    title: null, // any title for the jPicker window itself - displays "Drag Markers To Pick A Color" if left null
+    effects:
+    {
+      type: 'slide', // effect used to show/hide an expandable picker. Acceptable values "slide", "show", "fade"
+      speed:
+      {
+        show: 'slow', // duration of "show" effect. Acceptable values are "fast", "slow", or time in ms
+        hide: 'fast' // duration of "hide" effect. Acceptable value are "fast", "slow", or time in ms
+      }
+    },
+    position:
+    {
+      x: 'screenCenter', // acceptable values "left", "center", "right", "screenCenter", or relative px value
+      y: 'top', // acceptable values "top", "bottom", "center", or relative px value
+    },
+    expandable: false, // default to large static picker - set to true to make an expandable picker (small icon with popup) - set
+                       // automatically when binded to input element
+    liveUpdate: true, // set false if you want the user to click "OK" before the binded input box updates values (always "true"
+                      // for expandable picker)
+    alphaSupport: false, // set to true to enable alpha picking
+    alphaPrecision: 0, // set decimal precision for alpha percentage display - hex codes do not map directly to percentage
+                       // integers - range 0-2
+    updateInputColor: true // set to false to prevent binded input colors from changing
+  },
+  color:
+  {
+    mode: 'h', // acceptable values "h" (hue), "s" (saturation), "v" (brightness), "r" (red), "g" (green), "b" (blue), "a" (alpha)
+    active: new $.jPicker.Color({ hex: 'ffc000' }), // accepts any declared jPicker.Color object or hex string WITH OR WITHOUT '#'
+    quickList: // this list of quick pick colors - override for a different list
+      [
+        new $.jPicker.Color({ h: 360, s: 33, v: 100}), // accepts any declared jPicker.Color object or hex string WITH OR
+                                                       // WITHOUT '#'
+        new $.jPicker.Color({ h: 360, s: 66, v: 100}),
+        (...) // removed for brevity
+        new $.jPicker.Color({ h: 330, s: 100, v: 50}),
+        new $.jPicker.Color()
+      ]
+  },
+  images
+  {
+    clientPath: '/jPicker/images/', // Path to image files
+    colorMap: // colorMap size and arrow icon
+    {
+      width: 256, // Map width - don't override unless using a smaller image set
+      height: 256, // Map height - don't override unles using a smaller image set
+      arrow:
+      {
+        file: 'mappoint.gif', // Arrow icon image file
+        width: 15, // Arrow icon width
+        height: 15 // Arrow icon height
+      }
+    },
+    colorBar: // colorBar size and arrow icon
+    {
+      width: 20, // Bar width - don't override unless using a smaller image set
+      height: 256, // Bar height - don't override unless using a smaller image set
+      arrow:
+      {
+        file: 'rangearrows.gif', // Arrow icon image file
+        width: 40, // Arrow icon width
+        height: 9 // Arrow icon height
+      }
+    },
+    picker: // picker icon and size
+    {
+      file: 'picker.gif', // Picker icon image file
+      width: 25, // Picker width - don't override unless using a smaller image set
+      height: 24 // Picker height - don't override unless using a smaller image set
+    }
+  },
+  localization: // alter these to change the text presented by the picker (e.g. different language)
+  {
+    text:
+    {
+      title: 'Drag Markers To Pick A Color',
+      newColor: 'new',
+      currentColor: 'current',
+      ok: 'OK',
+      cancel: 'Cancel'
+    },
+    tooltips:
+    {
+      colors:
+      {
+        newColor: 'New Color - Press “OK” To Commit',
+        currentColor: 'Click To Revert To Original Color'
+      },
+      buttons:
+      {
+        ok: 'Commit To This Color Selection',
+        cancel: 'Cancel And Revert To Original Color'
+      },
+      hue:
+      {
+        radio: 'Set To “Hue” Color Mode',
+        textbox: 'Enter A “Hue” Value (0-360°)'
+      },
+      saturation:
+      {
+        radio: 'Set To “Saturation” Color Mode',
+        textbox: 'Enter A “Saturation” Value (0-100%)'
+      },
+      value:
+      {
+        radio: 'Set To “Value” Color Mode',
+        textbox: 'Enter A “Value” Value (0-100%)'
+      },
+      red:
+      {
+        radio: 'Set To “Red” Color Mode',
+        textbox: 'Enter A “Red” Value (0-255)'
+      },
+      green:
+      {
+        radio: 'Set To “Green” Color Mode',
+        textbox: 'Enter A “Green” Value (0-255)'
+      },
+      blue:
+      {
+        radio: 'Set To “Blue” Color Mode',
+        textbox: 'Enter A “Blue” Value (0-255)'
+      },
+      alpha:
+      {
+        radio: 'Set To “Alpha” Color Mode',
+        textbox: 'Enter A “Alpha” Value (0-100)'
+      },
+      hex:
+      {
+        textbox: 'Enter A “Hex” Color Value (#000000-#ffffff)',
+        alpha: 'Enter A “Alpha” Value (#00-#ff)'
+      }
+    }
+  }
+}</pre>
+          <p></p><hr><br>
+          <h2>Callback Pattern</h2>
+          <p>
+            <code>function(jPicker.Color color, object context){...}</code>
+          </p><hr><br>
+          <h2>jPicker List</h2>
+          <p>
+            The list of active jPicker objects.<br><br>
+            <code>(jQuery).jPicker.List[]</code>
+          </p><hr><br>
+          <h2>jPicker Color Class</h2>
+          <p>
+            Definition of the jPicker.Color class.<br>
+            </p><pre>(jQuery).jPicker.Color()
+(jQuery).jPicker.Color({ ahex: 'ffffffff' })
+(jQuery).jPicker.Color({ hex: 'ffffff', [a: (0-255)] })
+(jQuery).jPicker.Color({ r: (0-255), g: (0-255), b: (0-255), [a: (0-255)] })
+(jQuery).jPicker.Color({ h: (0-360), s: (0-100), v: (0-100), [a: (0-255)] })
+{
+  val: function(name, [value, [context]]),
+  bind: function(callback) where callback is function(color, [context]),
+  unbind: function(callback)
+}
+
+method "val" usage
+
+val(name) : get value
+
+  'r':     red         (0-255)
+  'g':     green       (0-255)
+  'b':     blue        (0-255)
+  'a':     alpha       (0-255)
+  'h':     hue         (0-360)
+  's':     saturation  (0-100)
+  'v':     value       (0-100)
+  'hex':   hex         (000000-ffffff)
+  'ahex':  ahex        (00000000-ffffffff)
+  'all':   all         all
+  
+  ex. Usage
+
+    val('r'):     (0-255)
+    val('h'):     (0-360)
+    val('hex'):   (000000-ffffff)
+    val('rg'):    { r: (0-255), g: (0-255) }
+    val('rgba'):  { r: (0-255), g: (0-255), b: (0-255), a: (0-255) }
+    val('hvga'):  { h: (0-255), v: (0-100), g: (0-255), a: (0-255) }
+    val('all'):   { r: (0-255), g: (0-255), b: (0-255), a: (0-255), h: (0-360), s: (0-100), v: (0-100), hex: (000000-ffffff), --
+                    ahex: (00000000-ffffffff) }
+
+val(name, value, [context]) : set value
+
+  'r':     red         (0-255)
+  'g':     green       (0-255)
+  'b':     blue        (0-255)
+  'a':     alpha       (0-255)
+  'h':     hue         (0-360)
+  's':     saturation  (0-100)
+  'v':     value       (0-100)
+  'hex':   hex         (000000-ffffff)
+  'ahex':  ahex        (00000000-ffffffff)
+  
+  ex. Usage
+
+    val('r', (0-255)) || val('r', { r: (0-255) })
+    val('h', (0-360)) || val('h', { h: (0-360) })
+    val('hex', (000000-ffffff)) || val('hex', { hex: (000000-ffffff) })
+    val('rg', { r: (0-255), g: (0-255) })
+    val('rgba', { r: (-255), g: (0-255), b: (0-255), a: (0-255) })
+    val(null, { r: (0-255), g: (0-255) })
+    val('hvga'):  incorrect usage - cannot set hsv AND rgb as they will conflict</pre>
+          <p></p><hr><br>
+          <h2>jPicker ColorMethod Utility Class</h2>
+          <p>
+            Static methods for altering and retrieving different color spaces.<br>
+            </p><pre>(jQuery).jPicker.ColorMethods.hexToRgba:
+    function(hex)
+    returns { r: (0-255), g: (0-255), b: (0-255), a: (0-255) }
+    
+(jQuery).jPicker.ColorMethods.validateHex:
+    function(hex)
+    returns new hex string
+    
+(jQuery).jPicker.ColorMethods.rgbaToHex:
+    function({ r: (0-255), g: (0-255), b: (0-255), a: (0-255) })
+    returns hex string
+    
+(jQuery).jPicker.ColorMethods.intToHex:
+    function(number)
+    returns hex string
+    
+(jQuery).jPicker.ColorMethods.hexToInt:
+    function(hex)
+    return integer
+
+(jQuery).jPicker.ColorMethods.rgbToHsv:
+    function({ r: (0-255), g: (0-255), b: (0-255) })
+    returns { h: (0-360), s: (0-100), v: (0-100) }
+
+(jQuery).jPicker.ColorMethods.hsvToRgb:
+    function({ h: (0-360), s: (0-100), v: (0-100) })
+    returns { r: (0-255), g: (0-255), b: (0-255) }</pre>
+          <p></p><hr><br>
+          <h2>Known Issues</h2>
+          <ul>
+            <li>
+              <h3>Attaching multiple jPicker objects on a single page will slow performance.</h3>
+              <ul>
+                <li>jPicker creates a new instance of the picker for every element. Performance will suffer when binding dozens of instances.</li>
+              </ul>
+            </li>
+          </ul><hr>
+          <h2>Coming Soon</h2>
+          <ul>
+            <li>Will consider supporting jQuery ThemeRoller CSS API for theming the UI if demand exists.</li>
+          </ul><hr>
+          <h2>Planned For Future Release</h2>
+          <ul>
+            <li>
+              Move the jPicker object to a single instance that all selection instances point to.
+              <ul>
+                <li>This will result in much faster operation and initialization for pages with multiple pickers.</li>
+              </ul>
+            </li>
+            <li>Add activateCallback option for calling a callback 
+function when the jPicker is activated or its binding is switched to a 
+different picker element.</li>
+            <li>Add multiple window modes for picker operation, include modal, popup, windowed, and exclusive.</li>
+          </ul><hr>
+          <h2>Change Log</h2>
+          <ul>
+            <li>
+              <h3>V1.1.6:</h3>
+              <ul>
+                <li>Corrected bug preventing selections inside input 
+values in some browsers - the onselectstart function no longer captures 
+on input boxes.</li>
+                <li>Added support for up/down arrow adjustments of the currently focused input box making the picker more keyboard friendly.</li>
+                <li>Added ticks around the backgroundImage assignments to correct for paths with whitespace.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.1.5:</h3>
+              <ul>
+                <li>Corrected Color object constructor to allow setting of the "alpha" value as per the documentation which previously didn't work.</li>
+                <li>Added support for translucency for quickList colors with checkered background - Only available if "alphaSupport" is enabled.</li>
+                <li>Restricted default color to "alpha" of 255 if 
+"alphaSupport" is disabled - It will now assign an explicit alpha of 255
+ when disabled.</li>
+                <li>Added new setting variable "alphaPrecision" which 
+indicates the number of decimal points to allow in the alpha percentage 
+display - Now defaults to 0.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.1.4:</h3>
+              <ul>
+                <li>Changed "alpha" range from 0-100 to 0-255 to correct
+ truncating and rounding errors caused by attempting to get an integer 
+percentage that matches a hex value.</li>
+                <li>"alpha" percentage display will now show up to 1 decimal point for more accurate representation of "alpha" value.</li>
+                <li>Color object now accepts "alpha" values in a range 
+of 0-255 and also returns the same when getting the "alpha" value. You 
+will need to run ((alpha * 100) / 255) to retrieve a percentage value.</li>
+                <li>Reworked the table layout and labels to remove the 
+need for the label to reference the radio input box. This reduces 
+injected code and removes the need to generate unique ids on the radio 
+buttons.</li>
+                <li>Transparent/invisible caret on NULL color is now corrected - uses the same caret color as a white color.</li>
+                <li>Setting a binded input value of "" or no value 
+attribute will now create a NULL color on initialization instead of the 
+settings default color.</li>
+                <li>Added a dynamic, invisible "iframe" behind a dialog 
+picker in all browsers that fail jQuery.support.boxModel (currently IE 
+&lt;= 7 Quirks Mode). This prevents "select" box from showing through 
+the picker.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.1.3:</h3>
+              <ul>
+                <li>Now adding popup color pickers to document.body 
+instead of inline with the popup control. This corrects issues with the 
+picker not showing beyond a relative container scope.</li>
+                <li>No longer need to hide popup icon in Internet 
+Explorer for picker elements lower in the DOM than the currently active 
+one since the picker itself is attached to document.body (it is always 
+higher in the DOM now).</li>
+                <li>Popup pickers are now bring-to-front selectable. 
+Clicking on the picker will bring it above all other pickers on the page
+ instead of having to drag one out from underneath another.</li>
+                <li>Corrected jPicker.List/setTimeout bug which allowed 
+an instance to bind to the List in an order other than the order the 
+initialization function was called.</li>
+                <li>Added a updateInputColor option (default true) to 
+allow for a binded input field that does not automatically update its 
+background/text color.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.1.2:</h3>
+              <ul>
+                <li>Reworked the find methods and contexts for element 
+searches. Now using ":first" instead of ".eq(0)" to take advantage of 
+early out searches. Much faster initialization of the picker, on the 
+order of 6 times.</li>
+                <li>Now using setTimeout for calling visual updates. 
+Dramatically improved marker dragging in all browsers. Reduces blocking 
+as re-rendering is internal to the browser and independent of the other 
+javascript still in progress.</li>
+                <li>Marker updates can now cancel a previous 
+valueChanged event when a new mouseMove event comes in. IE8 marker 
+dragging is still slower, much over 5 times faster than it was.</li>
+                <li>Reworked entire quickPick list creation. It now adds
+ up source code and does a single "html" method instead of multiple 
+"append" methods. This is a large part of the speed increase on 
+initialization.</li>
+                <li>The vast majority of all running scripts on both 
+initialization and dragging is now occupied altering the style rules and
+ finding elements (init only) instead of jPicker code.</li>
+                <li>All methods previously called with global context 
+now use the "call" method for using the context of the class running the
+ method. "this" in a callback is now the DOM node (jQuery style) and 
+jPicker instead of "window".</li>
+                <li>Added "effects" section of window settings to allow different show/hide effects and durations.</li>
+                <li>Removed change log and read me from the full source 
+code to separate files (ChangeLog.txt and ReadMe.txt) and an HTML 
+demonstration/documentation page (Example.txt).</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.1.1:</h3>
+              <ul>
+                <li>Correct IE exception caused by attempting to set "#transparent" to CSS background-color.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.1.0:</h3>
+              <ul>
+                <li>Reworked nearly the entire plugin including the 
+internal and external event model, bindings, DOM searches, classes, and 
+overall presentation.</li>
+                <li>The Color object now supports a changed event that you can bind to (or just bind to the picker events still included).</li>
+                <li>Event order has been reversed, instead of a change 
+event on the map/bar/text fields updating the display, they now update 
+the Color object which then fires the events that update the display.</li>
+                <li>alphaSupport re-implemented by request - default behavior is off.</li>
+                <li>Hex code now only 6 characters again.</li>
+                <li>Color object can now have its value changed from 
+code, using the "val" method, and it will fire all events necessary to 
+update the display.</li>
+                <li>Removed all "get_*" methods from the color object, 
+instead opting for a single "val" method for getting and setting, more 
+in line with familiar jQuery methods.</li>
+                <li>Better rendering for all IE versions in Quirks mode.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.13:</h3>
+              <ul>
+                <li>Updated transparency algorithm for red/green/blue 
+color modes. The algorithm from John Dyers' color picker was close but 
+incorrect. Bar colors are now pixel perfect with the new algorithm.</li>
+                <li>Changed from using "background-position" on the 
+color maps to an element of full height using the "top" attribute for 
+image-map location using "overflow: hidden" to hide overdraw.</li>
+                <li>IE7/8 ignores opacity on elements taller than 
+4096px. Image maps therefore no longer include a blank first map so the 
+Bar is just under 4096. Blank is now accomplished by setting the "top" 
+setting to below the map display.</li>
+                <li>New colorBar picker image that does not draw outside of the element since the elements now hide overdraw.</li>
+                <li>Added IE5.5/6 support for the picker. This is why it now uses maps of full height and the "top" attribute for map locations.</li>
+                <li>Moved the images in the maps to 4 pixels apart from 
+each other. IE7/8 change the first pixel of the bottom-border of 2px to 
+partially transparent showing a portion of a different color map without
+ this.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.12:</h3>
+              <ul>
+                <li>Added minified CSS file.</li>
+                <li>Added IE7/8 Quirks Mode support.</li>
+                <li>Added configurable string constants for all text and tooltips. You can now change the default values for different languages.</li>
+                <li>Privatized the RGBA values in the Color object for 
+better NULL handling. YOU MUST USE THE NEW GET FUNCTIONS TO ACCESS THE 
+COLOR PROPERTIES.</li>
+                <li>Better NULL color handling and an additional "No Color Selected" quick pick color.</li>
+                <li>More consistent behavior across multiple versions of browsers.</li>
+                <li>Added alpha response to the binded color picker icon.</li>
+                <li>Removed "alphaSupport" variable. It is now always supported.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.11b:</h3>
+              <ul>
+                <li>Corrected NULL behavior in IE. jQuery was getting an
+ exception when attempting to assign a backgroundColor style of '#'. Now
+ assigns 'transparent' if color is NULL.</li>
+                <li>Can now create new Color object WITH OR WITHOUT the '#' prefix.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.11:</h3>
+              <ul>
+                <li>Added ability for NULL colors (delete the hex 
+value). Color will be returned as color.hex == ''. Can set the default 
+color to an empty hex string as well.</li>
+                <li>cancelCallback now returns the original color for use in programming responses.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.10:</h3>
+              <ul>
+                <li>Corrected table layout and tweaked display for more consisent presentation. Nice catch from Jonathan Pasquier.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.9:</h3>
+              <ul>
+                <li>Added optional title variable for each jPicker window.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.8:</h3>
+              <ul>
+                <li>Moved all images into a few sprites - now using 
+backgroundPosition to change color maps and bars instead of changing the
+ image - this should be faster to download and run.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.7:</h3>
+              <ul>
+                <li>RENAMED CSS FILE TO INCLUDE VERSION NUMBER!!! YOU 
+MUST USE THIS VERSIONED CSS FILE!!! There will be no need to do your own
+ CSS version number increments from now on.</li>
+                <li>Added opacity feedback to color preview boxes.</li>
+                <li>Removed reliance on "id" value of containing object.
+ Subobjects are now found by class and container instead of id's. This 
+drastically reduces injected code.</li>
+                <li>Removed (jQuery).jPicker.getListElementById(id) function since "id" is no longer incorporated or required.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.6:</h3>
+              <ul>
+                <li>Corrected picker bugs introduced with 1.0.5.</li>
+                <li>Removed alpha slider bar until activated - default behavior for alpha is now OFF.</li>
+                <li>Corrected Color constructor bug not allowing values 
+of 0 for initial value (it was evaluating false and missing the init 
+code - Thanks Pavol).</li>
+                <li>Removed title tags (tooltips) from color maps and 
+bars - They get in the way in some browsers (e.g. IE - dragging marker 
+does NOT prevent or hide the tooltip).</li>
+                <li>THERE WERE CSS FILE CHANGES WITH THIS UPDATE!!! IF 
+YOU USE NEVER-EXPIRE HEADERS, YOU WILL NEED TO INCREMENT YOUR CSS FILE 
+VERSION NUMBER!!!</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.5:</h3>
+              <ul>
+                <li>Added opacity support to picker and color/callback 
+methods. New property "a" (alpha - range from 0-100) in all color 
+objects now - defaults to 100% opaque. (Thank you Pavol)</li>
+                <li>Added title attributes to input elements - gives short tooltip directions on what button or field does.</li>
+                <li>Commit callback used to fire on control 
+initialization (twice actually) - This has been corrected, it does not 
+fire on initialization.</li>
+                <li>THERE WERE CSS FILE CHANGES WITH THIS UPDATE!!! IF 
+YOU USE NEVER-EXPIRE HEADERS, YOU WILL NEED TO INCREMENT YOUR CSS FILE 
+VERSION NUMBER!!!</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.4:</h3>
+              <ul>
+                <li>Added ability for smaller picker icon with expandable window on any DOM element (not just input).</li>
+                <li>"draggable" property renamed to "expandable" and its scope increased to create small picker icon or large static picker.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.3</h3>
+              <ul>
+                <li>Added cancelCallback function for registering an external function when user clicks cancel button. (Thank you Jeff and Pavol)</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.2</h3>
+              <ul>
+                <li>Random bug fixes - speed concerns.</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.1</h3>
+              <ul>
+                <li>Corrected closure based memeory leak - there may be others?</li>
+              </ul>
+              <hr>
+            </li>
+            <li>
+              <h3>V1.0.0</h3>
+              <ul>
+                <li>First Release.</li>
+              </ul>
+              <hr>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="Footer">
+    <div class="Links">
+      <div>
+        <a href="http://www.digitalmagicpro.com/" title="Return To Home Page">Home</a>|
+        <a href="http://www.digitalmagicpro.com/About/" title="View Digital Magic Productions History">About Us</a>|
+        <a href="http://www.digitalmagicpro.com/Contact/" title="View Digital Magic Productions Contact Info">Contact</a>|
+        <a href="http://www.digitalmagicpro.com/Terms/" title="View Our Terms Of Use">Terms</a>|
+        <a href="http://www.digitalmagicpro.com/Partner/" title="View Our Professional Partners">Partners</a>|
+        <a href="http://www.digitalmagicpro.com/FAQ/" title="View Frequently Asked Questions">FAQ</a><br><br>
+        Powered by <strong>Digital Magic Productions, Inc.</strong><br>
+        Copyright ©2006-2012 Digital Magic Productions Inc., All Rights Reserved
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/jquery-1.js"></script>
+  <script type="text/javascript" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/jquery-ui-1.js"></script>
+  <script type="text/javascript" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/DMP-1.js"></script>
+  <script type="text/javascript" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/DigitalMagic.js"></script>
+  <script type="text/javascript" src="jPicker%20-%20A%20jQuery%20Color%20Picker%20Plugin_files/jpicker-1.js"></script>
+  <script type="text/javascript">
+    $(function()
+      {
+        var LiveCallbackElement = $('#Live'),
+            LiveCallbackButton = $('#LiveButton');
+        $('#Inline').jPicker({window:{title:'Inline Example'}});
+        $('#Expandable').jPicker({window:{expandable:true,title:'Expandable Example'}});
+        $('#Alpha').jPicker({window:{expandable:true,title:'Alpha (Transparency) Example)',alphaSupport:true,alphaPrecision:2},color:{active:new $.jPicker.Color({ahex:'99330099'})}});
+        $('#Binded').jPicker({window:{title:'Binded Example'},color:{active:new $.jPicker.Color({ahex:'993300ff'})}});
+        $('.Multiple').jPicker({window:{title:'Multiple Binded Example'}});
+        $('#Callbacks').jPicker(
+          {window:{title:'Callback Example'}},
+          function(color, context)
+          {
+            var all = color.val('all');
+            alert('Color chosen - hex: ' + (all && '#' + all.hex || 'none') + ' - alpha: ' + (all && all.a + '%' || 'none'));
+            $('#Commit').css({ backgroundColor: all && '#' + all.hex || 'transparent' });
+          },
+          function(color, context)
+          {
+            if (context == LiveCallbackButton.get(0)) alert('Color set from button');
+            var hex = color.val('hex');
+            LiveCallbackElement.css({ backgroundColor: hex && '#' + hex || 'transparent' });
+          },
+          function(color, context)
+          {
+            alert('"Cancel" Button Clicked');
+          });
+        $('#LiveButton').click(
+          function()
+          {
+            $.jPicker.List[7].color.active.val('hex', 'e2ddcf', this);
+          });
+        $('#AlterColors').jPicker({window:{title:'Color Interaction Example'}});
+        $('#GetActiveColor').click(
+          function()
+          {
+            alert($.jPicker.List[8].color.active.val('ahex'));
+          });
+        $('#GetRG').click(
+          function()
+          {
+            var rg=$.jPicker.List[8].color.active.val('rg');
+            alert('red: ' + rg.r + ', green: ' + rg.g);
+          });
+        $('#SetHue').click(
+          function()
+          {
+            $.jPicker.List[8].color.active.val('h', 133);
+          });
+        $('#SetValue').click(
+          function()
+          {
+            $.jPicker.List[8].color.active.val('v', 38);
+          });
+        $('#SetRG').click(
+          function()
+          {
+            $.jPicker.List[8].color.active.val('rg', { r: 213, g: 118 });
+          });
+      });
+  </script>
+
+</body></html>

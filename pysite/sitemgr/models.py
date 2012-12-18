@@ -183,6 +183,12 @@ class Page(object):
         fn = os.path.join(dir_, name) + '.yaml'
         with open(fn, 'r', encoding='utf-8') as fh:
             self.rc = yaml.load(fh, YamlLoader)
+        # If this page has no title set, get the one of the site
+        # (if the site has one, that is)
+        if not self.rc.get('title', None):
+            t = site.rc.get('title', None)
+            if t:
+                self.rc['title'] = t
 
     def __getitem__(self, name):
         validate_name(name)
