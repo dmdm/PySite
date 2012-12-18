@@ -37,9 +37,9 @@
 					, 'requirejs': 'libs/requirejs'
 				}
 				, shim: {
-					  'ui/jquery-ui':                  ['jquery']
-					, 'ui/timepicker/timepicker':      ['ui/jquery-ui']
-					, 'ui/pnotify/jquery.pnotify.min': ['ui/jquery-ui']
+					  'ui/jquery-ui':              ['jquery']
+					, 'ui/timepicker/timepicker':  ['ui/jquery-ui']
+					, 'ui/pnotify/jquery.pnotify': ['ui/jquery-ui']
 				}
 				, waitSeconds: 15
 			};

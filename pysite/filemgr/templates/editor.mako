@@ -1,4 +1,4 @@
-<%inherit file="pysite:templates/_layouts/editor.mako" />
+<%inherit file="pysite:filemgr/templates/editor_base.mako" />
 <%block name="meta_title">DateiManager</%block>
 <%block name="styles">
     ${parent.styles()}
