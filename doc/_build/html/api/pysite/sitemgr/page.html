@@ -120,6 +120,15 @@ passed to <cite>urllib.parse.urlencode</cite>.</li>
 </tr>
 </tbody>
 </table>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p>Add a signal, so that plugins can hook into the creation
+of the static URL and trigger e.g. cimpilation of LESSCSS or
+sth. like this.</p>
+<p class="last">If hook returns its generated URL, no more hooks shall be
+signaled. If hook returns None, the next hook is signaled.
+If all hooks returned None, the default generation takes place.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -305,10 +314,10 @@ other page&lt;/a&gt;&lt;/p&gt;</pre>
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
   <p class="topless"><a href="../sitemgr/init.html"
-                        title="previous chapter"><tt class="docutils literal docutils literal"><span class="pre">pysite.sitemgr</span></tt></a></p>
+                        title="previous chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr</span></tt></a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../sitemgr/models.html"
-                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a></p>
+                        title="next chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../../_sources/api/pysite/sitemgr/page.txt"

@@ -10,7 +10,7 @@ PySite is a system to host and manage multiple websites.
 
 It is not a CMS in the traditional sense. Rather, you manage the contents of a
 website via a filemanager interface, which gives you access to all
-settings, the pages, the styles, plugins, you name it. Compose your pages with
+settings, the pages, the styles, plugins, etc. Compose your pages with
 `Jinja <http://jinja.pocoo.org/>`_ templates, and edit your code comfortably
 with syntax highlighting in the `ACE <http://ace.ajax.org>`_ editor.
 

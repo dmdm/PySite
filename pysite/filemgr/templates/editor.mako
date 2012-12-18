@@ -97,6 +97,7 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
     <div class="submenu" style="width:200px;">
         <ul>
           <li><a id="cmd-file-save" href="#">Save &lt;Ctrl-S&gt;</a></li>
+          <li><a id="cmd-file-save_sassc" href="#">Save &amp; compile Sass &lt;Alt-S&gt;</a></li>
           <li><a id="cmd-file-reload" href="#">Reload</a></li>
           <li><a id="cmd-file-resize" href="#">Resize</a></li>
         </ul>
@@ -255,7 +256,9 @@ function(doc,                   $,        PYM)
                   , '.yaml':   'yaml'
                   , '.js':     'javascript'
                   , '.css':    'css'
+                  , '.scss':    'scss'
               }
+            , sassc_url = '${sassc_url}'
             ;
 
         function load_file() {
@@ -275,7 +278,7 @@ function(doc,                   $,        PYM)
             ;
             $.getJSON(url, data, function(data, textStatus, jqXHR) {
                 window.document.title = filename;
-                var ext = filename.match(/(\.[^.]+)$/)[1]
+                var ext = filename.match(/(\.[^.]+)$/)[1].toLowerCase()
                     , m = modemap[ext]
                 ;
                 if (m) set_mode(m);
@@ -283,7 +286,7 @@ function(doc,                   $,        PYM)
             });
         }
 
-        function save_file(visual) {
+        function save_file(visual, call_sassc) {
             // POST:
             //     cmd=put
             //     content=title: Page Two
@@ -299,6 +302,13 @@ function(doc,                   $,        PYM)
             ;
             $.post(url, data, function (data, textStatus, jqXHR) {
                 if (visual) PYM.growl({kind: 'success', text: filename + ' saved.'});
+                if (call_sassc) {
+                    $.getJSON(sassc_url, function(data, textStatus, jqXHR) {
+                        for (var i=0, imax=data.msgs.length; i<imax; i++ ) {
+                            PYM.growl(data.msgs[i]);
+                        }
+                    });
+                }
             });
         }
 
@@ -326,6 +336,13 @@ function(doc,                   $,        PYM)
                 bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
                 exec: function(editor) {
                     save_file(true);
+                }
+            });
+            editor.commands.addCommand({
+                name: 'save_sassc',
+                bindKey: {win: 'Alt-S',  mac: 'Alt-S'},
+                exec: function(editor) {
+                    save_file(true, true);
                 }
             });
         }
@@ -392,6 +409,9 @@ function(doc,                   $,        PYM)
             });
             $('#cmd-file-save').on('click', function (evt) {
                 save_file(true);
+            });
+            $('#cmd-file-save_sassc').on('click', function (evt) {
+                save_file(true, true);
             });
             $('#cmd-file-resize').on('click', function (evt) {
                 editor.resize(true);

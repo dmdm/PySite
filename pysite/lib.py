@@ -46,6 +46,53 @@ class BaseNode(dict):
         return self._title if self._title else self.__name__
 
 
+class StatusResp(object):
+
+    def __init__(self):
+        """
+        Creates dict with status messages for a view response.
+
+        Add messages as simple strings. Response object will
+        have those messages suitable for PYM.growl().
+        """
+        self._msgs = []
+        self._is_ok = True
+
+    def add_msg(self, msg):
+        if msg['kind'] in ['error', 'fatal']:
+            self._is_ok = False
+        self._msgs.append(msg)
+
+    def notice(self, msg):
+        self.add_msg(dict(kind='notice', text=msg))
+
+    def info(self, msg):
+        self.add_msg(dict(kind='info', text=msg))
+
+    def warn(self, msg):
+        self.add_msg(dict(kind='warning', text=msg))
+
+    def error(self, msg):
+        self.add_msg(dict(kind='error', text=msg))
+
+    def fatal(self, msg):
+        self.add_msg(dict(kind='fatal', text=msg))
+
+    def ok(self, msg):
+        self.add_msg(dict(kind='success', text=msg))
+
+    @property
+    def resp(self):
+        return dict(
+            ok=self._is_ok,
+            msgs=self._msgs
+        )
+
+    @property
+    def is_ok(self):
+        return self._is_ok
+        
+
 def load_site_config(site_dir, fn, encoding='utf-8'):
     """
     Loads config file from within a site in a safe way.
@@ -58,7 +105,7 @@ def load_site_config(site_dir, fn, encoding='utf-8'):
     :param encoding: Encoding of the file, default is UTF-8.
     :returns: Dict with the settings
     """
-    fn = os.path.join(site_dir, os.path.normpath(fn))
+    fn = os.path.join(site_dir, os.path.normpath(fn.lstrip(os.path.sep)))
     return safe_load_config(fn, encoding)
 
 

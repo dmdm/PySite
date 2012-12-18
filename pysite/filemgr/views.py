@@ -9,6 +9,7 @@ import pym_elfinder
 from pym_elfinder.exceptions import FinderError
 import pym_elfinder.cache
 import pysite.sitemgr.models
+import pysite.sass as sass
 
 
 L = logging.getLogger('PySite')
@@ -119,7 +120,46 @@ class FileMgrView(object):
         renderer='pysite:filemgr/templates/editor.mako',
     )
     def editor(self):
-        return dict()
+        sassc_url = self.request.resource_url(self.context, '@@xhr_sassc')
+        return dict(sassc_url=sassc_url)
+
+    @view_config(
+        name='xhr_sassc',
+        renderer='json',
+    )
+    def xhr_sassc(self):
+        # Context is Site
+        resp = pysite.lib.StatusResp()
+        inf = self.context.rc.get('sass.infile', None)
+        if not inf:
+            resp.error('sass.infile is undefined.')
+        outf = self.context.rc.get('sass.outfile', None)
+        if not outf:
+            resp.error('sass.outfile is undefined.')
+        if not resp.is_ok:
+            return resp.resp
+        infile = os.path.join(self.context.dir_, os.path.normpath(
+            inf.lstrip("/")))
+        if not os.path.exists(infile):
+            resp.error("sass.infile '{0}' does not exist".format(infile))
+        if not resp.is_ok:
+            return resp.resp
+        is_ok, result = sass.compile_path(infile)
+        if not is_ok:
+            resp.add_msg(dict(kind="fatal", title="Sass compilation failed",
+                text=result))
+            return resp.resp
+        outfile = os.path.join(self.context.dir_, os.path.normpath(
+            outf.lstrip("/")))
+        # Just a safeguard that we stay inside our site_dir
+        if not outfile.startswith(self.context.dir_):
+            resp.error("sass.outfile is invalid")
+            return resp.resp
+        with open(outfile, 'w', encoding='utf-8') as fh:
+            fh.write(result)
+        resp.ok('Sass compilation succeeded')
+        return resp.resp
+
 
 
 _DEVEL_OPTS = {

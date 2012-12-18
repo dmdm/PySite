@@ -16,3 +16,6 @@ title: Default Site
 # This is the default language. It is used if the one given by the user
 # could not be matched to a valid locale.
 #i18n.default_language: en
+
+sass.infile: /assets/sass/styles.scss
+sass.outfile: /assets/css/compiled_styles.css

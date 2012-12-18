@@ -64,3 +64,6 @@ Active `extensions <http://packages.python.org/Markdown/extensions/index.html>`_
 'sane_lists',
 'toc'
 
+**Sass compiler** for CSS is integrated. Define ``sass.infile`` and ``sass.outfile`` in
+the site's config file ``rc.yaml`` and call the compiler from the editor with <ALT+S>
+(Save and compile).
