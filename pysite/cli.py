@@ -9,6 +9,7 @@ from pyramid.paster import (
     )
 import json
 import os
+from prettytable import PrettyTable
 
 from pysite.rc import Rc
 import pysite.models
@@ -48,9 +49,11 @@ class Cli(object):
         if 'environment' not in settings:
             raise KeyError('Missing key "environment" in config. Specify '
                 'environment in paster INI file.')
+        # The directory of the config file is our root_dir
         rc = Rc(environment=settings['environment'],
-            root_dir=os.path.abspath(
-                os.path.join(os.path.dirname(__file__), '..', '..')
+            root_dir=os.path.normpath(
+                os.path.join(os.getcwd(), os.path.dirname(
+                    self._args.config))
             )
         )
         rc.load()
@@ -119,6 +122,8 @@ class Cli(object):
             self._print_json(data)
         elif fmt == 'tsv':
             self._print_tsv(data)
+        elif fmt == 'txt':
+            self._print_txt(data)
         else:
             self._print_yaml(data)
 
@@ -142,6 +147,34 @@ class Cli(object):
             for row in data:
                 print("\t".join([str(v) for v in row.values()]))
 
+    def _print_txt(self, data):
+        # We need a list of hh for prettytable, otherwise we get
+        # TypeError: 'KeysView' object does not support indexing
+        try:
+            hh = data[0].keys()
+        except KeyError:  # missing data[0]
+            # Data was not a list, maybe a dict
+            hh = data.keys()
+            t = PrettyTable(list(hh))
+            t.align = 'l'
+            t.add_row([data[h] for h in hh])
+            print(t)
+        except AttributeError:  # missing data.keys()
+            # Just a simple list
+            # PrettyTable *must* have column headers and the headers *must*
+            # be str, not int or else!
+            t = PrettyTable([ str(i) for i in range(len(data))])
+            t.align = 'l'
+            t.add_row(data)
+            print(t)
+        else:
+            # Data is list of dicts (like resultset from DB)
+            t = PrettyTable(list(hh))
+            t.align = 'l'
+            for row in data:
+                t.add_row([row[h] for h in hh])
+            print(t)
+
     def _print_yaml(self, data):
         yaml.dump(data, sys.stdout, **self.dump_opts_yaml)
 
@@ -151,6 +184,9 @@ class Cli(object):
             return self._parse_json(data)
         if fmt == 'tsv':
             return self._parse_tsv(data)
+        if fmt == 'txt':
+            raise NotImplementedError("Reading data from pretty ASCII tables"
+                "is not implemented")
         else:
             return self._parse_yaml(data)
 

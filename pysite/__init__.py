@@ -13,6 +13,7 @@ import pysite.resmgr
 import pysite.security
 import pysite.models
 import pysite.i18n
+import pysite.vmailmgr.manager
 
 
 def main(global_config, **settings):
