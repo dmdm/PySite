@@ -10,6 +10,33 @@ import locale
 _RE_NAME_CHARS = re.compile('^[-a-zA-Z0-9_.]+$')
 
 
+
+def rreplace(s, old, new, occurrence):
+    """
+    Replaces the last n occurrences of a thing.
+
+    >>> s
+    '1232425'
+    >>> rreplace(s, '2', ' ', 2)
+    '123 4 5'
+    >>> rreplace(s, '2', ' ', 3)
+    '1 3 4 5'
+    >>> rreplace(s, '2', ' ', 4)
+    '1 3 4 5'
+    >>> rreplace(s, '2', ' ', 0)
+    '1232425'
+
+    http://stackoverflow.com/a/2556252
+
+    :param s: Haystack
+    :param old: Needle
+    :param new: Replacement
+    :param occurrences: How many
+    :returns: The resulting string
+    """
+    li = s.rsplit(old, occurrence)
+    return new.join(li)
+
 class BaseNode(dict):
     __parent__ = None
     __name__   = None

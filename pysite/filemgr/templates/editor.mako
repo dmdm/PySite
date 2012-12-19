@@ -232,6 +232,7 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
         <ul>
           <li><a id="cmd-color-picker" href="#">Color Picker</a></li>
           <li><a id="cmd-resize" href="#">Resize</a></li>
+          <li><a id="cmd-key-bindings" href="#">Key Bindings</a></li>
         </ul>
     </div>
   </li>
@@ -319,7 +320,7 @@ function(doc,                   $,        PYM)
                 var ext = filename.match(/(\.[^.]+)$/)[1].toLowerCase()
                     , m = modemap[ext]
                 ;
-                if (m) set_mode(m);
+                set_mode(m);
                 set_content(data.content);
             });
         }
@@ -339,6 +340,12 @@ function(doc,                   $,        PYM)
                 }
             ;
             $.post(url, data, function (data, textStatus, jqXHR) {
+				// TODO Check the response data.
+				//      If e.g. session expired, we will nonetheless get
+				//      an HTTP 200, because we are redirected to the login
+				//      page. Since XHR is non-visual, nobody notices that
+				//      and this method signals "saving ok" to the user
+				//      -- which is wrong! Nothing was saved.
                 if (visual) PYM.growl({kind: 'success', text: filename + ' saved.'});
                 if (call_sassc) {
                     $.getJSON(sassc_url, function(data, textStatus, jqXHR) {
@@ -359,16 +366,14 @@ function(doc,                   $,        PYM)
         }
 
         function init_editor() {
-            var th = PYM.cookie.read('theme');
+            var th = PYM.cookie.read('theme') || 'tomorrow_night_eighties';
             editor = ace.edit(editor_id);
             editor.setShowInvisibles(true);
-            if (th) {
-                set_theme( th );
-                $('.menu-themes a').each(function(ix, it) {
-                    it = $(it);
-                    if (it.text() == th) it.addClass('active');
-                });
-            }
+			set_theme( th );
+			$('.menu-themes a').each(function(ix, it) {
+				it = $(it);
+				if (it.text() == th) it.addClass('active');
+			});
             editor.commands.addCommand({
                 name: 'save',
                 bindKey: {win: 'Ctrl-S',  mac: 'Command-S'},
@@ -390,11 +395,15 @@ function(doc,                   $,        PYM)
 					$.jPicker.List[0].color.active.val('ahex', sel);
 				}
 			});
+			console.log(editor.commands);
         }
 
         function set_mode(m) {
-            if (! m) return;
+            if (! m) {
+				PYM.cookie.read('mode') || 'text';
+			};
             editor.getSession().setMode('ace/mode/' + m);
+			PYM.cookie.write('mode', m);
             $('.menu-modes a').each(function(ix, it) {
                 it = $(it);
                 if (it.text() == m) {
@@ -463,6 +472,41 @@ function(doc,                   $,        PYM)
             });
             $('#cmd-color-picker').on('click', function (evt) {
                 alert('click');
+            });
+            $('#cmd-key-bindings').on('click', function (evt) {
+				var s
+					, key
+					, platform = editor.commands.platform
+					, cmds = editor.commands.byName
+					, names = []
+					, name
+				;
+				for (var name in cmds) {
+			 		if(cmds.hasOwnProperty(name)) {
+						names.push(name);
+					}
+				}
+				names.sort();
+
+				s = '<div id="key-bindings" style="position: absolute; top:0px; left:20px; height: 500px; width:500px; z-index:10000; background-color:#333; color: silver; font-size:80%;">'
+					+ '<div style="text-align:right;" onclick="$(this).parent().remove();">[ close ]</div>'
+					+ '<div>Platform: <strong>' + platform + '</strong></div>'
+					+ '<div style="height: 450px; overflow: auto;">'
+					+ '<table><thead><tr><th>Name</th><th>Key</th></tr></thead>'
+					+ '<tbody>';
+				for (var i=0, imax=names.length; i<imax; i++) {
+					name = names[i];
+					if (cmds[name].bindKey) {
+						key = cmds[name].bindKey[platform];
+					}
+					else {
+						key = 'unknown';
+					}
+					s += '<tr style="border-bottom:solid 1px gray;"><td>' + name + '</td><td>' + key + '</td></tr>';
+				}
+				s += '</tbody></table></div></div>';
+				$('#editor').before(s);
+				$('#key-bindings').css('top', $('#editor').css('top'));
             });
         }
         

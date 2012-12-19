@@ -4,6 +4,7 @@ import os.path
 import urllib.parse
 import jinja2 as jj
 import jinja2.sandbox
+import markupsafe
 import pyramid.traversal
 
 import pysite.security
@@ -124,7 +125,23 @@ class Page(object):
                 self.context.__name__) + '.jinja2'
         if jjglobals:
             self.jjglobals.update(jjglobals)
-        self.jjtpl = self.jjenv.get_template(fn, globals=self.jjglobals)
+        try:
+            self.jjtpl = self.jjenv.get_template(fn, globals=self.jjglobals)
+        except jj.TemplateSyntaxError as exc:
+            self.jjtpl = jj.Template("""<html>
+            <head><title>Template Syntax Error</title></head>
+            <body><h1>Template Syntax Error</h1>
+            <p><strong>{message}</strong></p>
+            <p>in template "{name}", line {lineno}</p>
+            </body>
+            </html>
+            """.format(message=exc.message, name=exc.name, lineno=exc.lineno))
+        except jj.TemplateError as exc:
+            self.jjtpl = jj.Template("""<html>
+            <head><title>Template Error</title></head>
+            <body><h1>Template Error</h1><pre>{0}: {1}</pre></body>
+            </html>
+            """.format(markupsafe.escape(type(exc)), str(exc)))
 
     def render(self, jjcontext=None):
         """
@@ -137,7 +154,15 @@ class Page(object):
         """
         if jjcontext:
             self.jjcontext.update(jjcontext)
-        self.page = self.jjtpl.render(self.jjcontext)
+        try:
+            self.page = self.jjtpl.render(self.jjcontext)
+        except jj.TemplateError as exc:
+            tpl = jj.Template("""<html>
+                <head><title>Template Error</title></head>
+                <body><h1>Template Error</h1><pre>{0}: {1}</pre></body>
+                </html>
+                """.format(markupsafe.escape(type(exc)), str(exc)))
+            self.page = tpl.render(self.jjcontext)
 
     def url(self, path, **kw):
         """
@@ -156,8 +181,19 @@ class Page(object):
                      `content` directory.
         :returns: Absolute URL to another page
         """
-        tgtres = pyramid.traversal.find_resource(self.context.__parent__, path)
-        return self.request.resource_url(tgtres, **kw)
+        try:
+            tgtres = pyramid.traversal.find_resource(self.context.__parent__, path)
+        except KeyError:
+            # Let the user type in URL to a page that does not yet exist,
+            # but signal it.
+            # If we would not catch this exception, the webserver would cry 500.
+            return '#page-not-found'
+        url = self.request.resource_url(tgtres, **kw)
+        # Since we do not pass any element parts to resource_url(), the generated
+        # URL will always end with '/'. If a query string or an anchor is appended,
+        # the last '/' will trick the traversal to look for a subelement, which
+        # does not exist. So we kill that last '/'.
+        return pysite.lib.rreplace(url, '/', '', 1)
 
     def asset_url(self, path, query=None, anchor=None):
         """
