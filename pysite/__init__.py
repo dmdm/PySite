@@ -92,6 +92,10 @@ def includeme(config):
     # Provide a markdown renderer
     _add_markdown(config)
 
+    _init_vmail(config.registry.settings['rc'])
+
+
+
 
 def _init_vmail(rc):
     """
@@ -99,6 +103,9 @@ def _init_vmail(rc):
 
     Though I am declared as private, CLI scripts like tests
     are allowed (and must) call me during their initialisation.
+
+    :param rc: The Rc instance. This is not ``settings`` or ``config``, because
+        we may call this method from a CLI where config is not available.
     """
     pysite.vmailmgr.manager.UID = rc.g('vmail.uid',
         pysite.vmailmgr.manager.UID)

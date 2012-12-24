@@ -198,7 +198,6 @@
             }
             else {
                 var msg = resp.msg || 'Errors';
-                //PYM.growlFlash([msg]);
                 var errors = resp.errors;
                 for (var k in errors) {
                     var id = '#' + k.replace(/\./g, '-');

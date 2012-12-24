@@ -14,7 +14,7 @@ from sqlalchemy import (
     Integer,
     DateTime,
     ForeignKey,
-#    event
+    event
 )
 from sqlalchemy.orm import (
     scoped_session,
@@ -29,12 +29,14 @@ from sqlalchemy.ext.declarative import (
 )
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql.expression import (func, Executable, ClauseElement)
+import sqlalchemy.engine
 
 from zope.sqlalchemy import ZopeTransactionExtension
 
 import pyramid.threadlocal
 import colander
 import deform
+import sqlparse
 
 
 def _get_current_user():
@@ -249,6 +251,14 @@ class DefaultMixin(object):
             return sess.query(cls).filter_by(**fil).one()
 
 # ================================
+
+@event.listens_for(sqlalchemy.engine.Engine, "before_cursor_execute", retval=True)
+def before_cursor_execute(conn, cursor, statement,
+                parameters, context, executemany):
+    print("\n", 'v'*79)
+    print(sqlparse.format(statement, reindent=True, keyword_case='upper'))
+    print('^'*79, "\n")
+    return statement, parameters
 
 
 # ===[ IMPORTABLE SETUP FUNCS ]=======

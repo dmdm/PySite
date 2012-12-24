@@ -11,7 +11,7 @@ from pyramid.security import Allow
 
 import pysite.lib
 from pysite.dd import apply_mixin
-from pysite.models import DbBase, DefaultMixin, DefaultMixinDd
+from pysite.models import DbEngine, DbBase, DefaultMixin, DefaultMixinDd, CreateView
 
 __all__ = ['Node', 'DomainDd', 'Domain', 'Mailbox', 'Alias']
 
@@ -24,7 +24,34 @@ class Node(pysite.lib.BaseNode):
 
     def __init__(self, parent):
         super().__init__(parent)
-        self._title = 'VMail Manager'
+        self._title = 'VMail'
+        self['domain'] = NodeDomain(self)
+        self['mailbox'] = NodeMailbox(self)
+        self['alias'] = NodeAlias(self)
+
+
+class NodeDomain(pysite.lib.BaseNode):
+    __name__ = 'domain'
+
+    def __init__(self, parent):
+        super().__init__(parent)
+        self._title = 'Domains'
+
+
+class NodeMailbox(pysite.lib.BaseNode):
+    __name__ = 'mailbox'
+
+    def __init__(self, parent):
+        super().__init__(parent)
+        self._title = 'Mailboxes'
+
+
+class NodeAlias(pysite.lib.BaseNode):
+    __name__ = 'alias'
+
+    def __init__(self, parent):
+        super().__init__(parent)
+        self._title = 'Aliases'
 
 
 DomainDd = {
@@ -53,26 +80,6 @@ DomainDd = {
             'editable': False
         }
     },
-    # Query should map `tenant.display_name' to `tenant_display_name'
-    'tenant_display_name': {
-        'type': colander.String(),
-        'missing': colander.null,
-        'title': 'Tenant',
-        'widget': None,
-        'colModel': {
-            'width': 100,
-            'editable': False
-        }
-    },
-    'used_mailboxes': {
-        'type': colander.Int(),
-        'title': "Used Mailboxes",
-        'widget': None,
-        'colModel': {
-            'width': 50,
-            'editable': False
-        }
-    },
     'max_mailboxes': {
         'type': colander.Int(),
         'title': "Max Mailboxes",
@@ -81,15 +88,6 @@ DomainDd = {
         'colModel': {
             'width': 50,
             'editable': True
-        }
-    },
-    'used_aliases': {
-        'type': colander.Int(),
-        'title': "Used Aliases",
-        'widget': None,
-        'colModel': {
-            'width': 50,
-            'editable': False
         }
     },
     'max_aliases': {
@@ -295,3 +293,12 @@ class Alias(DbBase, DefaultMixin):
         return "<Alias({id}: {name}@{domain} -> {dest}>".format(
             id=self.id, name=self.name, domain=self.domain.name,
             dest=self.dest)
+
+
+# Can do this only after the metadata is bound to an engine.
+# When we import this module before pysite.models.init() was called, we do not
+# have initialized an engine yet.
+###vw_domain_browse = sa.Table('vw_vmail_domain_browse', Domain.metadata, autoload=True)
+def get_vw_domain_browse():
+    return sa.Table('vw_vmail_domain_browse', Domain.metadata, autoload=True)
+

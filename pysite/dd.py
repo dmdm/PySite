@@ -23,6 +23,7 @@ column names to avoid clashing if any tables have the same column names.
 """
 
 import colander
+import copy
 
 
 def deserialize(schema, in_data0):
@@ -53,6 +54,43 @@ def deserialize(schema, in_data0):
     return out_data
 
 
+def fully_qualify(*dds):
+    """
+    Returns dict that contains fully qualified fields of all given data dicts.
+
+    Fully qualified fields are fields that are prefixes with their tablename
+    and schema.
+
+    If in a given data dictionary a field begins with '--', it is not prefixed.
+    '--' means, this field in the data dictionary maps not to a physical field
+    in the underlying table, but this definition is declared in anticipation
+    that it will be used later. For example, the
+    :attr:`pysite.models.DefaultMixinDd` has the fields
+    ``--owner.display_name`` and ``--editor.display_name``. We anticipate that
+    they will be used by each browse query. A browse query then must create an
+    alias of :class:`pysite.usrmgr.Principal` with the name ``owner`` and
+    another alias of it with the name ``editor``.
+
+    The fields of the given data dictionaries are deepcopied, so that the
+    returned dict can be modified by the caller without disturbing the original
+    data dictionaries.
+    """
+    res = dict()
+    for dd in dds:
+        if '__schema__' in dd and dd['__schema__']:
+            prefix = dd['__schema__'] + '.' + dd['__tablename__'] + '.'
+        else:
+            prefix = dd['__tablename__'] + '.'
+        for k, v in dd.items():
+            if k.startswith('--'):
+                k = k[2:]
+                if not k in res:
+                    res[k] = copy.deepcopy(v)
+            else:
+                res[prefix + k] = copy.deepcopy(v)
+    return res
+
+
 def build_schema(schema_type, *dds, **kw):
     """
     Builds a Colander schema by given datadicts.
@@ -68,19 +106,13 @@ def build_schema(schema_type, *dds, **kw):
     """
     sch = schema_type()
     for dd in dds:
-        internals = {}
         for name, d in dd.items():
-            if name.startswith('__'):
-                internals[name] = d
-        for name, x in dd.items():
-            d = x.copy()
             if name.startswith('__'):
                 continue
             if 'fieldlist' in kw and name not in kw['fieldlist']:
                 continue
             d['name'] = name
             typ = d['type']
-            del(d['type'])
             sch.add(colander.SchemaNode(typ, **d))
     return sch
 

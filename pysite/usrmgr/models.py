@@ -1,36 +1,69 @@
 # -*- coding: utf-8 -*-
 
 import datetime
-from sqlalchemy import *
+import sqlalchemy as sa
 #from sqlalchemy import event
 from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.sql import and_
 from sqlalchemy.orm import relationship
 from sqlalchemy.orm import validates
 from sqlalchemy.orm.exc import NoResultFound
+import colander
 
 
-from pysite.models import DbSession, DbBase, DefaultMixin
+from pysite.models import DbSession, DbBase, DefaultMixin, DefaultMixinDd
+from pysite.dd import apply_mixin
 
 __all__ = ['Principal', 'Role', 'RoleMember']
+
+
+RolememberDd = {
+    # This must be the same as ``__tablename__`` in a SQLAlchemy declarative.
+    '__tablename__': 'rolemember',
+    # This must be the same as ``__schema__`` in the table args of a
+    # SQLAlchemy declarative.
+    '__schema__': '',
+
+      'role_id': {
+        'type': colander.Int()
+        , 'title': 'RoleId'
+        , 'widget': None
+        , 'validator': colander.Length(min=1)
+        , 'colModel': {
+            'width': 50
+            , 'editable': True
+        }
+    }
+    , 'principal_id': {
+        'type': colander.Int()
+        , 'title': 'PrincipalId'
+        , 'widget': None
+        , 'validator': colander.Length(min=1)
+        , 'colModel': {
+            'width': 50
+            , 'editable': True
+        }
+    }
+}
+apply_mixin(RolememberDd, DefaultMixinDd)
 
 
 class RoleMember(DbBase, DefaultMixin):
     __tablename__ = "rolemember"
     __table_args__ = (
-        UniqueConstraint('role_id', 'principal_id'),
+        sa.UniqueConstraint('role_id', 'principal_id'),
         {
             #'schema': 'pym'
         }
     )
 
-    principal_id = Column(BigInteger,
+    principal_id = sa.Column(sa.BigInteger,
             #ForeignKey("pym.principal.id", onupdate="CASCADE", ondelete="CASCADE"),
-            ForeignKey("principal.id", onupdate="CASCADE", ondelete="CASCADE"),
+            sa.ForeignKey("principal.id", onupdate="CASCADE", ondelete="CASCADE"),
             nullable=False)
-    role_id = Column(BigInteger,
+    role_id = sa.Column(sa.BigInteger,
             #ForeignKey("pym.role.id", onupdate="CASCADE", ondelete="CASCADE"),
-            ForeignKey("role.id", onupdate="CASCADE", ondelete="CASCADE"),
+            sa.ForeignKey("role.id", onupdate="CASCADE", ondelete="CASCADE"),
             nullable=False)
 ###    role = relationship('Role', backref=backref('role_members', cascade="all,delete,delete-orphan") )
 ###    principal = relationship('Principal', 
@@ -92,6 +125,170 @@ def default_principal(context):
         s = context.current_parameters['email']
     return s
 
+
+
+
+PrincipalDd = {
+    # This must be the same as ``__tablename__`` in a SQLAlchemy declarative.
+    '__tablename__': 'principal',
+    # This must be the same as ``__schema__`` in the table args of a
+    # SQLAlchemy declarative.
+    '__schema__': '',
+
+    'is_enabled': {
+        'type': colander.Bool()
+        , 'title': 'Enabled?'
+        , 'widget': None
+        , 'colModel': {
+            'width': 50
+            , 'editable': True
+            , 'edittype': 'checkbox'
+            , 'editoptions': {'value':"True:False"}
+            , 'formoptions': {'elmprefix': None }
+        }
+    }
+    , 'is_blocked': {
+        'type': colander.Bool()
+        , 'title': 'Blocked?'
+        , 'widget': None
+        , 'colModel': {
+            'width': 50
+            , 'editable': True
+            , 'edittype': 'checkbox'
+            , 'editoptions': {'value':"True:False"}
+            , 'formoptions': {'elmprefix': None }
+        }
+    }
+    , 'principal': {
+        'type': colander.String()
+        , 'title': 'Principal'
+        , 'widget': None
+        , 'validator': colander.Length(min=1, max=255)
+        , 'colModel': {
+            'width': 200
+            , 'editable': True
+        }
+    }
+    , 'pwd': {
+        'type': colander.String()
+        , 'missing': colander.null
+        , 'title': 'Password'
+        , 'widget': None
+        , 'validator': colander.Length(max=32)
+        , 'colModel': {
+            'width': 100
+            , 'editable': True
+            , 'edittype': 'password'
+            , 'editrules': { 'edithidden': True }
+            , 'hidden': True
+            , 'hidedlg': True
+        }
+    }
+    , 'identity_url': {
+        'type': colander.String()
+        , 'missing': colander.null
+        , 'title': 'Identity URL'
+        , 'widget': None
+        , 'validator': colander.Length(max=255)
+        , 'colModel': {
+            'width': 100
+            , 'editable': False
+        }
+    }
+    , 'email': {
+        'type': colander.String()
+        , 'title': 'Email'
+        , 'widget': None
+#        , 'validator': All(
+#              Length(min=1, max=128)
+#              , Email()
+#          )
+        , 'validator': colander.Email()
+        , 'colModel': {
+            'width': 200
+            , 'editable': True
+            #, 'editrules': { 'email': True }
+        }
+    }
+    , 'first_name': {
+        'type': colander.String()
+        , 'title': 'First Name'
+        , 'widget': None
+        , 'validator': colander.Length(max=64)
+        , 'colModel': {
+            'width': 100
+            , 'editable': True
+        }
+    }
+    , 'last_name': {
+        'type': colander.String()
+        , 'title': 'Last Name'
+        , 'widget': None
+        , 'validator': colander.Length(max=64)
+        , 'colModel': {
+            'width': 100
+            , 'editable': True
+        }
+    }
+    , 'display_name': {
+        'type': colander.String()
+        , 'missing': colander.null
+        , 'title': 'Display Name'
+        , 'widget': None
+        , 'validator': colander.Length(max=255)
+        , 'colModel': {
+            'width': 200
+            , 'editable': True
+        }
+    }
+    , 'notes': {
+        'type': colander.String()
+        , 'missing': colander.null
+        , 'title': 'Notes'
+        , 'widget': None
+        , 'validator': colander.Length(max=1024)
+        , 'colModel': {
+            'width': 200
+            , 'editable': True
+            , 'edittype': 'textarea'
+        }
+    }
+    , 'login_time': {
+        'type': colander.DateTime()
+        , 'missing': colander.null
+        , 'default': colander.null
+        , 'title': 'Login Time'
+        , 'widget': None
+        , 'colModel': {
+            'width': 100
+            , 'editable': False
+        }
+    }
+    , 'prev_login_time': {
+        'type': colander.DateTime()
+        , 'missing': colander.null
+        , 'title': 'Prev Login Time'
+        , 'widget': None
+        , 'colModel': {
+            'width': 100
+            , 'editable': False
+        }
+    }
+    , 'gui_token': {
+        'type': colander.String()
+        , 'missing': colander.null
+        , 'title': 'GUI Token'
+        , 'widget': None
+        , 'validator': colander.Length(max=36)
+        , 'colModel': {
+            'width': 100
+            , 'editable': False
+        }
+    }
+}
+apply_mixin(PrincipalDd, DefaultMixinDd)
+
+
 class Principal(DbBase, DefaultMixin):
     """Principals (users).
 
@@ -113,32 +310,32 @@ class Principal(DbBase, DefaultMixin):
 
     FIND_ONE_FIELD = 'principal'
 
-    is_enabled      = Column(Boolean, nullable=False, default=False)
+    is_enabled      = sa.Column(sa.Boolean, nullable=False, default=False)
     """Tells whether or not a (human) admin has en/disabled this account."""
-    is_blocked      = Column(Boolean, nullable=False, default=False)
+    is_blocked      = sa.Column(sa.Boolean, nullable=False, default=False)
     """Tells whether or not some automated process has en/disabled this account."""
-    principal       = Column(Unicode(255), nullable=False, index=True,
+    principal       = sa.Column(sa.Unicode(255), nullable=False, index=True,
                         default=default_principal)
     """Principal or user name"""
-    pwd             = Column(Unicode(32))
+    pwd             = sa.Column(sa.Unicode(32))
     """Password"""
-    identity_url    = Column(Unicode(255), index=True, unique=True)
+    identity_url    = sa.Column(sa.Unicode(255), index=True, unique=True)
     """Used for login by OpenID"""
-    email           = Column(Unicode(128), nullable=False, unique=True)
+    email           = sa.Column(sa.Unicode(128), nullable=False, unique=True)
     """Email address. Always lowecased."""
-    first_name      = Column(Unicode(64))
+    first_name      = sa.Column(sa.Unicode(64))
     """User's first name"""
-    last_name       = Column(Unicode(64))
+    last_name       = sa.Column(sa.Unicode(64))
     """User's last name"""
-    display_name    = Column(Unicode(255), unique=True, default=default_display_name)
+    display_name    = sa.Column(sa.Unicode(255), unique=True, default=default_display_name)
     """User is displayed like this. Usually 'first_name last_name' or 'principal'"""
-    login_time      = Column(DateTime)
+    login_time      = sa.Column(sa.DateTime)
     """Timestamp of current login"""
-    prev_login_time = Column(DateTime)
+    prev_login_time = sa.Column(sa.DateTime)
     """Timestamp of previous login"""
-    gui_token       = Column(String(36), index=True, unique=True)
+    gui_token       = sa.Column(sa.String(36), index=True, unique=True)
     """Hmmm...?"""
-    notes           = Column(UnicodeText)
+    notes           = sa.Column(sa.UnicodeText)
     """Well, some notes."""
 
     # XXX Too bad: we cannot simply do roles.append(new_role), because
@@ -147,7 +344,7 @@ class Principal(DbBase, DefaultMixin):
     #     IntegrityError: (IntegrityError) null value in column "owner"
     #         violates not-null constraint
     #             'INSERT INTO pym.rolemember (principal_id, role_id) VALUES
-    #             (%(principal_id)s, %(role_id)s) RETURNING pym.rolemember.id'
+    #             (%(principal_id)s, %(role_id)s) RETURNING id'
     #             {'principal_id': 2L, 'role_id': 101L}
     roles = relationship('Role', secondary=RoleMember.__table__,
         primaryjoin='Principal.id==RoleMember.principal_id',
@@ -270,6 +467,40 @@ class Principal(DbBase, DefaultMixin):
 ### event.listen(Principal.__table__, "after_create", principal_after_create)
 
 
+
+RoleDd = {
+    # This must be the same as ``__tablename__`` in a SQLAlchemy declarative.
+    '__tablename__': 'role',
+    # This must be the same as ``__schema__`` in the table args of a
+    # SQLAlchemy declarative.
+    '__schema__': '',
+
+      'name': {
+        'type': colander.String()
+        , 'title': 'Name'
+        , 'widget': None
+        , 'validator': colander.Length(min=1, max=64)
+        , 'colModel': {
+            'width': 200
+            , 'editable': True
+        }
+    }
+    , 'notes': {
+        'type': colander.String()
+        , 'missing': colander.null
+        , 'title': 'Notes'
+        , 'widget': None
+        , 'validator': colander.Length(max=255)
+        , 'colModel': {
+            'width': 200
+            , 'editable': True
+            , 'edittype': 'text'
+        }
+    }
+}
+apply_mixin(RoleDd, DefaultMixinDd)
+
+
 class Role(DbBase, DefaultMixin):
     __tablename__  = "role"
     __table_args__ = (
@@ -280,8 +511,8 @@ class Role(DbBase, DefaultMixin):
 
     FIND_ONE_FIELD = 'name'
 
-    name           = Column(Unicode(255), nullable=False, index=True, unique=True)
-    notes          = Column(Unicode(255))
+    name           = sa.Column(sa.Unicode(255), nullable=False, index=True, unique=True)
+    notes          = sa.Column(sa.Unicode(255))
 
     def __str__(self):
         return "<Role(id={0}, name='{1}'>".format(
