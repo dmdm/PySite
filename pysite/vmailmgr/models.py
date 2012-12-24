@@ -77,7 +77,7 @@ DomainDd = {
         'widget': None,
         'colModel': {
             'width': 50,
-            'editable': False
+            'editable': True
         }
     },
     'max_mailboxes': {
@@ -202,6 +202,108 @@ class Domain(DbBase, DefaultMixin):
             id=self.id, name=self.name)
 
 
+MailboxDd = {
+    # This must be the same as ``__tablename__`` in a SQLAlchemy declarative.
+    '__tablename__': 'vmail_mailbox',
+    # This must be the same as ``__schema__`` in the table args of a
+    # SQLAlchemy declarative.
+    '__schema__': '',
+    'name': {
+        'type': colander.Str(),
+        'title': "Name",
+        'widget': None,
+        'validator': colander.Length(max=100),
+        'colModel': {
+            'width': 150,
+            'editable': True
+        }
+    },
+    'pwd': {
+        'type': colander.Str(),
+        'title': "Pwd",
+        'widget': None,
+        'validator': colander.Length(max=80),
+        'colModel': {
+            'width': 50,
+            'editable': True
+        }
+    },
+    'domain_id': {
+        'type': colander.Int(),
+        'missing': colander.null,
+        'title': 'DomainId',
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': True
+        }
+    },
+    'uid': {
+        'type': colander.Int(),
+        'missing': colander.null,
+        'title': 'UID',
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': True
+        }
+    },
+    'gid': {
+        'type': colander.Int(),
+        'missing': colander.null,
+        'title': 'GID',
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': True
+        }
+    },
+    'quota': {
+        'type': colander.Int(),
+        'title': "Quota [MB]",
+        'widget': None,
+        'validator': colander.Range(min=0),
+        'colModel': {
+            'width': 70,
+            'editable': True
+        }
+    },
+    'home_dir': {
+        'type': colander.Str(),
+        'title': "Home Dir",
+        'widget': None,
+        'validator': colander.Length(max=255),
+        'colModel': {
+            'width': 300,
+            'editable': True
+        }
+    },
+    'mail_dir': {
+        'type': colander.Str(),
+        'title': "Mail Dir",
+        'widget': None,
+        'validator': colander.Length(max=255),
+        'colModel': {
+            'width': 300,
+            'editable': True
+        }
+    },
+    'is_enabled': {
+        'type': colander.Bool(),
+        'title': "Enabled?",
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': True,
+            'edittype': 'checkbox',
+            'editoptions': {'value': "True:False"},
+            'formoptions': {'elmprefix': None}
+        }
+    }
+}
+apply_mixin(MailboxDd, DefaultMixinDd)
+
+
 class Mailbox(DbBase, DefaultMixin):
     """
     Mailbox.
@@ -258,6 +360,58 @@ class Mailbox(DbBase, DefaultMixin):
             id=self.id, name=self.name, domain=self.domain.name)
 
 
+AliasDd = {
+    # This must be the same as ``__tablename__`` in a SQLAlchemy declarative.
+    '__tablename__': 'vmail_alias',
+    # This must be the same as ``__schema__`` in the table args of a
+    # SQLAlchemy declarative.
+    '__schema__': '',
+    'name': {
+        'type': colander.Str(),
+        'title': "Name",
+        'widget': None,
+        'validator': colander.Length(max=100),
+        'colModel': {
+            'width': 200,
+            'editable': True
+        }
+    },
+    'dest': {
+        'type': colander.Str(),
+        'title': "Destination",
+        'widget': None,
+        'validator': colander.Length(max=255),
+        'colModel': {
+            'width': 200,
+            'editable': True
+        }
+    },
+    'domain_id': {
+        'type': colander.Int(),
+        'missing': colander.null,
+        'title': 'DomainId',
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': True
+        }
+    },
+    'is_enabled': {
+        'type': colander.Bool(),
+        'title': "Enabled?",
+        'widget': None,
+        'colModel': {
+            'width': 50,
+            'editable': True,
+            'edittype': 'checkbox',
+            'editoptions': {'value': "True:False"},
+            'formoptions': {'elmprefix': None}
+        }
+    }
+}
+apply_mixin(AliasDd, DefaultMixinDd)
+
+
 class Alias(DbBase, DefaultMixin):
     """
     Alias.
@@ -302,3 +456,10 @@ class Alias(DbBase, DefaultMixin):
 def get_vw_domain_browse():
     return sa.Table('vw_vmail_domain_browse', Domain.metadata, autoload=True)
 
+
+def get_vw_mailbox_browse():
+    return sa.Table('vw_vmail_mailbox_browse', Mailbox.metadata, autoload=True)
+
+
+def get_vw_alias_browse():
+    return sa.Table('vw_vmail_alias_browse', Mailbox.metadata, autoload=True)

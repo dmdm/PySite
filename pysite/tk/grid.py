@@ -407,8 +407,8 @@ class Grid(object):
         rows = []
         for row in data:
             cell = []
-            for i, f in enumerate(fieldlist):
-                v = row[i]
+            for f in fieldlist:
+                v = row[f]
                 # We need to cast value into string, because data may be a SQLAlchemy
                 # ResultProxy and values may be of type datetime.datetime(...)
                 if v is not None:

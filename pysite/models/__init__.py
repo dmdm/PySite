@@ -22,6 +22,7 @@ from sqlalchemy.orm import (
     ColumnProperty,
     class_mapper
     )
+import sqlalchemy.orm.query
 from sqlalchemy.orm.collections import InstrumentedList
 from sqlalchemy.ext.declarative import (
     declared_attr,
@@ -307,11 +308,15 @@ def todict(o, fully_qualified=False, fmap=None):
     Converts only physical table columns. Columns created by e.g.
     relationship() must be handled otherwise.
 
-    :param rs: Data to transmogrify
+    :param o: Data to transmogrify
     :param fully_qualified: Whether dict keys should be fully qualified (schema
-        + '.' + table + '.' + column) or not (just column name)
+        + '.' + table + '.' + column) or not (just column name). *CAVEAT* Full
+        qualification is only possible if ``o`` has attribute ``__table__``.
+        E.g. a KeyedTiuple does not.
+    :param fmap: Mapping of field names to functions. Each function is called to
+        build the value for this field.
 
-    :rtype: Dict or list of dicts
+    :rtype: Dict
     """
     def convert_datetime(value):
         try:
@@ -321,19 +326,22 @@ def todict(o, fully_qualified=False, fmap=None):
             return None
 
     d = {}
-    for c in o.__table__.columns:
-        if isinstance(c.type, DateTime):
-            value = convert_datetime(getattr(o, c.name))
-        elif isinstance(c, InstrumentedList):
-            value = list(c)
-        else:
-            value = getattr(o, c.name)
+    if isinstance(o, sqlalchemy.util.KeyedTuple):
+        d = o._asdict()
+    else:
+        for c in o.__table__.columns:
+            if isinstance(c.type, DateTime):
+                value = convert_datetime(getattr(o, c.name))
+            elif isinstance(c, InstrumentedList):
+                value = list(c)
+            else:
+                value = getattr(o, c.name)
+            if fully_qualified:
+                k = o.__table__.schema + '.' + o.__table__.name + '.' + c.name
+            else:
+                k = c.name
+            d[k] = value
 
-        if fully_qualified:
-            k = o.__table__.schema + '.' + o.__table__.name + '.' + c.name
-        else:
-            k = c.name
-        d[k] = value
     if fmap:
         for k, func in fmap.items():
             d[k] = func(o)
@@ -352,7 +360,7 @@ def todata(rs, fully_qualified=False, fmap=None):
 
     :rtype: Dict or list of dicts
     """
-    if isinstance(rs, list):
+    if isinstance(rs, (list, sqlalchemy.orm.query.Query)):
         data = []
         for row in rs:
             data.append(todict(row, fully_qualified=fully_qualified, fmap=fmap))

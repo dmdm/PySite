@@ -12,7 +12,7 @@ from sqlalchemy.orm.exc import NoResultFound
 import pysite.vmailmgr
 from pysite.vmailmgr.models import DomainDd, Domain
 from pysite.usrmgr.models import PrincipalDd, Principal
-from pysite.models import DbSession
+from pysite.models import DbSession, todata
 from pysite.tk.grid import Grid
 
 
@@ -41,7 +41,8 @@ class DomainView(object):
 
     def _fetch_browse_data(self, data_qry, total_qry):
         total = total_qry.count()
-        data = data_qry.all()
+        rs = data_qry
+        data = todata(rs)
         return (data, total, )
 
     def __init__(self, context, request):
@@ -91,11 +92,7 @@ class DomainView(object):
         # ``myschema.mytable.``. Mind the trailing dot!
         self.PREFIX = ''
         self.PREFIXLEN = len(self.PREFIX)
-        # The returned data is a list of lists, so we need to specify ID_FIELD
-        # as a numeric column index.
-        self.ID_FIELD = 1  # 'vmail_domain.id'
-        # The sequence of the fields here must match the sequence of columns in
-        # the query!!
+        self.ID_FIELD = 'id'
         self.BROWSE_FIELDLIST = [
             'is_enabled',
             'id',
