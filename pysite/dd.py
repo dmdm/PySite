@@ -105,6 +105,8 @@ def build_schema(schema_type, *dds, **kw):
     :returns: Instance of the given colander schema.
     """
     sch = schema_type()
+    if 'bind' in kw:
+        sch = sch.bind(kw['bind'])
     for dd in dds:
         for name, d in dd.items():
             if name.startswith('__'):

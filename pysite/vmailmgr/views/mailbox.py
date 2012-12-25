@@ -11,8 +11,10 @@ from sqlalchemy.orm.exc import NoResultFound
 
 import pysite.vmailmgr
 from pysite.vmailmgr.models import MailboxDd, Mailbox, DomainDd, Domain
+import pysite.vmailmgr.manager as manager
 from pysite.models import DbSession, todata
 from pysite.tk.grid import Grid
+from pysite.exc import PySiteError
 
 
 @view_defaults(
@@ -95,17 +97,8 @@ class MailboxView(object):
             'owner',
             'owner_display_name'
         ]
-        self.ADD_FIELDLIST = [
-            'name',
-            'pwd',
-            'domain_id',
-            'uid',
-            'gid',
-            'quota',
-            'home_dir',
-            'mail_dir'
-        ]
         self.EDIT_FIELDLIST = [
+            'is_enabled',
             'name',
             'pwd',
             'domain_id',
@@ -115,6 +108,10 @@ class MailboxView(object):
             'home_dir',
             'mail_dir'
         ]
+        for k, d in self.DD.items():
+            if k.startswith('__'):
+                continue
+            d['colModel']['editable'] = (k in self.EDIT_FIELDLIST)
 
     @view_config(
         name='',
@@ -124,9 +121,9 @@ class MailboxView(object):
         gr = Grid(self.GRID_ID)
         gr.url = self.request.resource_url(self.context, 'xhr_browse')
         gr.add_opts['url'] = self.request.resource_url(self.context,
-            "xhr_add")
+            "xhr_create")
         gr.edit_opts['url'] = self.request.resource_url(self.context,
-            "xhr_edit")
+            "xhr_update")
         gr.delete_opts['url'] = self.request.resource_url(self.context,
             "xhr_delete")
 
@@ -169,34 +166,10 @@ class MailboxView(object):
         return "<select>\n" + opts + "\n</select>"
 
     @view_config(
-        name='xhr_add',
+        name='xhr_create',
         renderer='json',
     )
-    def xhr_add(self):
-        sess = DbSession()
-        sch = pysite.dd.build_schema(colander.MappingSchema, self.DD,
-            fieldlist=self.ADD_FIELDLIST)
-        try:
-            data = pysite.dd.deserialize(sch, self.request.POST)
-        except colander.Invalid as exc:
-            return {'status': False, 'msg': 'Errors', 'errors': exc.asdict()}
-        try:
-            ent = self.ENTITY()
-            for k, v in data.items():
-                setattr(ent, k[self.PREFIXLEN:], v)
-            ent.owner = self.request.user.uid
-            sess.add(ent)
-            sess.flush()
-            return {'status': True, 'msg': 'Ok'}
-        except (StatementError, NoResultFound) as exc:
-            return {'status': False, 'msg': repr(exc), 'errors': {}}
-
-    @view_config(
-        name='xhr_edit',
-        renderer='json',
-    )
-    def xhr_edit(self):
-        sess = DbSession()
+    def xhr_create(self):
         sch = pysite.dd.build_schema(colander.MappingSchema, self.DD,
             fieldlist=self.EDIT_FIELDLIST)
         try:
@@ -204,30 +177,47 @@ class MailboxView(object):
         except colander.Invalid as exc:
             return {'status': False, 'msg': 'Errors', 'errors': exc.asdict()}
         try:
-            id = int(self.request.POST['id'])
             vv = {}
             for k, v in data.items():
                 vv[k[self.PREFIXLEN:]] = v
+            vv['owner'] = self.request.user.uid
+            vv['ctime'] = datetime.datetime.now()
+            manager.create_mailbox(vv)
+            return {'status': True, 'msg': 'Ok'}
+        except (StatementError, NoResultFound, PySiteError) as exc:
+            return {'status': False, 'msg': str(exc), 'errors': {}}
+
+    @view_config(
+        name='xhr_update',
+        renderer='json',
+    )
+    def xhr_update(self):
+        sch = pysite.dd.build_schema(colander.MappingSchema, self.DD,
+            fieldlist=self.EDIT_FIELDLIST)
+        try:
+            data = pysite.dd.deserialize(sch, self.request.POST)
+        except colander.Invalid as exc:
+            return {'status': False, 'msg': 'Errors', 'errors': exc.asdict()}
+        try:
+            vv = {}
+            for k, v in data.items():
+                vv[k[self.PREFIXLEN:]] = v
+            vv['id'] = int(self.request.POST['id'])
             vv['editor'] = self.request.user.uid
             vv['mtime'] = datetime.datetime.now()
-            sess.query(self.ENTITY).filter(self.ENTITY.id == id).update(
-                vv, synchronize_session=False)
-            sess.flush()
+            manager.update_mailbox(vv)
             return {'status': True, 'msg': 'Ok'}
-        except (StatementError, NoResultFound) as exc:
-            return {'status': False, 'msg': repr(exc), 'errors': {}}
+        except (StatementError, NoResultFound, PySiteError) as exc:
+            return {'status': False, 'msg': str(exc), 'errors': {}}
 
     @view_config(
         name='xhr_delete',
         renderer='json',
     )
     def xhr_delete(self):
-        sess = DbSession()
         try:
             id = int(self.request.POST['id'])
-            sess.query(self.ENTITY).filter(self.ENTITY.id == id).delete(
-                synchronize_session=False)
-            sess.flush()
+            manager.delete_mailbox(id)
             return {'status': True, 'msg': 'Ok'}
-        except (StatementError, NoResultFound) as exc:
-            return {'status': False, 'msg': repr(exc), 'errors': {}}
+        except (StatementError, NoResultFound, PySiteError) as exc:
+            return {'status': False, 'msg': str(exc), 'errors': {}}

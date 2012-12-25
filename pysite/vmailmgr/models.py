@@ -11,7 +11,7 @@ from pyramid.security import Allow
 
 import pysite.lib
 from pysite.dd import apply_mixin
-from pysite.models import DbEngine, DbBase, DefaultMixin, DefaultMixinDd, CreateView
+from pysite.models import DbBase, DefaultMixin, DefaultMixinDd
 
 __all__ = ['Node', 'DomainDd', 'Domain', 'Mailbox', 'Alias']
 
@@ -118,7 +118,7 @@ DomainDd = {
             'width': 50,
             'editable': True,
             'edittype': 'checkbox',
-            'editoptions': {'value': "True:False"},
+            'editoptions': {'value': "true:false"},
             'formoptions': {'elmprefix': None}
         }
     }
@@ -296,7 +296,7 @@ MailboxDd = {
             'width': 50,
             'editable': True,
             'edittype': 'checkbox',
-            'editoptions': {'value': "True:False"},
+            'editoptions': {'value': "true:false"},
             'formoptions': {'elmprefix': None}
         }
     }
@@ -404,7 +404,7 @@ AliasDd = {
             'width': 50,
             'editable': True,
             'edittype': 'checkbox',
-            'editoptions': {'value': "True:False"},
+            'editoptions': {'value': "true:false"},
             'formoptions': {'elmprefix': None}
         }
     }

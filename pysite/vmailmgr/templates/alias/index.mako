@@ -1,5 +1,5 @@
 <%inherit file="pysite:templates/_layouts/default.mako" />
-<%block name="meta_title">Manage Domains</%block>
+<%block name="meta_title">Manage Aliases</%block>
 <%block name="styles">
 ${parent.styles()}
 <link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jqgrid/css/ui.jqgrid.css')}">

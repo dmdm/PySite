@@ -39,6 +39,8 @@ import colander
 import deform
 import sqlparse
 
+from pysite.exc import PySiteError
+
 
 def _get_current_user():
     cr = pyramid.threadlocal.get_current_request()
@@ -116,9 +118,54 @@ DbEngine = None
 Default DB engine.
 """
 
+
+@colander.deferred
+def _deferred_validate_by_action(node, kw):
+    ac = kw.get('action', None)
+    if ac not in ['create', 'update']:
+        raise PySiteError("Invalid action (allowed: 'create',"
+            "'update'): '{0}'".format(ac))
+    def validator(node, value):
+        if ac == 'create':
+            # ID may or may not be defined for a create.
+            if node.name == 'owner':
+                if value is None or value == '':
+                    raise colander.Invalid(node, node.name + ' must be set')
+            elif node.name == 'ctime':
+                if value is None or value == '':
+                    raise colander.Invalid(node, node.name + ' must be set')
+            elif node.name == 'editor':
+                if value is not None:
+                    raise colander.Invalid(node, node.name + ' must NOT be set')
+            elif node.name == 'mtime':
+                if value is not None:
+                    raise colander.Invalid(node, node.name + ' must NOT be set')
+        else:
+            if node.name == 'id':
+                if value is None or value == '':
+                    raise colander.Invalid(node, node.name + ' must be set')
+            elif node.name == 'owner':
+                if value is not None:
+                    raise colander.Invalid(node, node.name + ' must NOT be set')
+            elif node.name == 'ctime':
+                if value is not None:
+                    raise colander.Invalid(node, node.name + ' must NOT be set')
+            elif node.name == 'editor':
+                if value is None or value == '':
+                    raise colander.Invalid(node, node.name + ' must be set')
+            elif node.name == 'mtime':
+                if value is None or value == '':
+                    raise colander.Invalid(node, node.name + ' must be set')
+    return validator
+
+
 DefaultMixinDd = {
     'id': {
         'type': colander.Int(),
+        # On create, ID may be missing
+        # On update, ID is required
+        'missing': colander.null,
+        'validator': _deferred_validate_by_action,
         'title': 'Id',
         'widget': None,
         'colModel': {
@@ -128,6 +175,9 @@ DefaultMixinDd = {
     },
     'owner': {
         'type': colander.Int(),
+        # On create, owner is required
+        # On update, owner must be missing
+        'missing': colander.null,
         'title': 'OwnerId',
         'widget': None,
         'colModel': {
@@ -137,6 +187,8 @@ DefaultMixinDd = {
     },
     'editor': {
         'type': colander.Int(),
+        # On create, editor must be missing
+        # On update, editor is required
         'missing': colander.null,
         'title': 'EditorId',
         'widget': None,
@@ -146,7 +198,10 @@ DefaultMixinDd = {
         }
     },
     'ctime': {
-        'type': colander.DateTime(),
+        'type': colander.DateTime(default_tzinfo=None),
+        # On create, ctime is required
+        # On update, ctime must be missing
+        'missing': colander.null,
         'title': 'Created At',
         'widget': None,
         'colModel': {
@@ -155,7 +210,9 @@ DefaultMixinDd = {
         }
     },
     'mtime': {
-        'type': colander.DateTime(),
+        'type': colander.DateTime(default_tzinfo=None),
+        # On create, mtime must be missing
+        # On update, mtime is required
         'missing': colander.null,
         'title': 'Edited At',
         'widget': None,
@@ -164,7 +221,6 @@ DefaultMixinDd = {
             'editable': False
         }
     },
-    # Query should map `owner_principal.display_name' to `owner_name'
     'owner_display_name': {
         'type': colander.String(),
         'missing': colander.null,
@@ -175,7 +231,6 @@ DefaultMixinDd = {
             'editable': False
         }
     },
-    # Query should map `editor_principal.display_name' to `editor_name'
     'editor_display_name': {
         'type': colander.String(),
         'missing': colander.null,

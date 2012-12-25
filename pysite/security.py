@@ -131,7 +131,7 @@ def get_user(request):
     return usr
 
 
-@forbidden_view_config()
+@forbidden_view_config(xhr=False)
 def forbidden_view(request):
     if request.user.is_auth():
         html = """<html>

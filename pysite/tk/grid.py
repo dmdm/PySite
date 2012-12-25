@@ -415,7 +415,7 @@ class Grid(object):
                     # If we'd unconditionally call str(v), we may run into
                     # unicode conversion problems like
                     #   UnicodeEncodeError: 'ascii' codec can't encode character u'\u912d' ...
-                    if not isinstance(v, str):
+                    if not isinstance(v, str) and not isinstance(v, bool):
                         v = str(v)
                 cell.append(v)
             id = row[id_field]

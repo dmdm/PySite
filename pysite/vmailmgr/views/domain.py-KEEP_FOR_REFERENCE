@@ -12,10 +12,8 @@ from sqlalchemy.orm.exc import NoResultFound
 import pysite.vmailmgr
 from pysite.vmailmgr.models import DomainDd, Domain
 from pysite.usrmgr.models import PrincipalDd, Principal
-import pysite.vmailmgr.manager as manager
 from pysite.models import DbSession, todata
 from pysite.tk.grid import Grid
-from pysite.exc import PySiteError
 
 
 @view_defaults(
@@ -113,6 +111,14 @@ class DomainView(object):
             'owner',
             'owner_display_name'
         ]
+        self.ADD_FIELDLIST = [
+            'is_enabled',
+            'name',
+            'tenant_id',
+            'max_mailboxes',
+            'max_aliases',
+            'quota',
+        ]
         self.EDIT_FIELDLIST = [
             'is_enabled',
             'name',
@@ -121,10 +127,6 @@ class DomainView(object):
             'max_aliases',
             'quota',
         ]
-        for k, d in self.DD.items():
-            if k.startswith('__'):
-                continue
-            d['colModel']['editable'] = (k in self.EDIT_FIELDLIST)
 
     @view_config(
         name='',
@@ -134,9 +136,9 @@ class DomainView(object):
         gr = Grid(self.GRID_ID)
         gr.url = self.request.resource_url(self.context, 'xhr_browse')
         gr.add_opts['url'] = self.request.resource_url(self.context,
-            "xhr_create")
+            "xhr_add")
         gr.edit_opts['url'] = self.request.resource_url(self.context,
-            "xhr_update")
+            "xhr_edit")
         gr.delete_opts['url'] = self.request.resource_url(self.context,
             "xhr_delete")
 
@@ -179,32 +181,34 @@ class DomainView(object):
         return "<select>\n" + opts + "\n</select>"
 
     @view_config(
-        name='xhr_create',
+        name='xhr_add',
         renderer='json',
     )
-    def xhr_create(self):
+    def xhr_add(self):
+        sess = DbSession()
         sch = pysite.dd.build_schema(colander.MappingSchema, self.DD,
-            fieldlist=self.EDIT_FIELDLIST)
+            fieldlist=self.ADD_FIELDLIST)
         try:
             data = pysite.dd.deserialize(sch, self.request.POST)
         except colander.Invalid as exc:
             return {'status': False, 'msg': 'Errors', 'errors': exc.asdict()}
         try:
-            vv = {}
+            ent = self.ENTITY()
             for k, v in data.items():
-                vv[k[self.PREFIXLEN:]] = v
-            vv['owner'] = self.request.user.uid
-            vv['ctime'] = datetime.datetime.now()
-            manager.create_domain(vv)
+                setattr(ent, k[self.PREFIXLEN:], v)
+            ent.owner = self.request.user.uid
+            sess.add(ent)
+            sess.flush()
             return {'status': True, 'msg': 'Ok'}
-        except (StatementError, NoResultFound, PySiteError) as exc:
-            return {'status': False, 'msg': str(exc), 'errors': {}}
+        except (StatementError, NoResultFound) as exc:
+            return {'status': False, 'msg': repr(exc), 'errors': {}}
 
     @view_config(
-        name='xhr_update',
+        name='xhr_edit',
         renderer='json',
     )
-    def xhr_update(self):
+    def xhr_edit(self):
+        sess = DbSession()
         sch = pysite.dd.build_schema(colander.MappingSchema, self.DD,
             fieldlist=self.EDIT_FIELDLIST)
         try:
@@ -212,25 +216,30 @@ class DomainView(object):
         except colander.Invalid as exc:
             return {'status': False, 'msg': 'Errors', 'errors': exc.asdict()}
         try:
+            id = int(self.request.POST['id'])
             vv = {}
             for k, v in data.items():
                 vv[k[self.PREFIXLEN:]] = v
-            vv['id'] = int(self.request.POST['id'])
             vv['editor'] = self.request.user.uid
             vv['mtime'] = datetime.datetime.now()
-            manager.update_domain(vv)
+            sess.query(self.ENTITY).filter(self.ENTITY.id == id).update(
+                vv, synchronize_session=False)
+            sess.flush()
             return {'status': True, 'msg': 'Ok'}
-        except (StatementError, NoResultFound, PySiteError) as exc:
-            return {'status': False, 'msg': str(exc), 'errors': {}}
+        except (StatementError, NoResultFound) as exc:
+            return {'status': False, 'msg': repr(exc), 'errors': {}}
 
     @view_config(
         name='xhr_delete',
         renderer='json',
     )
     def xhr_delete(self):
+        sess = DbSession()
         try:
             id = int(self.request.POST['id'])
-            manager.delete_domain(id)
+            sess.query(self.ENTITY).filter(self.ENTITY.id == id).delete(
+                synchronize_session=False)
+            sess.flush()
             return {'status': True, 'msg': 'Ok'}
-        except (StatementError, NoResultFound, PySiteError) as exc:
-            return {'status': False, 'msg': str(exc), 'errors': {}}
+        except (StatementError, NoResultFound) as exc:
+            return {'status': False, 'msg': repr(exc), 'errors': {}}
