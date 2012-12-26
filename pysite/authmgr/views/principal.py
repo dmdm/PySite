@@ -4,32 +4,32 @@ import copy
 import colander
 import sqlalchemy as sa
 from pyramid.view import view_config, view_defaults
-import markupsafe
 import datetime
 from sqlalchemy.exc import StatementError
 from sqlalchemy.orm.exc import NoResultFound
 
-import pysite.vmailmgr
-from pysite.vmailmgr.models import DomainDd, Domain
-from pysite.authmgr.models import PrincipalDd, Principal
-import pysite.vmailmgr.manager as manager
+import pysite.authmgr
+from pysite.authmgr.models import PrincipalDd, Principal, Role, RoleMember
+import pysite.authmgr.manager as manager
 from pysite.models import DbSession, todata
 from pysite.tk.grid import Grid
 from pysite.exc import PySiteError
+import pysite.lib
 
 
 @view_defaults(
-    context=pysite.vmailmgr.models.NodeDomain,
-    permission='manage_vmail'
+    context=pysite.authmgr.models.NodePrincipal,
+    permission='manage_auth'
 )
-class DomainView(object):
+class PrincipalView(object):
 
     def _build_browse_queries(self, request, grid):
         sess = DbSession()
-        vw_browse = pysite.vmailmgr.models.get_vw_domain_browse()
+        vw_browse = pysite.authmgr.models.get_vw_principal_browse()
         # Build query for count and apply filter
         qry_total = sess.query(sa.func.count(vw_browse.c.id))
         qry_total = grid.apply_filter(qry_total)
+        # Build query for data
         qry = sess.query(vw_browse)
         # Setup field names for initial order and primary key
         if not grid.order_field:
@@ -51,8 +51,8 @@ class DomainView(object):
         self.context = context
         self.request = request
 
-        self.ENTITY = Domain
-        self.GRID_ID = 'grid-domains'
+        self.ENTITY = Principal
+        self.GRID_ID = 'grid-principals'
 
         self.GRIDOPTS = {
             'multiselect': True,
@@ -61,34 +61,10 @@ class DomainView(object):
 
         self.COLOPTS = None
 
-        self.DD = copy.deepcopy(DomainDd)
-        self.DD['tenant_id']['colModel'].update(dict(
-            editable=True,
-            edittype='select',
-            editoptions=dict(
-                dataUrl=request.resource_url(context, 'xhr_list_tenants')
-            )
-        ))
-        self.DD['tenant_display_name'] = copy.deepcopy(
-            PrincipalDd['display_name'])
-        self.DD['tenant_display_name']['colModel']['editable'] = False
-        self.DD['tenant_display_name']['title'] = 'Tenant'
-        self.DD['used_mailboxes'] = {
-            'type': colander.Int(),
-            'title': "Used Mailboxes",
-            'colModel': {
-                'width': 50,
-                'editable': False
-            }
-        }
-        self.DD['used_aliases'] = {
-            'type': colander.Int(),
-            'title': "Used Aliases",
-            'colModel': {
-                'width': 50,
-                'editable': False
-            }
-        }
+        self.DD = copy.deepcopy(PrincipalDd)
+        # Cannot deepcopy colander.Email, so the original DD does not define
+        # it, we must define it here.
+        self.DD['email']['validator'] = colander.Email()
 
         # If the fieldnames are fully qualified, this is the prefix, e.g.
         # ``myschema.mytable.``. Mind the trailing dot!
@@ -97,15 +73,19 @@ class DomainView(object):
         self.ID_FIELD = 'id'
         self.BROWSE_FIELDLIST = [
             'is_enabled',
+            'is_blocked',
             'id',
-            'name',
-            'tenant_id',
-            'tenant_display_name',
-            'used_mailboxes',
-            'max_mailboxes',
-            'used_aliases',
-            'max_aliases',
-            'quota',
+            'principal',
+            'pwd',
+            'email',
+            'first_name',
+            'last_name',
+            'display_name',
+            'notes',
+            'login_time',
+            'prev_login_time',
+            'identity_url',
+            'gui_token',
             'mtime',
             'editor',
             'editor_display_name',
@@ -115,11 +95,14 @@ class DomainView(object):
         ]
         self.EDIT_FIELDLIST = [
             'is_enabled',
-            'name',
-            'tenant_id',
-            'max_mailboxes',
-            'max_aliases',
-            'quota',
+            'is_blocked',
+            'principal',
+            'pwd',
+            'email',
+            'first_name',
+            'last_name',
+            'display_name',
+            'notes',
         ]
         for k, d in self.DD.items():
             if k.startswith('__'):
@@ -128,10 +111,11 @@ class DomainView(object):
 
     @view_config(
         name='',
-        renderer='pysite:vmailmgr/templates/domain/index.mako',
+        renderer='pysite:authmgr/templates/principal/index.mako',
     )
     def index(self):
         gr = Grid(self.GRID_ID)
+        gr.opts.update(self.GRIDOPTS)
         gr.url = self.request.resource_url(self.context, 'xhr_browse')
         gr.add_opts['url'] = self.request.resource_url(self.context,
             "xhr_create")
@@ -143,7 +127,50 @@ class DomainView(object):
         self._build_browse_queries(self.request, gr)
         gr.build_colmodel(self.DD, fieldlist=self.BROWSE_FIELDLIST,
             opts=self.COLOPTS)
-        return dict(grid=gr)
+
+        sess = DbSession
+        roles = sess.query(Role.id, Role.name).order_by(Role.name).all()
+        create_rolemember_url = self.request.resource_url(self.context,
+            'xhr_create_rolemember')
+        return dict(grid=gr, roles=roles,
+            create_rolemember_url=create_rolemember_url)
+
+    @view_config(
+        name='xhr_create_rolemember',
+        renderer='json',
+    )
+    def xhr_create_rolemember(self):
+        log = pysite.lib.StatusResp()
+        principal_ids = [int(x) for x in self.request.POST.getall(
+            'principal_ids[]') if int(x) != 0]
+        if not principal_ids:
+            log.error('No principals selected')
+            return log.resp
+        role_ids = [int(x) for x in self.request.POST.getall(
+            'role_ids[]') if int(x) != 0]
+        if not role_ids:
+            log.error('No roles selected')
+            return log.resp
+        sess = DbSession()
+        try:
+            for rid in role_ids:
+                for pid in principal_ids:
+                    # XXX This is not atomic!
+                    if not sess.query(RoleMember.id).filter(
+                            sa.and_(RoleMember.principal_id == pid,
+                                RoleMember.role_id == rid)).all():
+                        manager.create_rolemember(dict(
+                            owner=self.request.user.uid,
+                            principal_id=pid,
+                            role_id=rid
+                        ))
+        except (StatementError) as exc:
+            log.fatal(str(exc))
+            return log.resp
+        else:
+            log.ok("{0} principals added to {1} roles"
+                .format(len(principal_ids), len(role_ids)))
+            return log.resp
 
     @view_config(
         name='xhr_browse',
@@ -167,18 +194,6 @@ class DomainView(object):
         return resp
 
     @view_config(
-        name='xhr_list_tenants',
-        renderer='string',
-    )
-    def xhr_list_tenants(self):
-        sess = DbSession()
-        qry = sess.query(Principal.id, Principal.display_name).order_by(
-            Principal.display_name)
-        opts = "\n".join(['<option value="{0}">{1}</option>'.format(
-            markupsafe.escape(x[0]), markupsafe.escape(x[1])) for x in qry])
-        return "<select>\n" + opts + "\n</select>"
-
-    @view_config(
         name='xhr_create',
         renderer='json',
     )
@@ -195,7 +210,7 @@ class DomainView(object):
                 vv[k[self.PREFIXLEN:]] = v
             vv['owner'] = self.request.user.uid
             vv['ctime'] = datetime.datetime.now()
-            manager.create_domain(vv)
+            manager.create_principal(vv)
             return {'status': True, 'msg': 'Ok'}
         except (StatementError, NoResultFound, PySiteError) as exc:
             return {'status': False, 'msg': str(exc), 'errors': {}}
@@ -214,11 +229,14 @@ class DomainView(object):
         try:
             vv = {}
             for k, v in data.items():
+                # If client did not set a new password, keep the current one.
+                if k == 'pwd' and (v is None or v == ''):
+                    continue
                 vv[k[self.PREFIXLEN:]] = v
             vv['id'] = int(self.request.POST['id'])
             vv['editor'] = self.request.user.uid
             vv['mtime'] = datetime.datetime.now()
-            manager.update_domain(vv)
+            manager.update_principal(vv)
             return {'status': True, 'msg': 'Ok'}
         except (StatementError, NoResultFound, PySiteError) as exc:
             return {'status': False, 'msg': str(exc), 'errors': {}}
@@ -232,7 +250,7 @@ class DomainView(object):
             ids = [int(x) for x in self.request.POST['id'].split(',')
                 if int(x) != 0]
             for id in ids:
-                manager.delete_domain(id)
+                manager.delete_principal(id)
             return {'status': True, 'msg': 'Ok'}
         except (StatementError, NoResultFound, PySiteError) as exc:
             return {'status': False, 'msg': str(exc), 'errors': {}}

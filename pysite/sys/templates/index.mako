@@ -14,4 +14,5 @@ ${parent.scripts()}
 <li><a href="${request.resource_url(request.context['plugins'])}">Manage plugins</a></li>
 <li><a href="${request.resource_url(request.context.__parent__, '@@filemgr')}">File Manager</a></li>
 <li><a href="${request.resource_url(request.context['vmailmgr'])}">VMail Manager</a></li>
+<li><a href="${request.resource_url(request.context['authmgr'])}">Authentication Manager</a></li>
 </ul>

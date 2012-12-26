@@ -9,7 +9,7 @@ from sqlalchemy.orm import aliased
 
 from pysite.models import *
 from pysite.vmailmgr.models import *
-from pysite.usrmgr.models import *
+from pysite.authmgr.models import *
 from pysite.dd import fully_qualify
 from pysite.cli import Cli
 

@@ -41,7 +41,7 @@ class AliasView(object):
         return (qry, qry_total, )
 
     def _fetch_browse_data(self, data_qry, total_qry):
-        total = total_qry.count()
+        total = total_qry.one()[0]
         rs = data_qry
         data = todata(rs)
         return (data, total, )
@@ -206,8 +206,10 @@ class AliasView(object):
     )
     def xhr_delete(self):
         try:
-            id = int(self.request.POST['id'])
-            manager.delete_alias(id)
+            ids = [int(x) for x in self.request.POST['id'].split(',')
+                if int(x) != 0]
+            for id in ids:
+                manager.delete_alias(id)
             return {'status': True, 'msg': 'Ok'}
         except (StatementError, NoResultFound, PySiteError) as exc:
             return {'status': False, 'msg': str(exc), 'errors': {}}

@@ -9,7 +9,7 @@ import sys
 
 import pysite.lib
 import pysite.cli
-import pysite.usrmgr.const
+import pysite.authmgr.const
 import pysite.vmailmgr.manager as vmailmanager
 
 
@@ -28,14 +28,14 @@ class PySiteVmailCli(pysite.cli.Cli):
 
     def add_domain(self):
         data = self._parse(self._args.data)
-        data['owner'] = pysite.usrmgr.const.ROOT_UID
+        data['owner'] = pysite.authmgr.const.ROOT_UID
         rs = vmailmanager.add_domain(data)
         self._print(self._db_data_to_list([rs],
             fkmaps=dict(role_names=lambda it: it))[0])
 
     def update_domain(self):
         data = self._parse(self._args.data)
-        data['editor'] = pysite.usrmgr.const.ROOT_UID
+        data['editor'] = pysite.authmgr.const.ROOT_UID
         data['mtime'] = datetime.datetime.now()
         rs = vmailmanager.update_domain(data)
         self._print(self._db_data_to_list([rs])[0])

@@ -9,7 +9,7 @@ from pyramid.paster import (
 
 import pysite.models
 from pysite.rc import Rc
-from pysite.usrmgr.install import setup_users
+from pysite.authmgr.install import setup_users
 
 
 def usage(argv):

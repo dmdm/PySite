@@ -316,7 +316,6 @@ class Grid(object):
         rules = []
         for rule in fil['rules']:
             ty = self._dd[rule['field']]['type']
-            print("********", str(ty))
             if isinstance(ty, colander.String):
                 r = sasql.column(rule['field']).ilike('%' + rule['data'] + '%')
             elif isinstance(ty, (colander.Int, colander.Float, colander.Decimal)):
@@ -677,7 +676,7 @@ class Grid(object):
     def total_rows(self, v):
         import math
         self._total_rows = v
-        self._total_pages = int(math.ceil(v / self.limit) + 1)
+        self._total_pages = int(math.ceil(v / self.limit))
 
     # total_pages
     @property

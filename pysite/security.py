@@ -5,10 +5,11 @@ import hashlib
 
 from pyramid.security import unauthenticated_userid
 from pyramid.response import Response
-from pyramid.httpexceptions import HTTPFound
+from pyramid.httpexceptions import HTTPFound, HTTPForbidden
 from pyramid.view import forbidden_view_config
 
-from pysite.usrmgr.const import *
+from pysite.authmgr.const import (NOBODY_UID, NOBODY_PRINCIPAL, NOBODY_EMAIL,
+    NOBODY_DISPLAY_NAME)
 from pysite.exc import PySiteError
 
 
@@ -16,8 +17,8 @@ class AuthProviderFactory(object):
     @staticmethod
     def factory(type_):
         if type_ == 'sqlalchemy':
-            from pysite.usrmgr.models import Principal
-            return Principal()
+            import pysite.authmgr.manager
+            return pysite.authmgr.manager
         raise Exception("Unknown auth provider: '{0}'".format(type_))
 
 
@@ -41,21 +42,22 @@ class User(object):
         self.uid = NOBODY_UID
         self.principal = NOBODY_PRINCIPAL
         self._metadata = dict(
-            email        = NOBODY_EMAIL,
-            display_name = NOBODY_DISPLAY_NAME
+            email=NOBODY_EMAIL,
+            display_name=NOBODY_DISPLAY_NAME
         )
         self.roles = None
 
     def init_from_principal(self, p):
-        """Initialises authenticated user.
         """
-        self.uid                       = p.id
-        self.principal                 = p.principal
+        Initialises authenticated user.
+        """
+        self.uid = p.id
+        self.principal = p.principal
         # Must copy roles, loaded principal will go out of scope!
-        self.roles                     = [r for r in p.role_names]
-        self._metadata['email']        = p.email
-        self._metadata['first_name']   = p.first_name
-        self._metadata['last_name']    = p.last_name
+        self.roles = [r for r in p.role_names]
+        self._metadata['email'] = p.email
+        self._metadata['first_name'] = p.first_name
+        self._metadata['last_name'] = p.last_name
         self._metadata['display_name'] = p.display_name
 
     def is_auth(self):
@@ -64,9 +66,10 @@ class User(object):
         return self.uid != NOBODY_UID
 
     def login(self, login, pwd):
-        """Login by principal/email and password
-           
-           Return True on success, else False
+        """
+        Login by principal/email and password.
+
+        Returns True on success, else False.
         """
         if '@' in login:
             try:
@@ -86,7 +89,8 @@ class User(object):
         return True
 
     def logout(self):
-        """Logout, resets metadata back to nobody
+        """
+        Logout, resets metadata back to nobody.
         """
         self.auth_provider.logout(self.uid)
         self.init_nobody()
@@ -100,8 +104,9 @@ class User(object):
 
 
 def group_finder(userid, request):
-    """Returns roles of the currently logged in user
-       
+    """
+    Returns roles of the currently logged in user.
+
     Role names are prefixed with 'r:'.
     Nobody has no roles.
     Param 'userid' must match principal of current user, else throws error
@@ -111,15 +116,16 @@ def group_finder(userid, request):
     # returns not None.
     if userid != usr.principal:
         # This should not happen (tm)
-        raise Exception("Userid '{0}' does not match current user.principal '{1}'".format(
-            userid, usr.principal))
+        raise Exception("Userid '{0}' does not match current "
+            "user.principal '{1}'".format(
+                userid, usr.principal))
     if usr.uid == NOBODY_UID:
-        gr = []
+        return []
     roles = usr.roles
     if not roles:
         gr = []
     else:
-        gr = [ 'r:'+r for r in roles ]
+        gr = ['r:' + r for r in roles]
     return gr
 
 
@@ -131,8 +137,14 @@ def get_user(request):
     return usr
 
 
-@forbidden_view_config(xhr=False)
+@forbidden_view_config()
 def forbidden_view(request):
+    """
+    Default forbidden view.
+
+    If user is not authenticated, redirects to the login view.
+    If she is authenticated, displays a forbidden message.
+    """
     if request.user.is_auth():
         html = """<html>
             <head>
@@ -152,32 +164,44 @@ def forbidden_view(request):
             request.context, '@@login'),)
 
 
+@forbidden_view_config(xhr=True)
+def xhr_forbidden_view(request):
+    """
+    Forbidden view for AJAX requests.
+
+    To properly signal clients the forbidden status, we must not redirect to
+    a login view. (1) AJAX clients cannot login by such a view, (2) AJAX client
+    may expect a JSON response, and the client JavaScript will crash if it
+    gets some HTML.
+    """
+    return HTTPForbidden()
+
+
 # https://github.com/django/django/blob/master/django/contrib/auth/hashers.py
 def encrypt_pwd(pwd, salt=None, scheme='PLAIN-MD5'):
     scheme = scheme.upper()
     try:
         pwd = pwd.encode('utf-8')
     except AttributeError:
-        pass # Already was byte string
+        pass  # Already was byte string
     if scheme == 'PLAIN':
         salt = b''
-        hash = pwd
+        hash_ = pwd
     elif scheme == 'PLAIN-MD5':
         salt = b''
-        hash = hashlib.md5(pwd).hexdigest()
+        hash_ = hashlib.md5(pwd).hexdigest()
     else:
         raise PySiteError("Unsupported encryption scheme: '{0}'".format(
             scheme))
     try:
         scheme = scheme.encode('utf-8')
     except AttributeError:
-        pass # Already was byte string
-    return (b'{' + scheme + b'}' + hash + salt).decode('utf-8')
+        pass  # Already was byte string
+    return (b'{' + scheme + b'}' + hash_ + salt).decode('utf-8')
 
 
-def check_pwd(pwd, enc_pwd, scheme='PLAIN-MD5'):
-    scheme = scheme.upper()
-    m = re.match(r'(\{'+scheme+'\})(.+)', enc_pwd)
+def check_pwd(pwd, enc_pwd):
+    m = re.match(r'\{(.+?)\}(.+)', enc_pwd)
     if m:
         scheme = m.group(1)
         pwd = m.group(2)

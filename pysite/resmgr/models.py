@@ -9,6 +9,7 @@ import pysite.lib
 import pysite.plugins.models
 import pysite.sitemgr.models
 import pysite.vmailmgr.models
+import pysite.authmgr.models
 
 
 class Root(pysite.lib.BaseNode):
@@ -30,3 +31,4 @@ class Sys(pysite.lib.BaseNode):
         self._title = "System"
         self['plugins'] = pysite.plugins.models.Node(self)
         self['vmailmgr'] = pysite.vmailmgr.models.Node(self)
+        self['authmgr'] = pysite.authmgr.models.Node(self)

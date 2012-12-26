@@ -4,7 +4,7 @@ import os
 
 from pysite.exc import PySiteError
 from pysite.models import DbSession
-from pysite.usrmgr.models import (Principal)
+from pysite.authmgr.models import (Principal)
 from pysite.vmailmgr.models import (Domain, Mailbox, Alias)
 import pysite.security
 import pysite.dd

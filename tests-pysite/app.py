@@ -13,8 +13,8 @@ import sys
 from pysite.rc import Rc
 import pysite
 import pysite.models
-import pysite.usrmgr.manager as usrmanager
-from pysite.usrmgr.const import UNIT_TESTER_UID
+import pysite.authmgr.manager as usrmanager
+from pysite.authmgr.const import UNIT_TESTER_UID
 import pysite.vmailmgr.manager as vmailmanager
 
 
@@ -99,7 +99,7 @@ class App(object):
             raise e
 
     def delete_fixtures(self):
-        from pysite.usrmgr.models import Principal, Role
+        from pysite.authmgr.models import Principal, Role
         from pysite.vmailmgr.models import Domain, Mailbox, Alias
         sess = pysite.models.DbSession()
         transaction.begin()

@@ -6,7 +6,7 @@ from sqlalchemy.orm.exc import NoResultFound
 from sqlalchemy.exc import IntegrityError, SQLAlchemyError
 
 import pysite.models
-from pysite.usrmgr.models import Principal, Role
+from pysite.authmgr.models import Principal, Role
 
 
 def check_site(sites_dir, sitename):
@@ -207,7 +207,7 @@ def add_site(owner, sites_dir, data):
             return False
 
     def _create_role_and_principal():
-        import pysite.usrmgr.manager as usrmanager
+        import pysite.authmgr.manager as usrmanager
         sess = pysite.models.DbSession()
         try:
             role = sess.query(Role).filter(Role.name == rolename).one()

@@ -40,7 +40,7 @@ class DomainView(object):
         return (qry, qry_total, )
 
     def _fetch_browse_data(self, data_qry, total_qry):
-        total = total_qry.count()
+        total = total_qry.one()[0]
         rs = data_qry
         data = todata(rs)
         return (data, total, )
@@ -236,10 +236,12 @@ class DomainView(object):
     def xhr_delete(self):
         sess = DbSession()
         try:
-            id = int(self.request.POST['id'])
-            sess.query(self.ENTITY).filter(self.ENTITY.id == id).delete(
-                synchronize_session=False)
-            sess.flush()
+            ids = [int(x) for x in self.request.POST['id'].split(',')
+                if int(x) != 0]
+            for id in ids:
+                sess.query(self.ENTITY).filter(self.ENTITY.id == id).delete(
+                    synchronize_session=False)
+                sess.flush()
             return {'status': True, 'msg': 'Ok'}
         except (StatementError, NoResultFound) as exc:
             return {'status': False, 'msg': repr(exc), 'errors': {}}

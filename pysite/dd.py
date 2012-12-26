@@ -68,7 +68,7 @@ def fully_qualify(*dds):
     :attr:`pysite.models.DefaultMixinDd` has the fields
     ``--owner.display_name`` and ``--editor.display_name``. We anticipate that
     they will be used by each browse query. A browse query then must create an
-    alias of :class:`pysite.usrmgr.Principal` with the name ``owner`` and
+    alias of :class:`pysite.authmgr.Principal` with the name ``owner`` and
     another alias of it with the name ``editor``.
 
     The fields of the given data dictionaries are deepcopied, so that the

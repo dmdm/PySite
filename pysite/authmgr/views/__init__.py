@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from pyramid.view import view_config
+from pyramid.view import view_config, view_defaults
 from pyramid.httpexceptions import HTTPFound
 from pyramid.security import (
     remember
@@ -8,11 +8,31 @@ from pyramid.security import (
     , NO_PERMISSION_REQUIRED
 )
 
+import pysite.authmgr.models
+
+
+@view_defaults(
+    context=pysite.authmgr.models.Node,
+    permission='manage_auth'
+)
+class UsrMgrView(object):
+
+    def __init__(self, context, request):
+        self.context = context
+        self.request = request
+
+    @view_config(
+        name='',
+        renderer='pysite:authmgr/templates/index.mako',
+    )
+    def index(self):
+        return dict()
+
 
 @view_config(
     name='login',
     #context=pysite.sitemgr.models.Site,
-    renderer='pysite:usrmgr/templates/login.mako',
+    renderer='pysite:authmgr/templates/login.mako',
     permission=NO_PERMISSION_REQUIRED
 )
 def login(context, request):

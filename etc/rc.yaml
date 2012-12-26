@@ -8,15 +8,18 @@ project: PySite
 
 # ---[ Authentication ]-------
  
-auth.tkt_policy.secret : SECRET
+auth.tkt_policy.secret: SECRET
 ### # Allows/disables registration of new user accounts, be it
 ### # via OpenId or via our UI
 ### auth.allow_registration: False
 # Initial password for user 'root'
-auth.user_root.pwd : SECRET
+auth.user_root.pwd: SECRET
 # Auth provider
 # 'sqlalchemy'
-auth.provider : sqlalchemy
+auth.provider: sqlalchemy
+# Encrypt password using this scheme.
+# Currently, PySite implemented only these: PLAIN, PLAIN-MD5
+auth.password_scheme: PLAIN
 
 # ---[ I18N ]-------
 
@@ -45,6 +48,10 @@ vmail.home_dir: '{domain}/{user}'
 # You can use variables '{root}', '{domain}' and '{user}'.
 # This setting corresponds to Dovecot's "mail_location".
 vmail.mail_dir: '{domain}/{user}/Maildir'
+# Encrypt password using this scheme. Allowed schemes are those
+# supported by your IMAP server.
+# Currently, PySite implemented only these: PLAIN, PLAIN-MD5
+auth.password_scheme: PLAIN
 
 # ---[ PySite ]-------
 

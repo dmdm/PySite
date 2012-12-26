@@ -1,11 +1,11 @@
 
 import pysite.models
-from pysite.usrmgr.models import (
+from pysite.authmgr.models import (
     Principal,
     Role,
     RoleMember
 )
-from pysite.usrmgr.const import *
+from pysite.authmgr.const import *
 
 
 def setup_users(rc):

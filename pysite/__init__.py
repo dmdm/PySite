@@ -93,8 +93,12 @@ def includeme(config):
     _add_markdown(config)
 
     _init_vmail(config.registry.settings['rc'])
+    _init_auth(config.registry.settings['rc'])
 
 
+def _init_auth(rc):
+    pysite.authmgr.manager.PASSWORD_SCHEME = rc.g('auth.password_scheme',
+        pysite.authmgr.manager.PASSWORD_SCHEME).upper()
 
 
 def _init_vmail(rc):
@@ -123,6 +127,8 @@ def _init_vmail(rc):
         pysite.vmailmgr.manager.HOME_DIR)
     pysite.vmailmgr.manager.MAIL_DIR = rc.g('vmail.mail_dir',
         pysite.vmailmgr.manager.MAIL_DIR)
+    pysite.vmailmgr.manager.PASSWORD_SCHEME = rc.g('vmail.password_scheme',
+        pysite.vmailmgr.manager.PASSWORD_SCHEME).upper()
 
 
 def _add_markdown(config):

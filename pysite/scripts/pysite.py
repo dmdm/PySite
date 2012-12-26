@@ -99,7 +99,7 @@ import pysite.models
 import pysite.lib
 import pysite.cli
 from pysite.rc import Rc
-import pysite.usrmgr.manager as usrmanager
+import pysite.authmgr.manager as usrmanager
 import pysite.sitemgr.manager as sitemanager
 
 
@@ -117,7 +117,7 @@ class PySiteCli(pysite.cli.Cli):
         super().__init__()
 
     def list_principals(self):
-        from pysite.usrmgr.models import Principal
+        from pysite.authmgr.models import Principal
         qry = self._build_query(Principal)
         data = self._db_data_to_list(qry,
             fkmaps=dict(roles=lambda it: it.name))
@@ -125,14 +125,14 @@ class PySiteCli(pysite.cli.Cli):
 
     def add_principal(self):
         data = self._parse(self._args.data)
-        data['owner'] = pysite.usrmgr.const.ROOT_UID
+        data['owner'] = pysite.authmgr.const.ROOT_UID
         rs = usrmanager.add_principal(data)
         self._print(self._db_data_to_list([rs],
             fkmaps=dict(role_names=lambda it: it))[0])
 
     def update_principal(self):
         data = self._parse(self._args.data)
-        data['editor'] = pysite.usrmgr.const.ROOT_UID
+        data['editor'] = pysite.authmgr.const.ROOT_UID
         data['mtime'] = datetime.datetime.now()
         rs = usrmanager.update_principal(data)
         self._print(self._db_data_to_list([rs])[0])
@@ -141,20 +141,20 @@ class PySiteCli(pysite.cli.Cli):
         rs = usrmanager.delete_principal(self._args.id)
 
     def list_roles(self):
-        from pysite.usrmgr.models import Role
+        from pysite.authmgr.models import Role
         qry = self._build_query(Role)
         data = self._db_data_to_list(qry)
         self._print(data)
 
     def add_role(self):
         data = self._parse(self._args.data)
-        data['owner'] = pysite.usrmgr.const.ROOT_UID
+        data['owner'] = pysite.authmgr.const.ROOT_UID
         rs = usrmanager.add_role(data)
         self._print(self._db_data_to_list([rs])[0])
 
     def update_role(self):
         data = self._parse(self._args.data)
-        data['editor'] = pysite.usrmgr.const.ROOT_UID
+        data['editor'] = pysite.authmgr.const.ROOT_UID
         data['mtime'] = datetime.datetime.now()
         rs = usrmanager.update_role(data)
         self._print(self._db_data_to_list([rs])[0])
@@ -163,7 +163,7 @@ class PySiteCli(pysite.cli.Cli):
         rs = usrmanager.delete_role(self._args.id)
 
     def list_rolemembers(self):
-        from pysite.usrmgr.models import Principal, Role, RoleMember
+        from pysite.authmgr.models import Principal, Role, RoleMember
         # Outer join to make orphans visible
         qry = self._build_query(RoleMember) \
             .outerjoin(Role) \
@@ -188,7 +188,7 @@ class PySiteCli(pysite.cli.Cli):
 
     def add_rolemember(self):
         data = self._parse(self._args.data)
-        data['owner'] = pysite.usrmgr.const.ROOT_UID
+        data['owner'] = pysite.authmgr.const.ROOT_UID
         rs = usrmanager.add_rolemember(data)
         self._print(self._db_data_to_list([rs])[0])
 
@@ -239,7 +239,7 @@ class PySiteCli(pysite.cli.Cli):
         if inp != "yes":
             print(warn("Aborted"))
             return
-        info = sitemanager.add_site(pysite.usrmgr.const.ROOT_UID, sites_dir, data)
+        info = sitemanager.add_site(pysite.authmgr.const.ROOT_UID, sites_dir, data)
         for m in info['msgs']:
             print(m)
         for w in info['warnings']:

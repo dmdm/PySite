@@ -2,3 +2,6 @@
 
 class PySiteError(Exception):
     pass
+
+class AuthError(PySiteError):
+    pass
