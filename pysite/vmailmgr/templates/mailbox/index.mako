@@ -2,7 +2,7 @@
 <%block name="meta_title">Manage Mailboxes</%block>
 <%block name="styles">
 ${parent.styles()}
-<link rel="stylesheet" href="${request.static_url('pysite:static/app/libs/jqgrid/css/ui.jqgrid.css')}">
+${grid.render_css(request)|n}
 </%block>
 <%block name="require_config">
 	${parent.require_config()}
