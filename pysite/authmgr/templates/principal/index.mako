@@ -50,25 +50,4 @@ require(['jquery', 'pym'], function($, PYM) {
         });
     });
 });
-
-function grid_after(gr) {
-    console.log('backend:', $.jStorage.currentBackend());
-    console.log('available:', $.jStorage.storageAvailable());
-    gr.bind('jqGridAfterLoadComplete.loadstate', function () {
-        console.log('Loading state');
-        var state = PYM.grid.load_state($(this));
-        if (state) {
-            $(this).jqGrid("remapColumns", state.permutation, true);
-        }
-        $(this).unbind('jqGridAfterLoadComplete.loadstate');
-    });
-    gr.bind('jqGridAfterLoadComplete.savestate', function () {
-        console.log('Saving state after load complete');
-        PYM.grid.save_state($(this));
-    });
-    gr.bind('jqGridResizeStop.savestate', function () {
-        console.log('Saving state on resize stop');
-        PYM.grid.save_state($(this));
-    });
-}
 </script>
