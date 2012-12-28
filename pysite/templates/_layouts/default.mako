@@ -39,6 +39,7 @@
 				}
 				, shim: {
 					  'ui/jquery-ui':              ['jquery']
+					, 'libs/jstorage':             ['jquery']
 					, 'ui/timepicker/timepicker':  ['ui/jquery-ui']
 					, 'ui/pnotify/jquery.pnotify': ['ui/jquery-ui']
 				}

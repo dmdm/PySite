@@ -4,6 +4,7 @@
         define(function(require, exports, module) {
             var $ = require('jquery');
             require('ui/pnotify/jquery.pnotify');
+            require('libs/jstorage.min');
             // Also create a global in case some scripts
             // that are loaded still are looking for
             // a global even when an AMD loader is in use.
@@ -32,7 +33,7 @@
     my.init = function (rc) {
         this.rc = rc;
         this.gui_token = rc['gui_token'];
-        this.base_url = rc['gui_token'];
+        this.base_url = rc['base_url'];
         my.init_growl();
         my.init_pym(rc);
         my.init_ajax();
@@ -180,34 +181,6 @@
         // Show message
         $.pnotify(msg);
     }
-
-    my.grid = {
-        resize: function (grid) {
-            p = grid.closest('.ui-jqgrid').parent();
-            width = p.innerWidth();
-            grid.setGridWidth(width);
-        }
-        , doAfterSubmit: function (response, postdata) {
-            var resp = $.parseJSON(response.responseText);
-            var ok = resp.status;
-            $('.formError', '.ui-jqdialog').html('');
-            if (ok) {
-                var new_id = resp.new_id || null;
-                var msg = resp.msg || 'Ok';
-                return [ true, msg, new_id ];
-            }
-            else {
-                var msg = resp.msg || 'Errors';
-                var errors = resp.errors;
-                for (var k in errors) {
-                    var id = '#' + k.replace(/\./g, '-');
-                    var div_id = id + '-error';
-                    $(div_id).html(errors[k]);
-                }
-                return [ false, msg, null ];
-            }
-        }
-    };
 
     return my;
 }));

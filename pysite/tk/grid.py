@@ -5,6 +5,7 @@ import re
 import sqlalchemy as sa
 import sqlalchemy.sql as sasql
 import colander
+from collections import OrderedDict
 
 
 class GridError(Exception):
@@ -59,11 +60,45 @@ class Grid(object):
         if locales is None:
             locales = ['en']
         self.locales = locales
-        self.requires = [
-            'requirejs/domReady!',
-            'jquery',
-            'jqgrid/jquery.jqGrid.min'
-        ]
+        self.bundles = OrderedDict()
+        self.bundles['base'] = {
+            'libs': [
+                'requirejs/domReady!',
+                'jquery',
+                'jqgrid/jquery.jqGrid.min',
+                'pym.grid'
+            ],
+            'paths': {
+                'jqgrid': 'libs/jqgrid'
+            },
+            'shims': {
+                'jqgrid/jquery.jqGrid.min': ['ui/jquery-ui']
+            },
+            'css': [
+                'pysite:static/app/libs/jqgrid/css/ui.jqgrid.css'
+            ]
+        }
+        self.bundles['locale'] = {
+            'libs': [
+                'jqgrid/i18n/grid.locale-{locale}'
+            ],
+            'shims': {
+                'jqgrid/i18n/grid.locale-{locale}': ['jqgrid/jquery.jqGrid.min']
+            },
+        }
+        self.bundles['columnchooser'] = {
+            'libs': [
+                'jqgrid/plugins/ui.multiselect'
+            ],
+            'shims': {
+                # This overrides the base shim with same key
+                'jqgrid/jquery.jqGrid.min': ['ui/jquery-ui', 'jqgrid/plugins/ui.multiselect'],
+                'jqgrid/plugins/ui.multiselect': ['ui/jquery-ui']
+            },
+            'css': [
+                'pysite:static/app/libs/jqgrid/plugins/ui.multiselect.css'
+            ]
+        }
         self._page = 1
         self._allowed_fields = []
         """
@@ -162,6 +197,9 @@ class Grid(object):
         self.has_navgrid = True
         self.has_filter = True
         self.is_fluid = True
+
+        self.columnchooser_opts = {}
+        self.has_columnchooser = True
     
     def build_colmodel(self, dd, fieldlist, opts=None):
         """
@@ -442,21 +480,53 @@ class Grid(object):
         s = '{' + ", ".join(a) + '}'
         return '$.extend(' + json.dumps(loc_opts) + ', ' + s + ')'
 
+    def render_css(self, request):
+        urls = []
+        for group, data in self.bundles.items():
+            if not 'css' in data:
+                continue
+            if group == 'columnchooser' and not self.has_columnchooser:
+                continue
+            urls += data['css']
+        html = []
+        for url in urls:
+            html.append("""<link rel="stylesheet" href="{0}">""".format(request.static_url(url)))
+        return "\n".join(html)
+
     def render_requirejs_config(self):
         """
         Returns rendered JavaScript to configure requirejs.
 
         This method is called from a template.
         """
-        a = ["require.paths['jqgrid'] = 'libs/jqgrid';",
-             "require.shim['jqgrid/jquery.jqGrid.min'] = ['ui/jquery-ui'];"
-        ]
-        for loc in self.locales:
-            a.append(("require.shim['jqgrid/i18n/grid.locale-{loc}']"
-                + "= ['jqgrid/jquery.jqGrid.min'];").format(loc=loc.lower()))
+        paths = {}
+        for group, data in self.bundles.items():
+            if not 'paths' in data:
+                continue
+            if group == 'columnchooser' and not self.has_columnchooser:
+                continue
+            paths.update(data['paths'])
+        shims = {}
+        for group, data in self.bundles.items():
+            if not 'shims' in data:
+                continue
+            if group == 'columnchooser' and not self.has_columnchooser:
+                continue
+            if group == 'locale':
+                for locale in self.locales:
+                    for k, v in data['shims'].items():
+                        shims[k.format(locale=locale.lower())] = v
+            else:
+                shims.update(data['shims'])
+
+        a = []
+        for k, v in paths.items():
+            a.append("require.paths['{0}'] = '{1}';".format(k, v))
+        for k, v in shims.items():
+            a.append("require.shim['{0}'] = {1};".format(k, json.dumps(v)))
         return "\n".join(a)
 
-    def render(self, opts_hook=None, is_fluid=None):
+    def render(self, id=None, opts_hook=None, is_fluid=None, after_hook=''):
         """
         Returns rendered HTML and JavaScript to start the grid.
 
@@ -466,21 +536,42 @@ class Grid(object):
         its single input parameter. The function must return the options data
         which is passed to the grid constructor.
 
+        Additionally a template may specify a JavaScript callback function
+        ``after_hook`` that gets called after the grid is initialized. The
+        single input parameter of that function is the jquerified instance of
+        the grid.
+
         This method is called from a template; and the parameters can be set by
         the designer from inside a template.
 
-        :param opts_hook: JavaScript function name
+        :param id: ID for the grid.
+        :param opts_hook: JavaScript function name.
         :param is_fluid: Tells whether the grid resizes with the browser window
             or not.
+        :param after_hook: JavaScript function name.
+        :returns: Rendered HTML and JavaScript to start the grid.
         """
+        if id:
+            self.id = id
         if is_fluid is not None:
             self.is_fluid = is_fluid
-        req = self.requires[:]
-        for loc in self.locales:
-            req.append("jqgrid/i18n/grid.locale-{0}".format(loc.lower()))
+        req = []
+        for group, data in self.bundles.items():
+            if not 'libs' in data:
+                continue
+            if group == 'columnchooser' and not self.has_columnchooser:
+                continue
+            if group == 'locale':
+                for locale in self.locales:
+                    for x in data['libs']:
+                        req.append(x.format(locale=locale))
+            else:
+                req += data['libs']
         sreq = json.dumps(req)
         
-        sopts = self._opts2json(self.opts)
+        # Reflect our grid_id in options so that JavaScript opts_hook gets it.
+        self.opts.update({'grid_id': self.grid_id})
+        sopts = 'PYM.grid.apply_state(' + self._opts2json(self.opts) + ')'
         if opts_hook:
             sopts = "{opts_hook}({opts})".format(opts_hook=opts_hook, opts=sopts)
 
@@ -506,6 +597,15 @@ class Grid(object):
         if self.is_fluid:
             fluid = TPL_FLUID.format(grid_id=self.grid_id)
 
+        other = ''
+        if self.has_columnchooser:
+            other += "\n" + TPL_COLUMNCHOOSER.format(
+                pager_id=self.pager_id,
+                opts=self._opts2json(self.columnchooser_opts)
+            )
+
+        if after_hook:
+            after_hook += '(gr);'
         return TPL_GRID.format(
             req=sreq,
             grid_id=self.grid_id,
@@ -513,7 +613,9 @@ class Grid(object):
             init=init,
             navgrid=navgrid,
             filter=filter,
-            fluid=fluid
+            fluid=fluid,
+            other=other,
+            after_hook=after_hook
         )
 
 
@@ -690,7 +792,8 @@ class Grid(object):
 TPL_INIT = """
     gr.jqGrid(
         {opts}
-    );"""
+    );
+    PYM.grid.init_state_handler(gr);"""
 
 TPL_NAVGRID = """
     gr.jqGrid('navGrid', '#{pager_id}',
@@ -710,6 +813,34 @@ TPL_FLUID = """
     $(window).resize(function () {{ PYM.grid.resize($('#{grid_id}')); }});
 """
 
+TPL_COLUMNCHOOSER = """
+gr.jqGrid('navButtonAdd', '#{pager_id}', {{
+    caption: ""
+    , buttonicon: "ui-icon-calculator"
+    , title: "Choose columns"
+    , onClickButton: function () {{
+        $(this).jqGrid('columnChooser', $.extend({opts}, {{
+            done: function (perm) {{
+                if (perm) {{
+                    this.jqGrid("remapColumns", perm, true);
+                    console.log('Saving state after column chooser');
+                    PYM.grid.save_state($(this));
+                }}
+            }}
+        }}));
+    }}
+}});
+gr.jqGrid('navButtonAdd', '#{pager_id}', {{
+    caption: ""
+    , buttonicon: "ui-icon-closethick"
+    , title: "Reset grid"
+    , onClickButton: function () {{
+        PYM.grid.delete_state($(this));
+        window.location.reload();
+    }}
+}});
+"""
+
 TPL_GRID = """
 <div class="grid">
     <table id="{grid_id}"><tr><td/></tr></table>
@@ -720,7 +851,7 @@ require({req},
 function(doc, $)
 {{
     var gr = $("#{grid_id}");
-    {init}{navgrid}{filter}{fluid}
+    {init}{navgrid}{filter}{fluid}{other}{after_hook}
 }});
 </script>
 """
