@@ -114,12 +114,6 @@
             }
         ;
         $.post(rc.url, data, function (data, textStatus, jqXHR) {
-            // TODO Check the response data.
-            //      If e.g. session expired, we will nonetheless get
-            //      an HTTP 200, because we are redirected to the login
-            //      page. Since XHR is non-visual, nobody notices that
-            //      and this method signals "saving ok" to the user
-            //      -- which is wrong! Nothing was saved.
             if (visual) PYM.growl({kind: 'success', text: filename + ' saved.'});
             if (rc.reload_opener && ! call_sassc) {
                 window.opener.location.reload();
