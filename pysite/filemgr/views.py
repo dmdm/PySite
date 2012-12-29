@@ -5,11 +5,10 @@ from pyramid.response import Response
 import os
 import logging
 
-import pym_elfinder
 from pym_elfinder.exceptions import FinderError
-import pym_elfinder.cache
 import pysite.sitemgr.models
 import pysite.sass as sass
+from pysite.filemgr import create_finder
 
 
 L = logging.getLogger('PySite')
@@ -52,50 +51,7 @@ class FileMgrView(object):
                     cmd_args[k2] = self.request.params.getall(k)
                 else:
                     cmd_args[k] = self.request.params[k]
-        opts = {
-            'debug': False,
-            'roots': [
-                dict(
-                    id="1",
-                    driver='pym_elfinder.volume.localfilesystem',
-                    path=self.context.dir_,
-                    #startPath='../files/test/',
-                    #URL=dirname($_SERVER['PHP_SELF']) . '/../files/',
-                    # treeDeep=3,
-                    # alias='File system',
-                    #mimeDetect='internal',
-                    #tmbPath='.tmb',
-                    utf8fix=True,
-                    #tmbCrop=False,
-                    #tmbBgColor='transparent',
-                    accessControl='access',
-                    acceptedName='/^[^\.].*$/',
-                    max_size=self.context.master_rc.get('max_size',
-                        self.request.registry.settings['quota.max_size']),
-                    # tmbSize=128,
-                    attributes=[
-                        dict(
-                            pattern='/^[.].*$/',
-                            read=True,
-                            write=False
-                        ),
-                        dict(
-                            pattern='/^[^.].*$/',
-                            read=True,
-                            write=True
-                        )
-                    ]
-                ),
-            ]
-        }
-        cache = pym_elfinder.cache.Cache(self.request.session)
-        finder = pym_elfinder.Finder(opts, cache=cache,
-            session=self.request.session)
-        # TODO Respond with exceptions only for admin users!
-        finder.respond_exceptions = True
-        finder.mount_volumes()
-        # TODO set user agent
-        # finder.user_agent = ...
+        finder = create_finder(self.context, self.request)
         try:
             finder.run(cmd, cmd_args)
         except FinderError as e:

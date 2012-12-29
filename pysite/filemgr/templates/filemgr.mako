@@ -26,46 +26,11 @@
 <div id="elfinder"></div>
 
 <script>
-var pym_editors = {};
-function open_editor(o) {
-	var data = {
-			  mime: o.data('mime')
-			, filename: o.data('filename')
-			, hash: o.data('hash')
-		}
-		, url = '${request.resource_url(request.context, '@@editor')}'
-		, qq = []
-	;
-
-	for (var k in data) {
-		qq.push(encodeURIComponent(k) + '=' + encodeURIComponent(data[k])); 
-	}
-	url += '?' + qq.join('&');
-	if (pym_editors[data['hash']]) {
-		pym_editors[data['hash']].focus();
-	}
-	else {
-		var win = window.open(url, data['hash'],
-				 'resizable=yes,scrollbars=yes,status=yes,centerscreen=yes,width=700,chrome=yes'
-			)
-        ;
-        win.onunload = function() {
-            for (var k in pym_editors) {
-                if (pym_editors[k] == this) {
-                    console.log('Deleting: ' + k);
-                    delete pym_editors[k];
-                    break;
-                }
-            }
-        };
-		pym_editors[data['hash']] = win;
-	}
-}
-var editor;
-require(['requirejs/domReady!', 'jquery', 'elfinder/elfinder.min', 'elfinder.commands.edit', 'elfinder/i18n/elfinder.de', 'elfinder/i18n/elfinder.en'],
-function(doc,                   $)
+require(['requirejs/domReady!', 'jquery', 'pym',
+    'elfinder/elfinder.min', 'elfinder.commands.edit', 'elfinder/i18n/elfinder.de',
+    'elfinder/i18n/elfinder.en', 'pym.editor.source'],
+function(doc,                   $,        PYM)
 {
-
 	var h = $('#pageContainer').height() - $('#pageHeaderWrapper').outerHeight()
 		- $('#pageFooterWrapper').outerHeight() - 10;
 	var elf = $('#elfinder').elfinder({
@@ -98,10 +63,19 @@ function(doc,                   $)
 	}).elfinder('instance');
 	var elm = $('.elfinder-button-icon-help').closest('.elfinder-buttonset');
 	elm.after('<div id="open-editor-buttonset" class="ui-widget-content ui-corner-all elfinder-buttonset">'
-		+ '<a id="open-editor" class="ui-widget-header" href="#" onclick="open_editor($(this));">Editor</a>&nbsp;'
+		+ '<a id="open-editor" class="ui-widget-header" href="#">Editor</a>&nbsp;'
 		+ '</div>'
 	);
 	$('#open-editor-buttonset').hide();
+	$('#open-editor').on('click', function(evt) {
+        var o = $(this)
+            , mime = o.data('mime')
+            , filename = o.data('filename')
+            , hash = o.data('hash')
+            , url = '${request.resource_url(request.context, '@@editor')}'
+        ;
+        PYM.editor.open_source_window(mime, filename, hash, url, 0);
+    });
 });
 </script>
 

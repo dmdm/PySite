@@ -1,5 +1,6 @@
 # coding: utf-8
 
+import string
 import re
 import os
 import babel
@@ -54,27 +55,64 @@ class SiteView(object):
 
 
 
-ALOHA_LOAD = """
-<!-- BEGIN INJECTION aloha -->
+WYSIWYG_LOAD = """
+<!-- BEGIN INJECTION -->
+<link rel="stylesheet" href="{jqui_css_url}">
+<link rel="stylesheet" href="{pnotify_css_url}">
 <link rel="stylesheet" href="{aloha_css_url}" id="aloha-style-include" type="text/css">
+<link rel="stylesheet" href="{wysiwyg_css_url}">
+
+<script>
+var require = {{
+      baseUrl: '{base_url}'
+    , deps: [
+        '{plugins_js_url}'
+    ]
+    , paths: {{
+          'jquery': 'libs/jquery/jquery'
+        , 'ui':     'libs/jquery/ui'
+        , 'requirejs': 'libs/aloha/lib'
+    }}
+    , shim: {{
+          'ui/jquery-ui':              ['jquery']
+        , 'libs/jstorage':             ['jquery']
+        , 'ui/pnotify/jquery.pnotify': ['ui/jquery-ui']
+    }}
+    , waitSeconds: 15
+}};
+</script>
 <script src="{require_js_url}"></script>
-<script src="{jquery_js_url}"></script>
 <script src="{aloha_js_url}" data-aloha-plugins="{plugins}"></script>
-<script src="{pysite_aloha_js_url}"></script>
-<!-- END INJECTION aloha -->
+<!-- END INJECTION -->
 </head>
 """
 
-ALOHA_START = """
-<!-- BEGIN INJECTION aloha -->
+WYSIWYG_START = """
+<!-- BEGIN INJECTION -->
 <script type="text/javascript">
-Aloha.ready( function() {
-    pysite_aloha('%USERNAME%', '%LOGOUT_URL%', '%SAVE_URL%', '%SELECTOR%', '%GUI_TOKEN%');
+require(['requirejs/domReady!', 'jquery', 'pym', 'pym.editor.wysiwyg'],
+function(doc,                   $$,        PYM) {
+    PYM.init({
+        gui_token: '$GUI_TOKEN'
+    });
+    Aloha.ready( function() {
+        PYM.editor.wysiwyg.init({
+            username: '$USERNAME'
+            , logout_url: '$LOGOUT_URL'
+            , save_url: '$SAVE_URL'
+            , source_url: '$SOURCE_URL'
+            , selector: '$SELECTOR'
+            , mime: '$MIME'
+            , filename: '$FILENAME'
+            , hash: '$HASH'
+        });
+    });
 });
 </script>
-<!-- END INJECTION aloha -->
+<!-- END INJECTION -->
 </body>
 """
+
 
 @view_defaults(context=pysite.sitemgr.models.Page)
 class PageView(object):
@@ -91,16 +129,16 @@ class PageView(object):
         self._init_i18n(page)
         html = page.get_page()
         if has_permission('manage_files', self.context, self.request):
-            html = self._inject_aloha(html)
+            html = self._inject_wysiwyg(html)
         return Response(html)
 
     # Add more view methods to manage this page here
     @view_config(
-        name='xhr_save_aloha',
+        name='xhr_save_content',
         permission='manage_files',
         renderer='json'
     )
-    def xhr_save_aloha(self):
+    def xhr_save_content(self):
         log = pysite.lib.StatusResp()
         fn = os.path.join(self.context.dir_, self.context.__name__) \
             + '.jinja2'
@@ -108,6 +146,7 @@ class PageView(object):
         try:
             r.load_page(fn)
             s = r.replace(self.request.POST)
+            # TODO   Check fs quota!!! XXX
             with open(fn, 'w', encoding='utf-8') as fh:
                 fh.write(s)
             log.ok('Saved.')
@@ -115,7 +154,7 @@ class PageView(object):
             log.error(str(exc))
         return log.resp
 
-    def _inject_aloha(self, html):
+    def _inject_wysiwyg(self, html):
         plugins = [
             'common/align',
             'common/block',
@@ -131,36 +170,52 @@ class PageView(object):
             'common/undo',
             'extra/metaview'
         ]
-        aloha_css_url = self.request.static_url('pysite:static/app/libs/aloha/css/aloha.css')
-        pysite_aloha_js_url = self.request.static_url('pysite:static/app/pysite_aloha.js')
-        aloha_js_url = self.request.static_url('pysite:static/app/libs/aloha/lib/aloha.js')
-        require_js_url = self.request.static_url('pysite:static/app/libs/aloha/lib/require.js')
-        jquery_js_url = self.request.static_url('pysite:static/app/libs/aloha/lib/vendor/jquery-1.7.2.js')
+        data = dict(
+            aloha_css_url=self.request.static_url(
+                'pysite:static/app/libs/aloha/css/aloha.css'),
+            jqui_css_url=self.request.static_url(
+                'pysite:static/app/libs/jquery/ui/themes/humanity/jquery-ui.css'),
+            pnotify_css_url=self.request.static_url(
+                'pysite:static/app/libs/jquery/ui/pnotify/jquery.pnotify.default.css'),
+            wysiwyg_css_url=self.request.static_url(
+                'pysite:static/css/pym.editor.wysiwyg.css'),
+            base_url=self.request.static_url(
+                'pysite:static/app'),
+            plugins_js_url=self.request.static_url(
+                'pysite:static/app/libs/plugins.js'),
+            require_js_url=self.request.static_url(
+                'pysite:static/app/libs/aloha/lib/require.js'),
+            aloha_js_url=self.request.static_url(
+                'pysite:static/app/libs/aloha/lib/aloha.js'),
+            plugins=','.join(plugins)
+        )
         html = re.sub(r'</head\s*>',
-            ALOHA_LOAD.format(
-                pysite_aloha_js_url=pysite_aloha_js_url,
-                aloha_js_url=aloha_js_url,
-                aloha_css_url=aloha_css_url,
-                require_js_url=require_js_url,
-                jquery_js_url=jquery_js_url,
-                plugins=",".join(plugins)
-            ),
+            WYSIWYG_LOAD.format(**data),
             html,
             flags=re.I
         )
+
+        from pysite.filemgr import create_finder
+        finder = create_finder(self.context.site, self.request)
+        filename = self.context.__name__ + '.jinja2'
+        path = os.path.join(self.context.dir_, filename)
+        print(list(finder.volumes.keys()))
+        hash_ = finder.default_volume.encode(path)
         
-        logout_url = self.request.resource_url(self.context.site, '@@logout')
-        save_url = self.request.resource_url(self.context, '@@xhr_save_aloha')
-        selector = '.editable'
-        html = re.sub(r'</body\s*>',
-            ALOHA_START.replace('%SELECTOR%', selector).replace(
-                '%USERNAME%', self.request.user.display_name).replace(
-                '%LOGOUT_URL%', logout_url).replace(
-                '%SAVE_URL%', save_url).replace(
-                '%GUI_TOKEN%', self.request.session.get_csrf_token().decode('utf-8')),
-            html,
-            flags=re.I
+        data = dict(
+            GUI_TOKEN=self.request.session.get_csrf_token().decode('utf-8'),
+            USERNAME=self.request.user.display_name,
+            LOGOUT_URL=self.request.resource_url(self.context.site, '@@logout'),
+            SAVE_URL=self.request.resource_url(self.context,
+                '@@xhr_save_content'),
+            SOURCE_URL=self.request.resource_url(self.context.site, '@@editor'),
+            MIME='text/html',
+            FILENAME=filename,
+            HASH=hash_,
+            SELECTOR='.editable'
         )
+        wysiwyg_start = string.Template(WYSIWYG_START).substitute(data)
+        html = re.sub(r'</body\s*>', wysiwyg_start, html, flags=re.I)
         return html
 
     def _init_i18n(self, page):

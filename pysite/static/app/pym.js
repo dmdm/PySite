@@ -95,6 +95,21 @@
         }));
     }
 
+    my.parse_get_param = function () {
+        var search = window.location.search.match(/^\?([^#]+)/)[1]
+            , param = search.split(/\&/)
+            , i
+            , maxi = param.length
+            , kv
+            , data = {}
+        ;
+        for (i=0; i<maxi; i++) {
+            kv = param[i].split(/=/);
+            data[decodeURIComponent(kv[0])] = decodeURIComponent(kv[1]);
+        }
+        return data;
+    }
+
     /**
      * Cookie object
      *

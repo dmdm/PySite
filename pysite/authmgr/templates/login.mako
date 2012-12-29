@@ -13,5 +13,9 @@ label { width: 6em; display: inline-block; }
   <label for="pwd">Password</label> <input id="pwd" type="password" name="pwd" value="${pwd}"/><br/>
   <input type="submit" name="submit" value="Log In"/>
 </form>
-
+<script>
+require(['requirejs/domReady!', 'jquery'], function (doc, $) {
+	$('#login').focus();
+});
+</script>
 
