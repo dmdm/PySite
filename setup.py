@@ -12,6 +12,7 @@ requires = [
     'blinker',
     'colander',
     'deform',
+    'lxml',
     'pyramid',
     'pyramid_beaker',
     'pyramid_debugtoolbar',

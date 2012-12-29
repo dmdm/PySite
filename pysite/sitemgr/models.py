@@ -185,7 +185,7 @@ class Page(object):
             self.rc = yaml.load(fh, YamlLoader)
         # If this page has no title set, get the one of the site
         # (if the site has one, that is)
-        if self.rc and not self.rc.get('title', None):
+        if hasattr(self.rc, 'get') and not self.rc.get('title', None):
             t = site.rc.get('title', None)
             if t:
                 self.rc['title'] = t

@@ -53,6 +53,7 @@
 			require(['pym'], function(PYM) {
 				PYM.init({
 					huhu: "HUHUHUHU"
+					, gui_token: '${request.session.get_csrf_token()}'
 				});
 			});
 			</script>

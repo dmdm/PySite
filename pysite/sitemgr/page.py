@@ -46,6 +46,8 @@ class Page(object):
     - `url()`:   See :meth:`url`
     - `asset_url()`: See :meth:`asset_url`
     - 'load_config(): See :meth:`load_config`
+    - `path`: List of path items, e.g. if current page is ``foo/bar/baz`` it
+          contains ``["foo", "bar", "baz"]``.
 
     It also sets these options:
 
@@ -98,7 +100,7 @@ class Page(object):
 
     def _init_jinja(self):
         site_dir = self.context.site.dir_
-        self.tpldir = os.path.join(site_dir, 'content')
+        self.tpldir = site_dir
         self.jjenv = Sandbox(
             loader=jj.FileSystemLoader(site_dir, encoding='utf-8'),
             autoescape=True,
@@ -120,11 +122,12 @@ class Page(object):
             template.  If set, attribute :attr:`jjglobals` is updated by these.
         """
         if not fn:
-            dir_ = self.context.dir_.replace(self.tpldir, '')
-            fn = os.path.join(dir_, 'content',
+            dir_ = self.context.dir_.replace(self.tpldir, '').lstrip(os.path.sep)
+            fn = os.path.join(dir_,
                 self.context.__name__) + '.jinja2'
         if jjglobals:
             self.jjglobals.update(jjglobals)
+        self.jjglobals['path'] = (dir_.split('/') + [self.context.__name__])[1:]
         try:
             self.jjtpl = self.jjenv.get_template(fn, globals=self.jjglobals)
         except jj.TemplateSyntaxError as exc:

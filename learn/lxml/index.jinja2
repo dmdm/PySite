@@ -1,0 +1,85 @@
+{% extends "/layout/base.jinja2" %}
+{% set some_var="SOME VARIABLE" %}
+
+{% block content %}
+
+<!-- BEGIN EDITABLE editable001 --><div id="editable001" class="editable">
+
+<h2>This site is derived from the default site template.</h2>
+
+<p>Lorem ipsum
+</p>
+
+<h3>födflkasöldfkasdf</h3>
+
+<p><img src="{{ asset_url("img/grass-mud-horse2.jpg") }}">
+</p>
+
+<p>If you do not grok what the depicted thing is,
+<a href="{{ url('two') }}">here</a> is another aspect of it.
+</p>
+
+<p>
+{% set data = load_config("test.yaml") %}
+{% for k, v in data.items() %}
+Found key "{{k}}" with value "{{v}}".<br>
+{% endfor %}
+</p>
+
+</div><!-- END EDITABLE editable001 -->
+
+<!-- BEGIN EDITABLE  --><div class="editable">
+Also editable, but since I have no ID, I cannot be saved!
+</div><!-- END EDITABLE -->
+
+<p>Nothing to edit here.</p>
+
+<!-- BEGIN EDITABLE editable002 --><div id="editable002" class="editable">
+Another editable area, this has ID 'para2'.
+</div><!-- END EDITABLE editable002 -->
+
+
+<div id="x">
+	<div>
+		<!-- Test deeply nested content -->
+		<div id="foo">FOOOOOOO</div>
+	</div>
+</div>
+
+<div id="y">
+	<div>
+		<!-- Test deeply nested but not to be replaced -->
+		<div id="z">DO NOT REPLACE THIS</div>
+	</div>
+</div>
+
+
+{% filter markdown %}
+
+This is Markdown
+================
+
+dflkjahflafdf kwewer werj qwölkrjwöekr 
+{: #first-para .some-css-class data-foo="bar" }
+
+- aaa
+- bbb
+- ccc
+
+
+Col 1 | Col 2 | Right Aligned
+------|-------|--------------:
+cell1 | cell2 | 1000
+cell3 | cell4 |    12.45
+
+
+
+{{ some_var }}
+
+Markdown ends here
+------------------
+
+{% endfilter %}
+
+
+{% endblock %}

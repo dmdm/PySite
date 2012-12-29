@@ -3,26 +3,71 @@
 
 {% block content %}
 
+<!-- BEGIN EDITABLE editable001 -->
+
+
+
+<div id="editable001" class="editable">
 <h2>This site is derived from the default site template.</h2>
 
-<p>Lorem ipsum
-</p>
+<p>Lorem ipsum38945709234750239487502394857203495234</p>
 
 <h3>födflkasöldfkasdf</h3>
 
-<p><img src="{{ asset_url("img/grass-mud-horse2.jpg") }}">
+<p><img src="/static-www.default.local/img/grass-mud-horse2.jpg">
 </p>
 
 <p>If you do not grok what the depicted thing is,
-<a href="{{ url('two') }}">here</a> is another aspect of it.
+<a href="http://localhost:6543/sites/www.default.local/two">here</a> is another aspect of it.
 </p>
 
 <p>
-{% set data = load_config("test.yaml") %}
-{% for k, v in data.items() %}
-Found key "{{k}}" with value "{{v}}".<br>
-{% endfor %}
+
+
+Found key "foo" with value "12345".<br>
+
+Found key "bar" with value "hello world".<br>
+
 </p>
+</div>
+<!-- END EDITABLE editable001 -->
+
+
+
+
+
+<!-- BEGIN EDITABLE  -->
+
+
+
+<div class="editable">
+Also editable, but since I have no ID, I cannot be saved!
+</div>
+
+
+
+<!-- END EDITABLE -->
+
+
+
+
+
+<p>Nothing to edit here.</p>
+
+
+
+
+
+<!-- BEGIN EDITABLE editable002 -->
+
+
+
+<div id="editable002" class="editable">
+<p>
+Another editable area, this has ID 'para2'.
+</p><h1 style="color: rgb(255, 0, 0); text-align: center;">FROBOTZ!<br></h1><h1 style="text-align: center;"></h1>
+</div>
+<!-- END EDITABLE editable002 -->
 
 {% filter markdown %}
 
@@ -53,3 +98,7 @@ Markdown ends here
 
 
 {% endblock %}
+
+
+
+
