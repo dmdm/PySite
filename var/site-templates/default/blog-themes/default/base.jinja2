@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>{% block title %}{{ site['blog.title'] }}{% endblock %}</title>
+    <meta name="description" content="{{ page.description }}">
+    <meta name="viewport" content="width=device-width">
+
+    <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+    <link rel="stylesheet" href="{{ asset_url('css/normalize.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/main1.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset_url('css/main2.css') }}">
+    <script src="{{ asset_url('js/vendor/modernizr-2.6.1.min.js') }}"></script>
+</head>
+<body>
+    <!--[if lt IE 7]>
+        <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+    <div id="page-container">
+        <nav class="top-menu">
+          <a href="{{ url("/index") }}">Home</a>
+          <a href="{{ url("/eventlist") }}">EventList</a>
+          <a href="{{ blog('') }}">Blog</a>
+        </nav>
+        <div id="page-shadow">
+            <div class="clearfix">
+                <div id="blogcontent">
+                  {% block content %}Content here{% endblock %}
+                </div>
+                <div class="sidebar">
+                    <div class="authors">
+                    <div><b>Authors</b></div>
+                    <ul>
+                    {% for it in authors %}
+                        <li><a href="{{ blog('author/'+ it[0]) }}">{{ it[0] }}</a> ({{it[1]}})</li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                    <div class="categories">
+                    <div><b>Categories</b></div>
+                    <ul>
+                    {% for it in categories %}
+                        <li><a href="{{ blog('category/'+ it[0]) }}">{{ it[0] }}</a> ({{it[1]}})</li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                    <div class="tags">
+                    <div><b>Tags</b></div>
+                    <ul>
+                    {% for it in tags %}
+                        <li><a href="{{ blog('tag/'+ it[0]) }}">{{ it[0] }}</a> ({{it[1]}})</li>
+                    {% endfor %}
+                    </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,39 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+
+<article>
+<header>
+<h1>{{ data.meta.title|safe }}</h1>
+
+<div class="tags"><a href="{{blog('tag')}}">Tags</a>:
+{% for t in data.meta.tags %}
+<div class="tag"><a href="{{blog('tag/' + t)}}">{{t}}</a></div>
+{% endfor %}
+</div>
+
+<div class="category"><a href="{{blog('category')}}">Category</a>: 
+<a href="{{blog('category/' + data.meta.category)}}">{{data.meta.category}}</a>
+</div>
+
+<div class="author"><a href="{{blog('author')}}">Author</a>: 
+<a href="{{blog('author/' + data.meta.author)}}">{{data.meta.author}}</a>
+</div>
+
+<div class="pubdate">Published: 
+{{bfmt.date(data.meta.pubdate_utc, format="d. MMMM y")}}
+</div>
+</header>
+<div class="body">
+{{data.body|safe}}
+</div>
+
+</article>
+
+<hr>
+<table style="font-size:70%;line-height:1.2;"border=1><tbody>
+{% for k, v in data.meta.items() %}
+<tr><th>{{k}}</th><td>{{v}}</td></tr>
+{% endfor %}
+</tbody></table>
+{% endblock %}

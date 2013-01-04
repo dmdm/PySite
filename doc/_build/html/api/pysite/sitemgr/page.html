@@ -80,14 +80,25 @@ inside a Pyramid view:</p>
 </div>
 <p>The rendering environment by default is a sandbox, and the following
 globals are available in a template:</p>
-<ul class="simple">
-<li><cite>site</cite>:    Contains the settings of the site.
-Usage: <cite>{{ site.title }}</cite></li>
-<li><cite>page</cite>:    Contains the settings of the current page.
-Usage: <cite>{{ page.keywords }}</cite></li>
-<li><cite>url()</cite>:   See <a class="reference internal" href="#pysite.sitemgr.page.Page.url" title="pysite.sitemgr.page.Page.url"><tt class="xref py py-meth docutils literal"><span class="pre">url()</span></tt></a></li>
-<li><cite>asset_url()</cite>: See <a class="reference internal" href="#pysite.sitemgr.page.Page.asset_url" title="pysite.sitemgr.page.Page.asset_url"><tt class="xref py py-meth docutils literal"><span class="pre">asset_url()</span></tt></a></li>
-<li>&#8216;load_config(): See <a class="reference internal" href="#pysite.sitemgr.page.Page.load_config" title="pysite.sitemgr.page.Page.load_config"><tt class="xref py py-meth docutils literal"><span class="pre">load_config()</span></tt></a></li>
+<ul>
+<li><p class="first"><cite>site</cite>:    Contains the settings of the site.
+Usage: <cite>{{ site.title }}</cite></p>
+</li>
+<li><p class="first"><cite>page</cite>:    Contains the settings of the current page.
+Usage: <cite>{{ page.keywords }}</cite></p>
+</li>
+<li><p class="first"><cite>url()</cite>:   See <a class="reference internal" href="#pysite.sitemgr.page.Page.url" title="pysite.sitemgr.page.Page.url"><tt class="xref py py-meth docutils literal"><span class="pre">url()</span></tt></a></p>
+</li>
+<li><p class="first"><cite>asset_url()</cite>: See <a class="reference internal" href="#pysite.sitemgr.page.Page.asset_url" title="pysite.sitemgr.page.Page.asset_url"><tt class="xref py py-meth docutils literal"><span class="pre">asset_url()</span></tt></a></p>
+</li>
+<li><p class="first">&#8216;load_config(): See <a class="reference internal" href="#pysite.sitemgr.page.Page.load_config" title="pysite.sitemgr.page.Page.load_config"><tt class="xref py py-meth docutils literal"><span class="pre">load_config()</span></tt></a></p>
+</li>
+<li><dl class="first docutils">
+<dt><cite>path</cite>: List of path items, e.g. if current page is <tt class="docutils literal"><span class="pre">foo/bar/baz</span></tt> it</dt>
+<dd><p class="first last">contains <tt class="docutils literal"><span class="pre">[&quot;foo&quot;,</span> <span class="pre">&quot;bar&quot;,</span> <span class="pre">&quot;baz&quot;]</span></tt>.</p>
+</dd>
+</dl>
+</li>
 </ul>
 <p>It also sets these options:</p>
 <ul class="simple">
@@ -317,7 +328,7 @@ other page&lt;/a&gt;&lt;/p&gt;</pre>
                         title="previous chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr</span></tt></a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="../sitemgr/models.html"
-                        title="next chapter"><tt class="docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a></p>
+                        title="next chapter"><tt class="docutils literal docutils literal"><span class="pre">pysite.sitemgr.models</span></tt></a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../../../_sources/api/pysite/sitemgr/page.txt"

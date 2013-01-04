@@ -19,3 +19,8 @@ title: Default Site
 
 sass.infile: /assets/sass/styles.scss
 sass.outfile: /assets/css/compiled_styles.css
+
+blog.title: "PySite Default Blog"
+# The blog starts at this URL
+blog.url: "blog"
+blog.theme: blog-themes/default

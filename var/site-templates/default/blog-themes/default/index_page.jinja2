@@ -1,0 +1,59 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+
+{% if index_name %}
+<h1>{{ index_kind }}: {{index_name}}</h1>
+{% endif %}
+
+
+
+{% for it in data %}
+<article class="summary">
+<header>
+
+<h1 class="title"><a href="{{ blog(it.meta.slug) }}">{{ it.meta.title|safe }}</a></h1>
+
+<div class="meta">
+	<div class="tags"><a href="{{blog('tag')}}">Tags</a>:
+	{% for t in it.meta.tags %}
+	<div class="tag"><a href="{{blog('tag/' + t)}}">{{t}}</a></div>
+	{% endfor %}
+	</div>
+
+	<div class="category"><a href="{{blog('category')}}">Category</a>: 
+	<a href="{{blog('category/' + it.meta.category)}}">{{it.meta.category}}</a>
+	</div>
+
+	<div class="author"><a href="{{blog('author')}}">Author</a>: 
+	<a href="{{blog('author/' + it.meta.author)}}">{{it.meta.author}}</a>
+	</div>
+
+	<div class="pubdate">Published: 
+	{{bfmt.date(it.meta.pubdate_utc, format="d. MMM y")}}
+	</div>
+</div>
+</header>
+
+<div class="body">
+{{it.meta.summary|safe}}
+<p><a href="{{ blog(it.meta.slug) }}">more</a></p>
+</div>
+
+</article>
+{% endfor %}
+
+<p>
+{% if link_prev %}
+<a href="{{link_prev}}">&laquo; Newer Articles</a>
+{% endif %}
+&nbsp;
+[&nbsp;Page {{index_page}}&nbsp;]
+&nbsp;
+{% if link_next %}
+<a href="{{link_next}}">Older Articles &raquo;</a>
+{% endif %}
+</p>
+
+{% endblock %}
+

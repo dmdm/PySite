@@ -1,0 +1,12 @@
+{% extends "base.jinja2" %}
+
+{% block content %}
+
+<h1>List of {{list_kind}}</h1>
+
+<ul>
+{% for it in data %}
+<li><a href="{{ blog(url_prefix + it[0]) }}">{{ it[0] }}</a> ({{it[1]}})</li>
+{% endfor %}
+</ul>
+{% endblock %}

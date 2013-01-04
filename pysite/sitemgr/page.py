@@ -1,6 +1,5 @@
 # coding: utf-8
 
-import os.path
 import urllib.parse
 import jinja2 as jj
 import jinja2.sandbox
@@ -46,8 +45,8 @@ class Page(object):
     - `url()`:   See :meth:`url`
     - `asset_url()`: See :meth:`asset_url`
     - 'load_config(): See :meth:`load_config`
-    - `path`: List of path items, e.g. if current page is ``foo/bar/baz`` it
-          contains ``["foo", "bar", "baz"]``.
+    - `slugparts`: List of path items, e.g. if current page is ``foo/bar/baz``
+         it contains ``["foo", "bar", "baz"]``.
 
     It also sets these options:
 
@@ -66,8 +65,10 @@ class Page(object):
             site=context.site.rc,
             page=context.rc,
             url=self.url,
+            blog=self.blog,
             asset_url=self.asset_url,
-            load_config=self.load_config
+            load_config=self.load_config,
+            slugparts=context.slugparts
         )
         """Dict of variables that will globally be available in a template"""
         self.jjcontext = dict()
@@ -76,12 +77,10 @@ class Page(object):
         """Instance of a loaded Jinja template"""
         self.page = None
         """Rendered page as string"""
-        self.tpldir = None
-        """Template directory for current request"""
         # TODO Register any jjglobals from the requested plugins
         self._init_jinja()
 
-    def get_page(self, jjglobals=None, jjcontext=None):
+    def get_page(self, fn, jjglobals=None, jjcontext=None):
         """
         Returns the rendered page for current request.
 
@@ -94,22 +93,22 @@ class Page(object):
             context; passed to :meth:`render`.
         :returns: Rendered page as string.
         """
-        self.load(jjglobals=jjglobals)
+        self.load(fn=fn, jjglobals=jjglobals)
         self.render(jjcontext=jjcontext)
         return self.page
 
     def _init_jinja(self):
         site_dir = self.context.site.dir_
-        self.tpldir = site_dir
+        dirs = [site_dir, self.context.dir_]
         self.jjenv = Sandbox(
-            loader=jj.FileSystemLoader(site_dir, encoding='utf-8'),
+            loader=jj.FileSystemLoader(dirs, encoding='utf-8'),
             autoescape=True,
             auto_reload=True
         )
         self.jjenv.filters['markdown'] = \
             self.request.registry.pysite_markdown.convert
 
-    def load(self, fn=None, jjglobals=None):
+    def load(self, fn, jjglobals=None):
         """
         Loads a template.
 
@@ -121,13 +120,8 @@ class Page(object):
         :param jjglobals: A dict with additional globals to pass to the
             template.  If set, attribute :attr:`jjglobals` is updated by these.
         """
-        if not fn:
-            dir_ = self.context.dir_.replace(self.tpldir, '').lstrip(os.path.sep)
-            fn = os.path.join(dir_,
-                self.context.__name__) + '.jinja2'
         if jjglobals:
             self.jjglobals.update(jjglobals)
-        self.jjglobals['path'] = (dir_.split('/') + [self.context.__name__])[1:]
         try:
             self.jjtpl = self.jjenv.get_template(fn, globals=self.jjglobals)
         except jj.TemplateSyntaxError as exc:
@@ -167,7 +161,24 @@ class Page(object):
                 """.format(markupsafe.escape(type(exc)), str(exc)))
             self.page = tpl.render(self.jjcontext)
 
-    def url(self, path, **kw):
+    def render_from_string(self, s, jjglobals=None, jjcontext=None):
+        gl = self.jjglobals.copy()
+        ctx = self.jjcontext.copy()
+        if jjglobals:
+            gl.update(jjglobals)
+        if jjcontext:
+            ctx.update(jjcontext)
+        try:
+            tpl = self.jjenv.from_string(s, gl)
+        except jj.TemplateError as exc:
+            tpl = jj.Template("""<html>
+                <head><title>Template Error</title></head>
+                <body><h1>Template Error</h1><pre>{0}: {1}</pre></body>
+                </html>
+                """.format(markupsafe.escape(type(exc)), str(exc)))
+        return tpl.render(ctx)
+
+    def url(self, apath, **kw):
         """
         Returns absolute URL to another page.
 
@@ -184,19 +195,43 @@ class Page(object):
                      `content` directory.
         :returns: Absolute URL to another page
         """
+        if isinstance(apath, str):
+            if apath.startswith('/'):
+                path = ['/'] + apath[1:].split('/')
+            else:
+                path = apath.split('/')
+        else:
+            path = apath
+        if path[0] == '/':
+            res = self.context.site
+            path = path[1:]
+        else:
+            res = self.context.__parent__
         try:
-            tgtres = pyramid.traversal.find_resource(self.context.__parent__, path)
-        except KeyError:
+            tgtres = pyramid.traversal.find_resource(res, path)
+        except KeyError as exc:
             # Let the user type in URL to a page that does not yet exist,
             # but signal it.
-            # If we would not catch this exception, the webserver would cry 500.
-            return '#page-not-found'
+            # If we would not catch this exception, the webserver would cry
+            # 500.
+            return '#page-not-found: ' + str(exc)
         url = self.request.resource_url(tgtres, **kw)
-        # Since we do not pass any element parts to resource_url(), the generated
-        # URL will always end with '/'. If a query string or an anchor is appended,
-        # the last '/' will trick the traversal to look for a subelement, which
-        # does not exist. So we kill that last '/'.
+        # Since we do not pass any element parts to resource_url(), the
+        # generated URL will always end with '/'. If a query string or an
+        # anchor is appended, the last '/' will trick traversal to look for a
+        # subelement, which does not exist. So we kill that last '/'.
         return pysite.lib.rreplace(url, '/', '', 1)
+
+    def blog(self, path, **kw):
+        blog_url = self.context.site.rc['blog.url']
+        if isinstance(path, str):
+            path = list(map(urllib.parse.quote, ['/', blog_url]
+                + path.split('/')))
+        else:
+            i = 1 if path[0] == '/' else 0
+            if path[i] != blog_url:
+                path.insert(i, blog_url)
+        return self.url(path, **kw)
 
     def asset_url(self, path, query=None, anchor=None):
         """
@@ -233,9 +268,9 @@ class Page(object):
     def load_config(self, fn, encoding='utf-8'):
         """
         Loads a configuration file.
-        
+
         YAML, JSON and INI format are supported.
-        
+
         Usage::
 
             {% set data = load_config("test.yaml") %}
