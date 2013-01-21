@@ -85,8 +85,17 @@ class Cache(object):
         self.dbh.row_factory = sqlite3.Row
         sqlite3.register_adapter(PickledDict, adapt_pickled_dict)
         sqlite3.register_converter('PickledDict', convert_pickled_dict)
-        self.rc = rc
+        self.rc = rc if rc else {}
         self._tags = {}
+        self._am_i()
+
+    def _am_i(self):
+        q = "SELECT id FROM blog_article LIMIT 1"
+        cur = self.dbh.cursor()
+        try:
+            cur.execute(q)
+        except sqlite3.OperationalError:
+            self.create_tables()
 
     def prepare(self, files, dry_run=False):
         """
@@ -434,7 +443,7 @@ class Cache(object):
                     tid = cur.lastrowid
                 except sqlite3.IntegrityError:
                     cur.execute("SELECT id FROM blog_tag WHERE tag=?",
-                        t)
+                        (t, ))
                     tid = cur.fetchone()[0]
                     self._tags[t] = tid
             cur.execute("INSERT INTO blog_article2tag"

@@ -18,15 +18,14 @@ class Blog(object):
     def __init__(self, cache, rc):
         self.cache = cache
         self.rc = copy.deepcopy(DEFAULT_RC)
-        self.rc.update(rc)
+        if rc:
+            self.rc.update(rc)
         self.errors = None
         self.done = None
 
         self._content_dir = os.path.abspath(os.path.join(
             self.rc['site_dir'], self.rc['content_dir']))
-        self._cache_dir = os.path.join(
-            self.rc['site_dir'], 'cache', 'blog')
-        for d in [self._content_dir, self._cache_dir]:
+        for d in [self._content_dir]:
             if len(d) < 4:
                 raise PySiteError("Invalid directory: '{0}'".format(d))
             if not os.path.exists(d):
@@ -177,7 +176,7 @@ DEFAULT_RC = {
     # List of allowed formats. These denote markup files we know to parse.
     'allowed_formats': ['md'],
     # Max parallel workers for parallel execution
-    'max_workers': 1,
+    'max_workers': 5,
     # Options for Converter
     'convert': {
         'typogrify': False,

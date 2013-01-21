@@ -159,7 +159,7 @@ class BaseNode(dict):
         return self._title if self._title else self.__name__
 
 
-class StatusResp(object):
+class JsonResp(object):
 
     def __init__(self):
         """

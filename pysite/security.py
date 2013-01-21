@@ -1,7 +1,6 @@
 # coding: utf-8
 
-import re
-import hashlib
+import passlib.context
 
 from pyramid.security import unauthenticated_userid
 from pyramid.response import Response
@@ -10,7 +9,6 @@ from pyramid.view import forbidden_view_config
 
 from pysite.authmgr.const import (NOBODY_UID, NOBODY_PRINCIPAL, NOBODY_EMAIL,
     NOBODY_DISPLAY_NAME)
-from pysite.exc import PySiteError
 
 
 class AuthProviderFactory(object):
@@ -177,43 +175,15 @@ def xhr_forbidden_view(request):
     return HTTPForbidden()
 
 
-# https://github.com/django/django/blob/master/django/contrib/auth/hashers.py
-def encrypt_pwd(pwd, salt=None, scheme='PLAIN-MD5'):
-    scheme = scheme.upper()
-    try:
-        pwd = pwd.encode('utf-8')
-    except AttributeError:
-        pass  # Already was byte string
-    if scheme == 'PLAIN':
-        salt = b''
-        hash_ = pwd
-    elif scheme == 'PLAIN-MD5':
-        salt = b''
-        hash_ = hashlib.md5(pwd).hexdigest()
-    else:
-        raise PySiteError("Unsupported encryption scheme: '{0}'".format(
-            scheme))
-    try:
-        scheme = scheme.encode('utf-8')
-    except AttributeError:
-        pass  # Already was byte string
-    return (b'{' + scheme + b'}' + hash_ + salt).decode('utf-8')
-
-
-def check_pwd(pwd, enc_pwd):
-    m = re.match(r'\{(.+?)\}(.+)', enc_pwd)
-    if m:
-        scheme = m.group(1)
-        pwd = m.group(2)
-    else:
-        raise PySiteError(
-            "Invalid enc_pwd format. Should be '{SCHEME}HEX_OR_BASE64'.")
-    if scheme == 'PLAIN':
-        salt = b''
-    elif scheme == 'PLAIN-MD5':
-        salt = b''
-    else:
-        raise PySiteError("Unsupported encryption scheme: '{0}'".format(
-            scheme))
-    pwd_enc = encrypt_pwd(pwd, salt, scheme)
-    return (pwd_enc == enc_pwd)
+pwd_context = passlib.context.CryptContext(
+    schemes=[
+        'pbkdf2_sha512',
+        'sha512_crypt',
+        # LDAP schemes are for Dovecot
+        'ldap_salted_sha1',
+        # Set plaintext last, otherwise passlib does not identify a hash
+        # correctly
+        'ldap_plaintext'
+    ],
+    default='sha512_crypt'
+)

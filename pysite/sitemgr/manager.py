@@ -112,9 +112,9 @@ def check_site(sites_dir, sitename):
     return info
 
 
-def add_site(owner, sites_dir, data):
+def create_site(owner, sites_dir, data):
     """
-    Adds a site.
+    Creates a site.
 
     The data must be a dict with this keys:
 
@@ -219,12 +219,12 @@ def add_site(owner, sites_dir, data):
                 owner=owner,
                 notes="Manager role for site '{0}'".format(data['sitename'])
             )
-            role = usrmanager.add_role(role_data)
-            msgs.append("Added role '{0}' ({1})".format(role.name, role.id))
+            role = usrmanager.create_role(role_data)
+            msgs.append("Created role '{0}' ({1})".format(role.name, role.id))
         if isinstance(data['principal'], dict):
             data['principal']['owner'] = owner
-            principal = usrmanager.add_principal(data['principal'])
-            msgs.append("Added principal '{0}' ({1})".format(
+            principal = usrmanager.create_principal(data['principal'])
+            msgs.append("Created principal '{0}' ({1})".format(
                 principal.principal, principal.id))
         else:
             try:
@@ -237,12 +237,12 @@ def add_site(owner, sites_dir, data):
                     data['principal']))
                 return info
         try:
-            # Save these here. If add_rolemember fails, the session is
+            # Save these here. If create_rolemember fails, the session is
             # aborted and we cannot access the attributes of the entities
             # in the except handler.
             princ = principal.principal
             rol = role.name
-            usrmanager.add_rolemember(dict(principal_id=principal.id,
+            usrmanager.create_rolemember(dict(principal_id=principal.id,
                 role_id=role.id, owner=owner))
             msgs.append("Set principal '{0}' as member of role '{1}'".format(
                 principal.principal, role.name))

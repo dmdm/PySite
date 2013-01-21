@@ -105,6 +105,7 @@ function(doc,                   $$,        PYM) {
             , logout_url: '$LOGOUT_URL'
             , save_url: '$SAVE_URL'
             , source_url: '$SOURCE_URL'
+            , filemgr_url: '$FILEMGR_URL'
             , selector: '$SELECTOR'
             , mime: '$MIME'
             , filename: '$FILENAME'
@@ -147,7 +148,7 @@ class PageView(object):
         renderer='json'
     )
     def xhr_save_content(self):
-        log = pysite.lib.StatusResp()
+        log = pysite.lib.JsonResp()
         fn = os.path.join(self.context.dir_, self.context.__name__) \
             + '.jinja2'
         r = Replacer()
@@ -220,6 +221,8 @@ class PageView(object):
                 '@@xhr_save_content'),
             SOURCE_URL=self.request.resource_url(self.context.site,
                 '@@editor'),
+            FILEMGR_URL=self.request.resource_url(self.context.site,
+                '@@filemgr'),
             MIME='text/html',
             FILENAME=filename,
             HASH=hash_,

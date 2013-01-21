@@ -55,7 +55,8 @@
             +'</div>'
             + '<button id="btn-save-content" style="font-weight:bold; color:green;">SAVE</button>'
             + '<button id="btn-toggle-wysiwyg" data-state="1">Switch off</button>'
-            + '<button id="btn-open-source" data-state="1">Source</button>'
+            + '<button id="btn-open-source">Source</button>'
+            + '<button id="btn-filemgr">FileManager</button>'
             + '</div>'
             + '<div style="clear: both; line-height: 0px; height: 0px;"></div>'
         );
@@ -117,6 +118,11 @@
         $('#btn-open-source').on('click', function (evt) {
             PYM.editor.open_source_window(rc.mime, rc.filename, rc.hash,
                 rc.source_url, 1);
+        });
+
+        // On FileManager
+        $('#btn-filemgr').on('click', function (evt) {
+            window.location.href = rc.filemgr_url;
         });
     }
 

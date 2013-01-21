@@ -4,94 +4,81 @@
 {% block content %}
 
 <!-- BEGIN EDITABLE editable001 -->
-
-
-<h3>öslkfj ieurq weoir qwepoiriore</h3>
-
-
-
 <div id="editable001" class="editable">
 <h2>This site is derived from the default site template.</h2>
 
-<p>Lorem ipsum3<i>8945</i>70923475023948<br style=""></p><p>8572034952 i<b>jlkölk</b><br></p>
-
-
-
-<p><img src="/static-www.default.local/img/grass-mud-horse2.jpg">
+<p>You see the landing page of the default site, which is used as a
+starting point for new web sites.
 </p>
 
-<p>If you do not grok what the depicted thing is,
-<a href="http://localhost:6543/sites/www.default.local/two">here</a> is another aspect of it.
-</p>
-
-<p>
-
-
-Found key "foo" with value "12345".<br>
-
-Found key "bar" with value "hello world".<br>
-
+<p>This text is in an editable area. That means, after you have logged in you
+can edit this text right on this page.
 </p>
 </div>
 <!-- END EDITABLE editable001 -->
 
+<p>This area you only can edit with the source editor. We use some Jinja directives
+here to construct the links to the picture and the second page. To keep those
+directives as they are, you should edit them only with the source editor.
 
+<p><img src="{{ asset_url('img/grass-mud-horse2.jpg') }}">
+</p>
 
+<p>If you do not grok what the depicted thing is,
+<a href="{{ url('two') }}">here</a> is another aspect of it.
+</p>
 
+<p>PySite allows you to store arbitrary complex datastructures 
+in text files along your web pages. Their format may be YAML, JSON or INI,
+whichever you prefer. You can load this data
+in a page and call its fields like so (look at the source):
+</p>
+<p>
+{% set data = load_config('test.yaml') %}
+{% for k, v in data.items() %}
+Found key "{{ k }}" with value "{{ v }}".<br>
+</p>
+{% endfor %}
 
-
+<p>A more complex example of this feature is the <a href="{{ url('eventlist') }}">event list</a>.
+</p>
 
 <!-- BEGIN EDITABLE  -->
-
-
-
-
-
 <div class="editable">
-Also editable, but since I have no ID, I cannot be saved!
-<b>That's right!</b>
+We have marked this area as editable, too. But we did not give it an unique ID,
+so PySite does not know how to save it. It tells you so as soon as you enter
+the edit mode.
 </div>
-
-
-
-
-
 <!-- END EDITABLE -->
-
-
-
-
-
 
 
 <p>Nothing to edit here.</p>
 
 
-
-
-
-
-
 <!-- BEGIN EDITABLE editable002 -->
-
-
-
-
-
 <div id="editable002" class="editable">
 <p>
-Another editable area, this has ID 'para2'.
-</p><h1 style="color: rgb(255, 0, 0); text-align: center;">FROBOTZ!<br></h1><h1 style="text-align: center;"></h1>
+Another editable area, this has ID 'editable002'. The value of the ID is free for you to
+choose. As long as the area has an ID and a CSS class "editable".
+</p>
+
+<h1 class="sass-demo">FROBOTZ!</h1>
 </div>
 <!-- END EDITABLE editable002 -->
+
 
 {% filter markdown %}
 
 This is Markdown
 ================
 
-dflkjahflafdf kwewer werj qwölkrjwöekr 
-{: #first-para .some-css-class data-foo="bar" }
+
+Compose your webpages either with traditional HTML or with Markdown, which is
+a lightweight text format. Markdown is also flexible enough to let you assign
+HTML attributes, and to intersperse an occasional HTML tag.
+{: #first-para .some-css-class data-foo="bar" title="Title assigned through Markdown" }
+
+(Hover above paragraph to see its title.)
 
 - aaa
 - bbb
@@ -104,7 +91,8 @@ cell1 | cell2 | 1000
 cell3 | cell4 |    12.45
 
 
-
+Here we call a variable we had defined earlier on this page. You can call Jinja
+directives inside Markdown areas too.
 {{ some_var }}
 
 Markdown ends here
@@ -114,6 +102,8 @@ Markdown ends here
 
 
 {% endblock %}
+
+
 
 
 

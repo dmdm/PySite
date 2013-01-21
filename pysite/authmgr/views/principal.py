@@ -140,7 +140,7 @@ class PrincipalView(object):
         renderer='json',
     )
     def xhr_create_rolemember(self):
-        log = pysite.lib.StatusResp()
+        log = pysite.lib.JsonResp()
         principal_ids = [int(x) for x in self.request.POST.getall(
             'principal_ids[]') if int(x) != 0]
         if not principal_ids:

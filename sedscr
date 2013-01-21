@@ -1,1 +1,1 @@
-s/UserManager/AuthManager/g
+s/StatusResp/JsonResp/g

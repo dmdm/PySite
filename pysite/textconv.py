@@ -60,8 +60,8 @@ class Markdown(Converter):
             'safe_mode': False,
             'html_replacement_text': '!!!!FOOOOOOO!!!!'
         }
-        #if 'markdown' in rc and rc['markdown']:
-        #    rcmd.update(rc['markdown'])
+        if 'markdown' in rc and rc['markdown']:
+            rcmd.update(rc['markdown'])
         #from pprint import pprint; pprint(rcmd); raise Exception('foo')
         self._md = markdown.Markdown(**rcmd)
 

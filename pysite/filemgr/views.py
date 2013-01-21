@@ -9,6 +9,8 @@ from pym_elfinder.exceptions import FinderError
 import pysite.sitemgr.models
 import pysite.sass as sass
 from pysite.filemgr import create_finder
+from pysite.sitemgr.cache import Cache
+from pysite.sitemgr.blog import Blog
 
 
 L = logging.getLogger('PySite')
@@ -23,6 +25,12 @@ class FileMgrView(object):
     def __init__(self, context, request):
         self.context = context
         self.request = request
+        #dsn = ':memory:'
+        dsn = os.path.join(context.dir_, 'cache', 'blog', 'cache.sqlite3')
+        self.cache = Cache(dsn, {})
+        self.blog = Blog(self.cache, {
+            'site_dir': context.dir_
+        })
 
     @view_config(
         name='filemgr',
@@ -76,8 +84,39 @@ class FileMgrView(object):
         renderer='pysite:filemgr/templates/editor.mako',
     )
     def editor(self):
-        sassc_url = self.request.resource_url(self.context, '@@xhr_sassc')
-        return dict(sassc_url=sassc_url)
+        resp = dict(
+            sassc_url = self.request.resource_url(
+                self.context, '@@xhr_sassc'),
+            blog_update_url = self.request.resource_url(
+                self.context, '@@xhr_blog_update'),
+            blog_rebuild_url = self.request.resource_url
+                (self.context, '@@xhr_blog_rebuild')
+        )
+        return resp
+
+    @view_config(
+        name='xhr_blog_update',
+        renderer='json',
+    )
+    def xhr_blog_update(self):
+        resp = pysite.lib.JsonResp()
+        self.blog.build(full=False)
+        for e in self.blog.errors:
+            resp.error(str(e))
+        resp.ok('{0} file(s) updated.'.format(self.blog.done))
+        return resp.resp
+
+    @view_config(
+        name='xhr_blog_rebuild',
+        renderer='json',
+    )
+    def xhr_blog_rebuild(self):
+        resp = pysite.lib.JsonResp()
+        self.blog.build(full=True)
+        for e in self.blog.errors:
+            resp.error(str(e))
+        resp.ok('{0} file(s) updated.'.format(self.blog.done))
+        return resp.resp
 
     @view_config(
         name='xhr_sassc',
@@ -85,7 +124,7 @@ class FileMgrView(object):
     )
     def xhr_sassc(self):
         # Context is Site
-        resp = pysite.lib.StatusResp()
+        resp = pysite.lib.JsonResp()
         inf = self.context.rc.get('sass.infile', None)
         if not inf:
             resp.error('sass.infile is undefined.')

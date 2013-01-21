@@ -152,7 +152,7 @@ PrincipalDd = {
         , 'missing': colander.null
         , 'title': 'Password'
         , 'widget': None
-        , 'validator': colander.Length(max=32)
+        , 'validator': colander.Length(max=255)
         , 'colModel': {
             'width': 100
             , 'editable': True
@@ -293,7 +293,7 @@ class Principal(DbBase, DefaultMixin):
     """Tells whether or not some automated process has en/disabled this account."""
     principal       = sa.Column(sa.Unicode(255), nullable=False, unique=True)
     """Principal or user name"""
-    pwd             = sa.Column(sa.Unicode(32))
+    pwd             = sa.Column(sa.Unicode(255))
     """Password"""
     identity_url    = sa.Column(sa.Unicode(255), index=True, unique=True)
     """Used for login by OpenID"""

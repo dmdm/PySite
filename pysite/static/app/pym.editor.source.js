@@ -99,7 +99,7 @@
         });
     }
 
-    function save_file(visual, call_sassc) {
+    function save_file(visual, cascade) {
         // POST:
         //     cmd=put
         //     content=title: Page Two
@@ -115,18 +115,24 @@
         ;
         $.post(rc.url, data, function (data, textStatus, jqXHR) {
             if (visual) PYM.growl({kind: 'success', text: filename + ' saved.'});
-            if (rc.reload_opener && ! call_sassc) {
+            if (rc.reload_opener && ! cascade) {
                 window.opener.location.reload();
             }
-            if (call_sassc) {
-                $.getJSON(rc.sassc_url, function(data, textStatus, jqXHR) {
-                    for (var i=0, imax=data.msgs.length; i<imax; i++ ) {
-                        PYM.growl(data.msgs[i]);
-                        if (rc.reload_opener) {
-                            window.opener.location.reload();
-                        }
-                    }
-                });
+            if (cascade) {
+                cascade.func(cascade.rc);
+            }
+        });
+    }
+
+    function trigger_server_method(rc) {
+        $.getJSON(rc.url, function(data, textStatus, jqXHR) {
+            for (var i=0, imax=data.msgs.length; i<imax; i++ ) {
+                PYM.growl(data.msgs[i]);
+            }
+            if (rc.reload_opener) {
+                if (window.opener) {
+                    window.opener.location.reload();
+                }
             }
         });
     }
@@ -151,7 +157,26 @@
             name: 'save_sassc',
             bindKey: {win: 'Alt-S',  mac: 'Alt-S'},
             exec: function(editor) {
-                save_file(true, true);
+                save_file(true, {
+                    func: trigger_server_method
+                    , rc: {
+                        url: rc.sassc_url
+                        , reload_opener: true
+                    }
+                });
+            }
+        });
+        editor.commands.addCommand({
+            name: 'blog_update',
+            bindKey: {win: 'Alt-B',  mac: 'Alt-B'},
+            exec: function(editor) {
+                save_file(true, {
+                    func: trigger_server_method
+                    , rc: {
+                        url: rc.blog_update_url
+                        , reload_opener: true
+                    }
+                });
             }
         });
         editor.getSession().selection.on('changeSelection', function(evt) {
@@ -199,13 +224,37 @@
             save_file(true);
         });
         $('#cmd-file-save_sassc').on('click', function (evt) {
-            save_file(true, true);
+            save_file(true, {
+                func: trigger_server_method
+                , rc: {
+                    url: rc.sassc_url
+                    , reload_opener: true
+                }
+            });
         });
         $('#cmd-resize').on('click', function (evt) {
             editor.resize(true);
         });
         $('#cmd-color-picker').on('click', function (evt) {
             alert('click');
+        });
+        $('#cmd-blog-update').on('click', function (evt) {
+            save_file(true, {
+                func: trigger_server_method
+                , rc: {
+                    url: rc.blog_update_url
+                    , reload_opener: true
+                }
+            });
+        });
+        $('#cmd-blog-rebuild').on('click', function (evt) {
+            save_file(true, {
+                func: trigger_server_method
+                , rc: {
+                    url: rc.blog_rebuild_url
+                    , reload_opener: true
+                }
+            });
         });
         $('#cmd-key-bindings').on('click', function (evt) {
             var s

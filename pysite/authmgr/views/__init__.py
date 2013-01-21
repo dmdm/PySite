@@ -52,13 +52,15 @@ def login(context, request):
     if 'submit' in request.POST:
         login = request.POST['login']
         pwd = request.POST['pwd']
-        if request.user.login(login=login, pwd=pwd):
+        try:
+            request.user.login(login=login, pwd=pwd)
+        except pysite.exc.AuthError:
+            msg = "Wrong credentials!"
+            request.session.flash(dict(kind="error", text=msg))
+        else:
             headers = remember(request, request.user.principal)
             request.session.flash(dict(kind="info",text='User {0} logged in'.format(request.user.display_name)))
             return HTTPFound(location=came_from, headers=headers)
-        else:
-            msg = "Wrong credentials!"
-            request.session.flash(dict(kind="error", text=msg))
 
     return dict(login=login, pwd=pwd, came_from=came_from, msg=msg, url=login_url)
 

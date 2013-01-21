@@ -34,22 +34,29 @@ ul#css3menu1,ul#css3menu1 ul{
 ul#css3menu1,ul#css3menu1 .submenu{
     background-color:#1f1f1f;border-width:0;border-style:solid;border-color:;}
 ul#css3menu1 .submenu{
-    visibility:hidden;position:absolute;left:0;top:100%;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";opacity:0;-moz-transition:all 0.5s;-webkit-transition:opacity 0.5s;-o-transition:opacity 0.5s;float:left;background-color:#2A2A2A;border-radius:0 5px 5px 5px;-moz-border-radius:0 5px 5px 5px;-webkit-border-radius:0;-webkit-border-top-right-radius:5px;-webkit-border-bottom-right-radius:5px;-webkit-border-bottom-left-radius:5px;padding:0 3px 3px;filter:alpha(opacity=80)}
+    visibility:hidden;position:absolute;left:0;top:100%;-ms-filter:"progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";opacity:0;-moz-transition:all 0.5s;-webkit-transition:opacity 0.5s;-o-transition:opacity 0.5s;float:left;background-color:#2A2A2A;border-radius:0 5px 5px 5px;-moz-border-radius:0 5px 5px 5px;-webkit-border-radius:0;-webkit-border-top-right-radius:5px;-webkit-border-bottom-right-radius:5px;-webkit-border-bottom-left-radius:5px;padding:0 3px 3px;filter:alpha(opacity=80)
+    /*border-color: #434343!important;
+    border: solid 1px;*/
+    overflow: hidden;
+}
 ul#css3menu1 li:hover>.submenu{
     visibility:visible;opacity:1;}
 ul#css3menu1 li{
-    position:relative;display:block;white-space:nowrap;font-size:0;float:left;}
+    position:relative;display:block;white-space:nowrap;font-size:0;float:left;
+}
 ul#css3menu1 li:hover{
     z-index:1;}
 ul#css3menu1 ul .submenu{
-    position:absolute;left:100%;top:0;border-width:1px;border-style:solid;border-color:#434343;}
+    position:absolute;left:100%;top:0;border-width:1px;border-style:solid;border-color:#434343;
+}
 ul#css3menu1>li:hover>.submenu{
     opacity:0.95;}
 ul#css3menu1{
     font-size:0;z-index:999;position:relative;display:inline-block;zoom:1;padding:6px 6px 6px 0;
     *display:inline;}
 ul#css3menu1 .column{
-    float:left;}
+    float:left;
+}
 * html ul#css3menu1 li a{
     display:inline-block;}
 ul#css3menu1>li{
@@ -77,7 +84,7 @@ ul#css3menu1 ul li:hover>a,ul#css3menu1 ul li a.pressed{
 ul#css3menu1 li.topmenu>a{
     border-width:1px;border-style:solid;border-color:transparent;border-radius:5px;-moz-border-radius:5px;-webkit-border-radius:5px;opacity:0.95;-moz-transition:all 0.5s;-webkit-transition:all 0.5s;-o-transition:all 0.5s;}
 ul#css3menu1 li.topmenu:hover>a,ul#css3menu1 li.topmenu a.pressed{
-    border-style:solid;border-color:#434343;}
+    border-style:solid;border-color:#646464;#434343;}
 ul#css3menu1 li.toproot>a{
     border-width:1px 1px 0 1px;border-style:solid;border-color:transparent;border-radius:5px 5px 0 0;-moz-border-radius:5px 5px 0 0;-webkit-border-radius:5px;-webkit-border-bottom-right-radius:0;-webkit-border-bottom-left-radius:0;opacity:0.95;-moz-transition:all 0.5s;-webkit-transition:all 0.5s;-o-transition:all 0.5s;}
 ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
@@ -98,8 +105,16 @@ ul#css3menu1 li.toproot:hover>a,ul#css3menu1 li.toproot a.pressed{
     <div class="submenu" style="width:200px;">
         <ul>
           <li><a id="cmd-file-save" href="#">Save &lt;Ctrl-S&gt;</a></li>
-          <li><a id="cmd-file-save_sassc" href="#">Save &amp; compile Sass &lt;Alt-S&gt;</a></li>
           <li><a id="cmd-file-reload" href="#">Reload</a></li>
+        </ul>
+    </div>
+  </li>
+  <li class="toproot"><a href="#" style="height:24px;line-height:24px;">Build</a>
+    <div class="submenu" style="width:200px;">
+        <ul>
+          <li><a id="cmd-file-save_sassc" href="#">Compile Sass &lt;Alt-S&gt;</a></li>
+          <li><a id="cmd-blog-update" href="#">Update Blog &lt;Alt-B&gt;</a></li>
+          <li><a id="cmd-blog-rebuild" href="#">Rebuild Blog</a></li>
         </ul>
     </div>
   </li>
@@ -248,6 +263,8 @@ function(doc,                   $,        PYM)
     PYM.editor.source.init({
         url: '${request.resource_url(request.context, '@@xhr_filemgr')}'
         , sassc_url: '${sassc_url}'
+        , blog_update_url: '${blog_update_url}'
+        , blog_rebuild_url: '${blog_rebuild_url}'
         , editor_id: 'editor'
         , colorpicker: {
             clientPath: '${request.static_url('pysite:static/app/libs/jpicker/images/')}'

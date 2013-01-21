@@ -10,7 +10,7 @@ import pysite.security
 from pysite.exc import AuthError
 
 
-PASSWORD_SCHEME = 'PLAIN'
+PASSWORD_SCHEME = 'sha512_crypt'
 
 
 def load_by_principal(principal):
@@ -39,7 +39,7 @@ def _login(filter, pwd):
         p = sess.query(Principal).filter(and_(*filter)).one()
     except NoResultFound:
         raise AuthError('Principal not found')
-    if not pysite.security.check_pwd(pwd, p.pwd):
+    if not pysite.security.pwd_context.verify(pwd, p.pwd):
         raise AuthError('Wrong credentials')
     p.prev_login_time = p.login_time
     p.login_time = datetime.datetime.now()
@@ -122,9 +122,9 @@ def create_principal(data):
     else:
         roles = ['users']
     # Make sure the password is encrypted
-    if not data['pwd'].startswith('{'):
-        data['pwd'] = pysite.security.encrypt_pwd(data['pwd'],
-            scheme=PASSWORD_SCHEME)
+    if not data['pwd'].startswith(('{', '$')):
+        data['pwd'] = pysite.security.pwd_context.encrypt(data['pwd'],
+            PASSWORD_SCHEME)
     # If display_name is not explicitly set, use principal, thus
     # preserving its case (real principal will be stored lower case).
     if not 'display_name' in data:
@@ -169,9 +169,9 @@ def update_principal(data):
     """
     # Make sure the password is encrypted
     if 'pwd' in data:
-        if not data['pwd'].startswith('{'):
-            data['pwd'] = pysite.security.encrypt_pwd(data['pwd'],
-                scheme=PASSWORD_SCHEME)
+        if not data['pwd'].startswith(('{', '$')):
+            data['pwd'] = pysite.security.pwd_context(data['pwd'],
+                PASSWORD_SCHEME)
     # Allow only lowercase principals
     if 'principal' in data:
         data['principal'] = data['principal'].lower()

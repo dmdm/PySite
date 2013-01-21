@@ -18,7 +18,7 @@ GID = 8
 ROOT_DIR = '/var/vmail'
 HOME_DIR = '{domain}/{user}'
 MAIL_DIR = '{domain}/{user}/Maildir'
-PASSWORD_SCHEME = 'PLAIN'
+PASSWORD_SCHEME = 'ldap_plaintext'
 
 
 def create_domain(data):
@@ -130,8 +130,8 @@ def create_mailbox(data):
         raise PySiteError("Maximum number of mailboxes reached.")
     # Make sure the password is encrypted
     if not data['pwd'].startswith('{'):
-        data['pwd'] = pysite.security.encrypt_pwd(data['pwd'],
-            scheme=PASSWORD_SCHEME)
+        data['pwd'] = pysite.security.pwd_context.encrypt(data['pwd'],
+            PASSWORD_SCHEME)
     # Set defaults
     if not 'uid' in data:
         data['uid'] = UID
@@ -183,8 +183,8 @@ def update_mailbox(data):
         del data['domain']
     # Make sure the password is encrypted
     if 'pwd' in data and not data['pwd'].startswith('{'):
-        data['pwd'] = pysite.security.encrypt_pwd(data['pwd'],
-            scheme=PASSWORD_SCHEME)
+        data['pwd'] = pysite.security.pwd_context(data['pwd'],
+            PASSWORD_SCHEME)
 
     sess = DbSession()
     mb = sess.query(Mailbox).filter(Mailbox.id==data['id']).one()

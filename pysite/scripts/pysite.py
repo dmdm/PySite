@@ -8,18 +8,18 @@ sites and check the integrity of existing sites.
 The subcommands are::
 
     list-principals     List principals
-    add-principal       Add principal
+    create-principal       Create principal
     update-principal    Update principal with given ID
     delete-principal    Delete principal with given ID
     list-roles          List roles
-    add-role            Add role
+    create-role            Create role
     update-role         Update role with given ID
     delete-role         Delete role with given ID
     list-rolemembers    List rolemembers
-    add-rolemember      Add rolemember
+    create-rolemember      Create rolemember
     delete-rolemember   Delete rolemember with given ID
     list-sites          List sites
-    add-site            Add site
+    create-site            Create site
 
 Type ``pysite -h`` for general help and a list of the subcommands,
 ``pysite subcommand -h`` to get help for that subcommand.
@@ -33,7 +33,7 @@ Tsv is handy if you want to review the output in a spreadsheet::
 
 Both, json and yaml allow inline-style. Here is an example of inline YAML::
 
-    pysite -c production.ini --format yaml add-principal \\
+    pysite -c production.ini --format yaml create-principal \\
         '{principal: FOO5, email: foo5@here, pwd: FOO, roles: [foo, bar]}'
     TTY? True
     Locale? en_GB UTF-8
@@ -63,13 +63,13 @@ Both, json and yaml allow inline-style. Here is an example of inline YAML::
 
 Here is an example of creating a new site::
 
-    pysite -c production.ini --format yaml add-site '{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}'
+    pysite -c production.ini --format yaml create-site '{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}'
     TTY? True
     Locale? en_GB UTF-8
     Proceed to create a site in /tmp/sites (yes/NO)? yes
     Copied template [...]/var/site-templates/default
-    Added role 'www.new-site.com' (108)
-    Added principal 'sally' (111)
+    Createed role 'www.new-site.com' (108)
+    Createed principal 'sally' (111)
     Set principal 'sally' as member of role 'www.new-site.com'
     Done.
 
@@ -123,10 +123,10 @@ class PySiteCli(pysite.cli.Cli):
             fkmaps=dict(roles=lambda it: it.name))
         self._print(data)
 
-    def add_principal(self):
+    def create_principal(self):
         data = self._parse(self._args.data)
         data['owner'] = pysite.authmgr.const.ROOT_UID
-        rs = usrmanager.add_principal(data)
+        rs = usrmanager.create_principal(data)
         self._print(self._db_data_to_list([rs],
             fkmaps=dict(role_names=lambda it: it))[0])
 
@@ -146,10 +146,10 @@ class PySiteCli(pysite.cli.Cli):
         data = self._db_data_to_list(qry)
         self._print(data)
 
-    def add_role(self):
+    def create_role(self):
         data = self._parse(self._args.data)
         data['owner'] = pysite.authmgr.const.ROOT_UID
-        rs = usrmanager.add_role(data)
+        rs = usrmanager.create_role(data)
         self._print(self._db_data_to_list([rs])[0])
 
     def update_role(self):
@@ -168,7 +168,7 @@ class PySiteCli(pysite.cli.Cli):
         qry = self._build_query(RoleMember) \
             .outerjoin(Role) \
             .outerjoin(Principal, RoleMember.principal_id == Principal.id) \
-            .add_columns(
+            .create_columns(
                 RoleMember.id,
                 Role.id,
                 Role.name,
@@ -186,10 +186,10 @@ class PySiteCli(pysite.cli.Cli):
             data.append(OrderedDict(zip(fields, row[1:])))
         self._print(data)
 
-    def add_rolemember(self):
+    def create_rolemember(self):
         data = self._parse(self._args.data)
         data['owner'] = pysite.authmgr.const.ROOT_UID
-        rs = usrmanager.add_rolemember(data)
+        rs = usrmanager.create_rolemember(data)
         self._print(self._db_data_to_list([rs])[0])
 
     def delete_rolemember(self):
@@ -226,11 +226,11 @@ class PySiteCli(pysite.cli.Cli):
             for e in info['errors']:
                 print(error(e))
 
-    def add_site(self):
+    def create_site(self):
         from pysite.ansi import color, error, warn, bright
         from glob import glob
         if self._args.data == 'help':
-            print(sitemanager.add_site.__doc__)
+            print(sitemanager.create_site.__doc__)
             return
         data = self._parse(self._args.data)
         sites_dir = self._rc.g('sites_dir')
@@ -239,7 +239,7 @@ class PySiteCli(pysite.cli.Cli):
         if inp != "yes":
             print(warn("Aborted"))
             return
-        info = sitemanager.add_site(pysite.authmgr.const.ROOT_UID, sites_dir, data)
+        info = sitemanager.create_site(pysite.authmgr.const.ROOT_UID, sites_dir, data)
         for m in info['msgs']:
             print(m)
         for w in info['warnings']:
@@ -335,14 +335,14 @@ def main(argv=sys.argv):
         help="List principals")
     parser_list_principals.set_defaults(func=cli.list_principals)
 
-    # Parser cmd add-principal
-    parser_add_principal = subparsers.add_parser('add-principal',
+    # Parser cmd create-principal
+    parser_create_principal = subparsers.add_parser('create-principal',
         parents=[parser_db_edit],
-        help="Add principal",
+        help="Create principal",
         epilog="""You might want to try command 'list-principals'
             to see which fields are available."""
     )
-    parser_add_principal.set_defaults(func=cli.add_principal)
+    parser_create_principal.set_defaults(func=cli.create_principal)
 
     # Parser cmd update-principal
     parser_update_principal = subparsers.add_parser('update-principal',
@@ -366,11 +366,11 @@ def main(argv=sys.argv):
         help="List roles")
     parser_list_roles.set_defaults(func=cli.list_roles)
 
-    # Parser cmd add-role
-    parser_add_role = subparsers.add_parser('add-role',
+    # Parser cmd create-role
+    parser_create_role = subparsers.add_parser('create-role',
         parents=[parser_db_edit],
-        help="Add role")
-    parser_add_role.set_defaults(func=cli.add_role)
+        help="Create role")
+    parser_create_role.set_defaults(func=cli.create_role)
 
     # Parser cmd update-role
     parser_update_role = subparsers.add_parser('update-role',
@@ -390,11 +390,11 @@ def main(argv=sys.argv):
         help="List rolemembers")
     parser_list_rolemembers.set_defaults(func=cli.list_rolemembers)
 
-    # Parser cmd add-rolemember
-    parser_add_rolemember = subparsers.add_parser('add-rolemember',
+    # Parser cmd create-rolemember
+    parser_create_rolemember = subparsers.add_parser('create-rolemember',
         parents=[parser_db_edit],
-        help="Add rolemember")
-    parser_add_rolemember.set_defaults(func=cli.add_rolemember)
+        help="Create rolemember")
+    parser_create_rolemember.set_defaults(func=cli.create_rolemember)
 
     # Parser cmd delete-rolemember
     parser_delete_rolemember = subparsers.add_parser('delete-rolemember',
@@ -407,12 +407,12 @@ def main(argv=sys.argv):
         help="List sites")
     parser_list_sites.set_defaults(func=cli.list_sites)
 
-    # Parser cmd add-site
-    parser_add_site = subparsers.add_parser('add-site',
+    # Parser cmd create-site
+    parser_create_site = subparsers.add_parser('create-site',
         parents=[parser_db_edit],
-        help="Add site", epilog="""Use "help" as data to obtain help about
+        help="Create site", epilog="""Use "help" as data to obtain help about
         the data structure.""")
-    parser_add_site.set_defaults(func=cli.add_site)
+    parser_create_site.set_defaults(func=cli.create_site)
 
     # Parser cmd delete-site
     parser_delete_site = subparsers.add_parser('delete-site',
