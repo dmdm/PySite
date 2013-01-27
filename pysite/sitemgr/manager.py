@@ -167,7 +167,11 @@ def create_site(owner, sites_dir, data):
     master_rc['acl'][0][1] = 'r:' + rolename
     if 'master_rc' in data:
         master_rc.update(data['master_rc'])
-    user_rc = dict(title=data['title']) if 'title' in data else None
+    fn = os.path.join(dir_, 'rc.yaml')
+    with open(fn, 'r', encoding='utf-8') as fh:
+        user_rc = yaml.load(fh)
+    if 'title' in data:
+        user_rc.update(dict(title=data['title']))
 
     def _create_site_files():
         import shutil
@@ -196,9 +200,9 @@ def create_site(owner, sites_dir, data):
                 yaml.dump(master_rc, fh, allow_unicode=True,
                         default_flow_style=False)
             # User rc file
-            fn = os.path.join(dir_, 'rc.yaml')
-            with open(fn, 'w', encoding='utf-8') as fh:
-                if user_rc:
+            if user_rc:
+                fn = os.path.join(dir_, 'rc.yaml')
+                with open(fn, 'w', encoding='utf-8') as fh:
                     yaml.dump(user_rc, fh, allow_unicode=True,
                         default_flow_style=False)
             return True

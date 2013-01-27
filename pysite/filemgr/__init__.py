@@ -12,6 +12,15 @@ def create_finder(context, request):
     :param request: Current request
     :returns: Instance of finder
     """
+    # Settings have max_size in [MB]
+    max_size = context.master_rc.get(
+            'quota.max_size',
+            request.registry.settings['quota.max_size']
+        ) * 1024 * 1024
+    upload_max_size = context.master_rc.get(
+            'quota.upload_max_size',
+            request.registry.settings['quota.upload_max_size']
+        ) * 1024 * 1024
     opts = {
         'debug': False,
         'roots': [
@@ -30,8 +39,8 @@ def create_finder(context, request):
                 #tmbBgColor='transparent',
                 accessControl='access',
                 acceptedName='/^[^\.].*$/',
-                max_size=context.master_rc.get('max_size',
-                    request.registry.settings['quota.max_size']),
+                max_size=max_size,
+                uploadMaxSize=upload_max_size,
                 # tmbSize=128,
                 attributes=[
                     dict(

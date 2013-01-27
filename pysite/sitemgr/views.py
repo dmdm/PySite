@@ -96,10 +96,10 @@ WYSIWYG_START = """
 <script type="text/javascript">
 require(['requirejs/domReady!', 'jquery', 'pym', 'pym.editor.wysiwyg'],
 function(doc,                   $$,        PYM) {
-    PYM.init({
-        gui_token: '$GUI_TOKEN'
-    });
     Aloha.ready( function() {
+        PYM.init({
+            gui_token: '$GUI_TOKEN'
+        });
         PYM.editor.wysiwyg.init({
             username: '$USERNAME'
             , logout_url: '$LOGOUT_URL'

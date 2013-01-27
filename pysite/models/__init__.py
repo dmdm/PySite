@@ -308,13 +308,13 @@ class DefaultMixin(object):
 
 # ================================
 
-@event.listens_for(sqlalchemy.engine.Engine, "before_cursor_execute", retval=True)
-def before_cursor_execute(conn, cursor, statement,
-                parameters, context, executemany):
-    print("\n", 'v'*79)
-    print(sqlparse.format(statement, reindent=True, keyword_case='upper'))
-    print('^'*79, "\n")
-    return statement, parameters
+###@event.listens_for(sqlalchemy.engine.Engine, "before_cursor_execute", retval=True)
+###def before_cursor_execute(conn, cursor, statement,
+###                parameters, context, executemany):
+###    print("\n", 'v'*79)
+###    print(sqlparse.format(statement, reindent=True, keyword_case='upper'))
+###    print('^'*79, "\n")
+###    return statement, parameters
 
 
 # ===[ IMPORTABLE SETUP FUNCS ]=======

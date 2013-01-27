@@ -110,6 +110,8 @@ def create_principal(data):
     - ``owner``: Required
     - ``roles``: Optional list of role names. Role 'users' is always
                  automatically set.
+                 If we provide a value for roles that evaluates to False,
+                 this account is not member of any role.
 
     :param data: Dict with data fields
     :returns: Instance of created principal
@@ -117,14 +119,18 @@ def create_principal(data):
     # Determine roles this principal will be member of.
     # Always at least 'users'.
     if 'roles' in data:
-        roles = set(data['roles'] + ['users'])
+        if data['roles']:
+            roles = set(data['roles'] + ['users'])
+        else:
+            roles = set()
         del data['roles']
     else:
         roles = ['users']
     # Make sure the password is encrypted
-    if not data['pwd'].startswith(('{', '$')):
-        data['pwd'] = pysite.security.pwd_context.encrypt(data['pwd'],
-            PASSWORD_SCHEME)
+    if 'pwd' in data:
+        if not data['pwd'].startswith(('{', '$')):
+            data['pwd'] = pysite.security.pwd_context.encrypt(data['pwd'],
+                PASSWORD_SCHEME)
     # If display_name is not explicitly set, use principal, thus
     # preserving its case (real principal will be stored lower case).
     if not 'display_name' in data:
@@ -170,7 +176,7 @@ def update_principal(data):
     # Make sure the password is encrypted
     if 'pwd' in data:
         if not data['pwd'].startswith(('{', '$')):
-            data['pwd'] = pysite.security.pwd_context(data['pwd'],
+            data['pwd'] = pysite.security.pwd_context.encrypt(data['pwd'],
                 PASSWORD_SCHEME)
     # Allow only lowercase principals
     if 'principal' in data:

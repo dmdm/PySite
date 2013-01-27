@@ -1,4 +1,5 @@
-max_size: 50000000
+quota.max_size: 50
+quota.upload_max_size: 2
 acl:
     # Replace role "wheel" with a role specific to your site
     # (The site manager will replace the role of the first ACE

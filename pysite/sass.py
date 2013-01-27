@@ -203,7 +203,7 @@ def compile(scss):
     ctx = _new_context().contents
     ctx.init(scss)
 
-    result = _compile(ctx)
+    _compile(ctx)
 
     if ctx.error_status:
         return False, ctx.error_message
@@ -220,9 +220,9 @@ def compile_path(path):
     fctx = _new_file_context().contents
     fctx.init(path)
 
-    result = _compile_file(fctx)
+    _compile_file(fctx)
 
-    if fctx.error_status:
+    if fctx.error_message:
         return False, fctx.error_message
     else:
         if not fctx.output_string:

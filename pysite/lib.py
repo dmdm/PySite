@@ -2,15 +2,92 @@
 
 import re
 import os
-import anyjson
 import sys
 import locale
+import subprocess
+import io
+import json
+#import pysite.sass
 
 
 _RE_NAME_CHARS = re.compile('^[-a-zA-Z0-9_][-a-zA-Z0-9_.]*$')
 """
 Valid characters for a filename. Filename is disallowed to start with a dot.
 """
+
+_CMD_SASSC = os.path.abspath(os.path.join(os.path.dirname(__file__),
+    '..', 'bin', 'sassc'))
+"""
+Command-line to call sassc.
+"""
+
+def compile_sass(site_dir, rc):
+    resp = JsonResp()
+    in_ = rc.get('sass.in', None)
+    if not in_:
+        resp.error('sass.in is undefined.')
+    out = rc.get('sass.out', None)
+    if not out:
+        resp.error('sass.out is undefined.')
+    if not resp.is_ok:
+        return resp
+    # in_ is string, so we have one input file
+    # Convert it into list
+    if isinstance(in_, str):
+        infiles = [os.path.join(site_dir, safepath(in_))]
+        # in_ is str and out is string, so treat out as file:
+        # Build list of out filenames.
+        if isinstance(out, str):
+            outfiles = [os.path.join(site_dir, safepath(out))]
+    else:
+        infiles = [os.path.join(site_dir, safepath(f)) for f in in_]
+        # in_ is list and out is string, so treat out as directory:
+        # Build list of out filenames.
+        if isinstance(out, str):
+            outfiles = []
+            out = safepath(out)
+            for f in in_:
+                bn = os.path.splitext(os.path.basename(f))[0]
+                outfiles.append(os.path.join(site_dir, out, bn) + '.css')
+        # in_ and out are lists
+        else:
+            outfiles = [os.path.join(site_dir, safepath(f)) for f in out]
+    for i, inf in enumerate(infiles):
+        outf = outfiles[i]
+        if not os.path.exists(inf):
+            resp.error("Sass infile '{0}' does not exist.".format(inf))
+            continue
+        result = compile_sass_file(inf, outf)
+        if not result == True:
+            resp.error("Sass compilation failed for file '{0}'".format(inf))
+            resp.add_msg(dict(kind="error", title="Sass compilation failed",
+                text=result))
+            continue
+###        is_ok, result = pysite.sass.compile_path(inf)
+###        if not is_ok:
+###            resp.error("Sass compilation failed for file '{0}'".format(inf))
+###            resp.add_msg(dict(kind="error", title="Sass compilation failed",
+###                text=result))
+###            continue
+###        try:
+###            with open(outf, 'w', encoding='utf-8') as fh:
+###                fh.write(result)
+###        except IOError as exc:
+###            resp.error(str(exc))
+###            continue
+        resp.ok("Sass compiled to outfile '{0}'".format(outf))
+    return resp
+
+
+def compile_sass_file(infile, outfile, output_style='nested'):
+    try:
+        res = subprocess.check_output([_CMD_SASSC, '-o', outfile, '-t',
+            output_style, infile],
+            stderr=subprocess.STDOUT)
+        return True
+    except subprocess.CalledProcessError as exc:
+        return exc.output.decode('utf-8')
+
 
 def safepath(path):
     """
@@ -25,6 +102,7 @@ def safepath(path):
     """
     return os.path.normpath(os.path.join(os.path.sep, path)).lstrip(
         os.path.sep)
+
 
 # Stolen from Pelican
 def truncate_html_words(s, num, end_text='&hellip;'):
@@ -123,10 +201,11 @@ def rreplace(s, old, new, occurrence):
     li = s.rsplit(old, occurrence)
     return new.join(li)
 
+
 class BaseNode(dict):
     __parent__ = None
-    __name__   = None
-    __acl__    = []
+    __name__ = None
+    __acl__ = []
 
     def __init__(self, parent):
         self.__parent__ = parent
@@ -134,7 +213,7 @@ class BaseNode(dict):
 
     def __setitem__(self, name, other):
         other.__parent__ = self
-        other.__name__   = name
+        other.__name__ = name
         super().__setitem__(name, other)
 
     def __delitem__(self, name):
@@ -194,6 +273,10 @@ class JsonResp(object):
     def ok(self, msg):
         self.add_msg(dict(kind='success', text=msg))
 
+    def print(self):
+        for m in self._msgs:
+            print(m['kind'].upper(), m['text'])
+
     @property
     def resp(self):
         return dict(
@@ -204,7 +287,7 @@ class JsonResp(object):
     @property
     def is_ok(self):
         return self._is_ok
-        
+
 
 def load_site_config(site_dir, fn, encoding='utf-8'):
     """
@@ -218,7 +301,7 @@ def load_site_config(site_dir, fn, encoding='utf-8'):
     :param encoding: Encoding of the file, default is UTF-8.
     :returns: Dict with the settings
     """
-    fn = os.path.join(site_dir, os.path.normpath(fn.lstrip(os.path.sep)))
+    fn = os.path.join(site_dir, safepath(fn))
     return safe_load_config(fn, encoding)
 
 
@@ -332,7 +415,7 @@ def build_growl_msgs(request):
     mq = []
     for m in request.session.pop_flash():
         if isinstance(m, dict):
-            mq.append(anyjson.serialize(m))
+            mq.append(json.dumps(m))
         else:
-            mq.append(anyjson.serialize(dict(kind="notice", text=m)))
+            mq.append(json.dumps(dict(kind="notice", text=m)))
     return mq

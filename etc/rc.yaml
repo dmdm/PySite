@@ -82,8 +82,10 @@ auth.password_scheme: PLAIN
 #         |
 #         +-- cache
 sites_dir: /home/www-sites/pysite/sites
-# Default maximum size of a single site [bytes]
-quota.max_size: 50000000
+# Default maximum size of a single site [MB]
+quota.max_size: 50
+# Default maximum size of a single uploaded file [MB]
+quota.upload_max_size: 2
 
 # ===========================================
 #   Database

@@ -7,10 +7,10 @@ import logging
 
 from pym_elfinder.exceptions import FinderError
 import pysite.sitemgr.models
-import pysite.sass as sass
 from pysite.filemgr import create_finder
 from pysite.sitemgr.cache import Cache
 from pysite.sitemgr.blog import Blog
+import pysite.lib
 
 
 L = logging.getLogger('PySite')
@@ -85,11 +85,11 @@ class FileMgrView(object):
     )
     def editor(self):
         resp = dict(
-            sassc_url = self.request.resource_url(
+            sassc_url=self.request.resource_url(
                 self.context, '@@xhr_sassc'),
-            blog_update_url = self.request.resource_url(
+            blog_update_url=self.request.resource_url(
                 self.context, '@@xhr_blog_update'),
-            blog_rebuild_url = self.request.resource_url
+            blog_rebuild_url=self.request.resource_url
                 (self.context, '@@xhr_blog_rebuild')
         )
         return resp
@@ -124,37 +124,10 @@ class FileMgrView(object):
     )
     def xhr_sassc(self):
         # Context is Site
-        resp = pysite.lib.JsonResp()
-        inf = self.context.rc.get('sass.infile', None)
-        if not inf:
-            resp.error('sass.infile is undefined.')
-        outf = self.context.rc.get('sass.outfile', None)
-        if not outf:
-            resp.error('sass.outfile is undefined.')
-        if not resp.is_ok:
-            return resp.resp
-        infile = os.path.join(self.context.dir_, os.path.normpath(
-            inf.lstrip("/")))
-        if not os.path.exists(infile):
-            resp.error("sass.infile '{0}' does not exist".format(infile))
-        if not resp.is_ok:
-            return resp.resp
-        is_ok, result = sass.compile_path(infile)
-        if not is_ok:
-            resp.add_msg(dict(kind="fatal", title="Sass compilation failed",
-                text=result))
-            return resp.resp
-        outfile = os.path.join(self.context.dir_, os.path.normpath(
-            outf.lstrip("/")))
-        # Just a safeguard that we stay inside our site_dir
-        if not outfile.startswith(self.context.dir_):
-            resp.error("sass.outfile is invalid")
-            return resp.resp
-        with open(outfile, 'w', encoding='utf-8') as fh:
-            fh.write(result)
-        resp.ok('Sass compilation succeeded')
+        site_dir = self.context.dir_
+        rc = self.context.rc
+        resp = pysite.lib.compile_sass(site_dir, rc)
         return resp.resp
-
 
 
 _DEVEL_OPTS = {

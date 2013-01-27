@@ -7,9 +7,8 @@ README = open(os.path.join(here, 'README.rst')).read()
 CHANGES = open(os.path.join(here, 'CHANGES.rst')).read()
 
 requires = [
-    'anyjson',
+    'alembic',
     'Babel',
-    'blinker',
     'colander',
     'deform',
     'lxml',
@@ -56,9 +55,10 @@ setup(name='PySite',
       [paste.app_factory]
       main = pysite:main
       [console_scripts]
-      pysite-init-db = pysite.scripts.initializedb:main
+      pysite-init-db = pysite.scripts.initialisedb:main
       pysite = pysite.scripts.pysite:main
       pysite-vmail = pysite.scripts.pysite_vmail:main
+      pysite-sassc = pysite.scripts.pysite_sassc:main
       """,
       )
 

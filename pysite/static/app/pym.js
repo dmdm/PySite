@@ -3,7 +3,7 @@
         // AMD. Register as an anonymous module.
         define(function(require, exports, module) {
             var $ = require('jquery');
-            require('ui/pnotify/jquery.pnotify');
+            var foo = require('ui/pnotify/jquery.pnotify');
             require('libs/jstorage.min');
             // Also create a global in case some scripts
             // that are loaded still are looking for

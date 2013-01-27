@@ -1,0 +1,10 @@
+This is the statically compiled sass compiler, found here:
+https://github.com/hcatlin/sassc
+
+It seems, the version of libsass included there is older than the original,
+found here:
+https://github.com/hcatlin/libsass
+
+So, I copied the original libsass files over the bundled ones. 
+ATN: I needed to restore the bundled Makefiles!
+

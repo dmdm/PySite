@@ -107,6 +107,7 @@ class Page(object):
         )
         self.jjenv.filters['markdown'] = \
             self.request.registry.pysite_markdown.convert
+        self.jjenv.filters['ng'] = self.filter_angular
 
     def load(self, fn, jjglobals=None):
         """
@@ -285,3 +286,6 @@ class Page(object):
         :returns: Loaded data structure, mostly list or dict.
         """
         return pysite.lib.load_site_config(self.context.dir_, fn, encoding)
+
+    def filter_angular(self, s):
+        return '{{' + s + '}}'
