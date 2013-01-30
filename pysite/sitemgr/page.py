@@ -266,7 +266,7 @@ class Page(object):
             url += '#' + anchor
         return url
 
-    def load_config(self, fn, encoding='utf-8'):
+    def load_config(self, fn, encoding='utf-8', sortkey=None, reverse=False):
         """
         Loads a configuration file.
 
@@ -285,7 +285,11 @@ class Page(object):
             data.  Defaults to 'utf-8'.
         :returns: Loaded data structure, mostly list or dict.
         """
-        return pysite.lib.load_site_config(self.context.dir_, fn, encoding)
+        if fn.startswith('/'):
+            d = self.context.site.dir_
+        else:
+            d = self.context.dir_
+        return pysite.lib.load_site_config(d, fn, encoding, sortkey=sortkey, reverse=reverse)
 
     def filter_angular(self, s):
         return '{{' + s + '}}'

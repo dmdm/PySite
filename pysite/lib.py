@@ -289,7 +289,7 @@ class JsonResp(object):
         return self._is_ok
 
 
-def load_site_config(site_dir, fn, encoding='utf-8'):
+def load_site_config(site_dir, fn, encoding='utf-8', sortkey=None, reverse=False):
     """
     Loads config file from within a site in a safe way.
 
@@ -302,10 +302,10 @@ def load_site_config(site_dir, fn, encoding='utf-8'):
     :returns: Dict with the settings
     """
     fn = os.path.join(site_dir, safepath(fn))
-    return safe_load_config(fn, encoding)
+    return safe_load_config(fn, encoding, sortkey, reverse)
 
 
-def safe_load_config(fn, encoding='utf-8'):
+def safe_load_config(fn, encoding='utf-8', sortkey=None, reverse=False):
     """
     Loads arbitrary config file in a safe way.
 
@@ -348,13 +348,16 @@ def safe_load_config(fn, encoding='utf-8'):
 
     ext = os.path.splitext(fn)[1].lower()
     if ext == '.yaml':
-        return _safe_load_yaml(fn, encoding)
+        data = _safe_load_yaml(fn, encoding)
     elif ext == '.json':
-        return _safe_load_json(fn, encoding)
+        data = _safe_load_json(fn, encoding)
     elif ext == '.ini':
-        return _safe_load_ini(fn, encoding)
+        data = _safe_load_ini(fn, encoding)
     else:
         raise Exception("Unknown file format: '{0}'".format(ext))
+    if sortkey:
+        data.sort(key=lambda it: it[sortkey], reverse=reverse)
+    return data
 
 
 def init_cli_locale(locale_name, print_info=False):
