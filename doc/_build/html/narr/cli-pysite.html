@@ -63,18 +63,18 @@ manage principals (users), roles and role memberships as well as install new
 sites and check the integrity of existing sites.</p>
 <p>The subcommands are:</p>
 <div class="highlight-python"><pre>list-principals     List principals
-add-principal       Add principal
+create-principal       Create principal
 update-principal    Update principal with given ID
 delete-principal    Delete principal with given ID
 list-roles          List roles
-add-role            Add role
+create-role            Create role
 update-role         Update role with given ID
 delete-role         Delete role with given ID
 list-rolemembers    List rolemembers
-add-rolemember      Add rolemember
+create-rolemember      Create rolemember
 delete-rolemember   Delete rolemember with given ID
 list-sites          List sites
-add-site            Add site</pre>
+create-site            Create site</pre>
 </div>
 <p>Type <tt class="docutils literal"><span class="pre">pysite</span> <span class="pre">-h</span></tt> for general help and a list of the subcommands,
 <tt class="docutils literal"><span class="pre">pysite</span> <span class="pre">subcommand</span> <span class="pre">-h</span></tt> to get help for that subcommand.</p>
@@ -84,7 +84,7 @@ Choices are json, yaml (default) and tsv.</p>
 <div class="highlight-python"><pre>pysite -c production.ini --format tsv list-principals &gt; a &amp;&amp; gnumeric a</pre>
 </div>
 <p>Both, json and yaml allow inline-style. Here is an example of inline YAML:</p>
-<div class="highlight-python"><pre>pysite -c production.ini --format yaml add-principal \
+<div class="highlight-python"><pre>pysite -c production.ini --format yaml create-principal \
     &#x27;{principal: FOO5, email: foo5@here, pwd: FOO, roles: [foo, bar]}&#x27;
 TTY? True
 Locale? en_GB UTF-8
@@ -113,13 +113,13 @@ role_names:
 Done.</pre>
 </div>
 <p>Here is an example of creating a new site:</p>
-<div class="highlight-python"><pre>pysite -c production.ini --format yaml add-site &#x27;{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}&#x27;
+<div class="highlight-python"><pre>pysite -c production.ini --format yaml create-site &#x27;{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}&#x27;
 TTY? True
 Locale? en_GB UTF-8
 Proceed to create a site in /tmp/sites (yes/NO)? yes
 Copied template [...]/var/site-templates/default
-Added role &#x27;www.new-site.com&#x27; (108)
-Added principal &#x27;sally&#x27; (111)
+Createed role &#x27;www.new-site.com&#x27; (108)
+Createed principal &#x27;sally&#x27; (111)
 Set principal &#x27;sally&#x27; as member of role &#x27;www.new-site.com&#x27;
 Done.</pre>
 </div>

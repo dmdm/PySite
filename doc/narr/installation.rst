@@ -134,14 +134,21 @@ Should you need different permissions, edit that script.
 PySite needs a SQL database to store users and groups etc. For the
 sake of simplicity, we use SQLite. Should you want a different
 RDBMS, you must configure its SQLAlchemy settings in the appropriate
-rc-file.
+rc-file and create a database user and a database manually.
 
-Create the database with this script::
+Create PySite's schema with this script::
     
 	(PySite-env)PySite$ pysite_init_db
 
 (You may run this command from anywhere, it was registered as a console script
 during the installation of PySite.)
+
+Afterwards, run this SQL script which creates some database views::
+
+    install/db/setup.sql
+
+.. note:: This script encapsulates the DDL inside a transaction (PostgreSQL rules ;)
+  so you need to give a COMMIT, else the changes would be rolled back.
 
 
 5.4 Optional settings
@@ -169,7 +176,7 @@ yet, not much is to be seen. Maybe you'll encounter not-found errors.
 
 The simplest way to create a new site is with the ``pysite`` command line tool::
 
-    pysite -c production.ini --format yaml add-site '{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}'
+    pysite -c production.ini --format yaml create-site '{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}'
 
 This will create a new site in the SITES_DIR directory (which you had configured in
 the rc files as key ``sites_dir``). It then copies the default site template and creates
@@ -196,7 +203,7 @@ In "etc/rc.yaml" tell PySite about this directory::
 
 You may also want to define the filesystem quota, which defaults to 50MB per site::
 
-    quota.max_size: 50000000
+    quota.max_size: 50
 
 (This is a global default. You may set ``max_size`` individually for each site.)
 

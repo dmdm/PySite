@@ -168,12 +168,21 @@ USER and GROUP, and maybe GROUP_APPLICATION!</p>
 <p>PySite needs a SQL database to store users and groups etc. For the
 sake of simplicity, we use SQLite. Should you want a different
 RDBMS, you must configure its SQLAlchemy settings in the appropriate
-rc-file.</p>
-<p>Create the database with this script:</p>
+rc-file and create a database user and a database manually.</p>
+<p>Create PySite&#8217;s schema with this script:</p>
 <div class="highlight-python"><pre>(PySite-env)PySite$ pysite_init_db</pre>
 </div>
 <p>(You may run this command from anywhere, it was registered as a console script
 during the installation of PySite.)</p>
+<p>Afterwards, run this SQL script which creates some database views:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">install</span><span class="o">/</span><span class="n">db</span><span class="o">/</span><span class="n">setup</span><span class="o">.</span><span class="n">sql</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This script encapsulates the DDL inside a transaction (PostgreSQL rules ;)
+so you need to give a COMMIT, else the changes would be rolled back.</p>
+</div>
 </div>
 <div class="section" id="optional-settings">
 <h3>5.4 Optional settings<a class="headerlink" href="#optional-settings" title="Permalink to this headline">¶</a></h3>
@@ -194,7 +203,7 @@ yet, not much is to be seen. Maybe you&#8217;ll encounter not-found errors.</p>
 <div class="section" id="create-a-site">
 <h2>7. Create a site<a class="headerlink" href="#create-a-site" title="Permalink to this headline">¶</a></h2>
 <p>The simplest way to create a new site is with the <tt class="docutils literal"><span class="pre">pysite</span></tt> command line tool:</p>
-<div class="highlight-python"><pre>pysite -c production.ini --format yaml add-site &#x27;{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}&#x27;</pre>
+<div class="highlight-python"><pre>pysite -c production.ini --format yaml create-site &#x27;{sitename: www.new-site.com, principal: {principal: sally, email: sally@example.com, pwd: FOO, first_name: Sally, last_name: Müller-Lüdenscheidt, roles: [some_role, other_role]}, title: Neue Site, site_template: default}&#x27;</pre>
 </div>
 <p>This will create a new site in the SITES_DIR directory (which you had configured in
 the rc files as key <tt class="docutils literal"><span class="pre">sites_dir</span></tt>). It then copies the default site template and creates
@@ -213,7 +222,7 @@ environment.</p>
 <div class="highlight-python"><pre>sites_dir: /opt/mysites</pre>
 </div>
 <p>You may also want to define the filesystem quota, which defaults to 50MB per site:</p>
-<div class="highlight-python"><pre>quota.max_size: 50000000</pre>
+<div class="highlight-python"><pre>quota.max_size: 50</pre>
 </div>
 <p>(This is a global default. You may set <tt class="docutils literal"><span class="pre">max_size</span></tt> individually for each site.)</p>
 </div>

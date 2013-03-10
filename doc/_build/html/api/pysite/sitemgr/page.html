@@ -94,8 +94,8 @@ Usage: <cite>{{ page.keywords }}</cite></p>
 <li><p class="first">&#8216;load_config(): See <a class="reference internal" href="#pysite.sitemgr.page.Page.load_config" title="pysite.sitemgr.page.Page.load_config"><tt class="xref py py-meth docutils literal"><span class="pre">load_config()</span></tt></a></p>
 </li>
 <li><dl class="first docutils">
-<dt><cite>path</cite>: List of path items, e.g. if current page is <tt class="docutils literal"><span class="pre">foo/bar/baz</span></tt> it</dt>
-<dd><p class="first last">contains <tt class="docutils literal"><span class="pre">[&quot;foo&quot;,</span> <span class="pre">&quot;bar&quot;,</span> <span class="pre">&quot;baz&quot;]</span></tt>.</p>
+<dt><cite>slugparts</cite>: List of path items, e.g. if current page is <tt class="docutils literal"><span class="pre">foo/bar/baz</span></tt></dt>
+<dd><p class="first last">it contains <tt class="docutils literal"><span class="pre">[&quot;foo&quot;,</span> <span class="pre">&quot;bar&quot;,</span> <span class="pre">&quot;baz&quot;]</span></tt>.</p>
 </dd>
 </dl>
 </li>
@@ -143,8 +143,18 @@ If all hooks returned None, the default generation takes place.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="pysite.sitemgr.page.Page.blog">
+<tt class="descname">blog</tt><big>(</big><em>path</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.blog" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="pysite.sitemgr.page.Page.filter_angular">
+<tt class="descname">filter_angular</tt><big>(</big><em>s</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.filter_angular" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pysite.sitemgr.page.Page.get_page">
-<tt class="descname">get_page</tt><big>(</big><em>jjglobals=None</em>, <em>jjcontext=None</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.get_page" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">get_page</tt><big>(</big><em>fn</em>, <em>jjglobals=None</em>, <em>jjcontext=None</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.get_page" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the rendered page for current request.</p>
 <p>This function is for convenience, as it just encapsulates calls to
 <a class="reference internal" href="#pysite.sitemgr.page.Page.load" title="pysite.sitemgr.page.Page.load"><tt class="xref py py-func docutils literal"><span class="pre">load()</span></tt></a> and <a class="reference internal" href="#pysite.sitemgr.page.Page.render" title="pysite.sitemgr.page.Page.render"><tt class="xref py py-func docutils literal"><span class="pre">render()</span></tt></a>.</p>
@@ -169,7 +179,7 @@ context; passed to <a class="reference internal" href="#pysite.sitemgr.page.Page
 
 <dl class="method">
 <dt id="pysite.sitemgr.page.Page.load">
-<tt class="descname">load</tt><big>(</big><em>fn=None</em>, <em>jjglobals=None</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.load" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">load</tt><big>(</big><em>fn</em>, <em>jjglobals=None</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.load" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a template.</p>
 <p>Populates attribute <a class="reference internal" href="#pysite.sitemgr.page.Page.jjtpl" title="pysite.sitemgr.page.Page.jjtpl"><tt class="xref py py-attr docutils literal"><span class="pre">jjtpl</span></tt></a> with an instance of the Jinja
 template.</p>
@@ -191,7 +201,7 @@ template.  If set, attribute <a class="reference internal" href="#pysite.sitemgr
 
 <dl class="method">
 <dt id="pysite.sitemgr.page.Page.load_config">
-<tt class="descname">load_config</tt><big>(</big><em>fn</em>, <em>encoding='utf-8'</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.load_config" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">load_config</tt><big>(</big><em>fn</em>, <em>encoding='utf-8'</em>, <em>sortkey=None</em>, <em>reverse=False</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.load_config" title="Permalink to this definition">¶</a></dt>
 <dd><p>Loads a configuration file.</p>
 <p>YAML, JSON and INI format are supported.</p>
 <p>Usage:</p>
@@ -236,8 +246,13 @@ context. If set, attribute <a class="reference internal" href="#pysite.sitemgr.p
 </dd></dl>
 
 <dl class="method">
+<dt id="pysite.sitemgr.page.Page.render_from_string">
+<tt class="descname">render_from_string</tt><big>(</big><em>s</em>, <em>jjglobals=None</em>, <em>jjcontext=None</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.render_from_string" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="pysite.sitemgr.page.Page.url">
-<tt class="descname">url</tt><big>(</big><em>path</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.url" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">url</tt><big>(</big><em>apath</em>, <em>**kw</em><big>)</big><a class="headerlink" href="#pysite.sitemgr.page.Page.url" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns absolute URL to another page.</p>
 <p>Determines <cite>path</cite>&#8216;s target resource and then calls current
 request&#8217;s method <cite>resource_url()</cite> to create the URL. All
@@ -299,12 +314,6 @@ other page&lt;/a&gt;&lt;/p&gt;</pre>
 <dt id="pysite.sitemgr.page.Page.request">
 <tt class="descname">request</tt><em class="property"> = None</em><a class="headerlink" href="#pysite.sitemgr.page.Page.request" title="Permalink to this definition">¶</a></dt>
 <dd><p>Current request</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="pysite.sitemgr.page.Page.tpldir">
-<tt class="descname">tpldir</tt><em class="property"> = None</em><a class="headerlink" href="#pysite.sitemgr.page.Page.tpldir" title="Permalink to this definition">¶</a></dt>
-<dd><p>Template directory for current request</p>
 </dd></dl>
 
 </dd></dl>

@@ -167,7 +167,7 @@ def create_site(owner, sites_dir, data):
     master_rc['acl'][0][1] = 'r:' + rolename
     if 'master_rc' in data:
         master_rc.update(data['master_rc'])
-    fn = os.path.join(dir_, 'rc.yaml')
+    fn = os.path.join(site_template, 'rc.yaml')
     with open(fn, 'r', encoding='utf-8') as fh:
         user_rc = yaml.load(fh)
     if 'title' in data:
